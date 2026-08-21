@@ -793,8 +793,8 @@ body {
 	top: 228px;
 	left: 72px;
 	display: grid;
-	grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr);
-	gap: 54px;
+	grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+	gap: 46px;
 	width: 1456px;
 	height: 510px;
 	z-index: 3;
@@ -1006,8 +1006,13 @@ body {
 
 .explanation-panel {
 	position: relative;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: 44px repeat(2, minmax(0, 1fr));
 	height: 100%;
-	padding: 0 12px 0 30px;
+	padding: 0 0 0 24px;
+	border-top: 1px solid rgba(103, 147, 192, 0.24);
+	border-bottom: 1px solid rgba(103, 147, 192, 0.24);
 	border-left: 1px solid rgba(103, 147, 192, 0.28);
 }
 
@@ -1022,10 +1027,11 @@ body {
 }
 
 .explanation-header {
+	grid-column: 1 / -1;
 	display: flex;
 	align-items: center;
 	gap: 18px;
-	height: 38px;
+	height: 44px;
 	color: var(--text-secondary);
 	font-size: 15px;
 	font-weight: 650;
@@ -1041,27 +1047,36 @@ body {
 
 .key-point {
 	position: relative;
-	display: grid;
-	grid-template-columns: 46px minmax(0, 1fr);
-	column-gap: 17px;
-	padding: 21px 0 22px;
+	display: block;
+	min-width: 0;
+	padding: 24px 20px 20px;
 	border-top: 1px solid rgba(103, 147, 192, 0.22);
 }
 
+.key-point:nth-of-type(2),
+.key-point:nth-of-type(3) {
+	background: rgba(229, 239, 249, 0.22);
+}
+
+.key-point:nth-of-type(even) {
+	border-left: 1px solid rgba(103, 147, 192, 0.22);
+}
+
 .key-index {
-	padding-top: 5px;
+	display: block;
+	padding: 0;
 	color: var(--accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 17px;
+	font-size: 14px;
 	font-weight: 600;
 	font-variant-numeric: tabular-nums;
 }
 
 .key-point h2 {
-	margin: 0;
+	margin: 13px 0 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
-	font-size: 22px;
+	font-size: 21px;
 	font-weight: 650;
 	line-height: 1.2;
 	text-shadow: none;
@@ -1069,24 +1084,24 @@ body {
 }
 
 .key-point p {
-	margin: 8px 0 0;
+	margin: 12px 0 0;
 	color: var(--text-secondary);
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 400;
-	line-height: 1.4;
+	line-height: 1.45;
 }
 
 .key-point-emphasis {
-	background: linear-gradient(90deg, rgba(78, 137, 207, 0.07), transparent 88%);
+	background: linear-gradient(135deg, rgba(78, 137, 207, 0.09), rgba(78, 137, 207, 0.025));
 }
 
 .key-point-emphasis::before {
 	content: "";
 	position: absolute;
-	top: 21px;
-	bottom: 22px;
-	left: 0;
-	width: 2px;
+	top: -1px;
+	right: 20px;
+	left: 20px;
+	height: 2px;
 	background: rgba(78, 137, 207, 0.62);
 }
 
