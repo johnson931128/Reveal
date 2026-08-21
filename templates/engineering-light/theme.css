@@ -476,47 +476,15 @@ body {
 
 .roadmap-header {
 	position: absolute;
-	top: 52px;
+	top: 64px;
 	left: 300px;
 	width: 1000px;
 	text-align: center;
 	z-index: 3;
 }
 
-.section-identity {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 17px;
-	height: 31px;
-}
-
-.section-number {
-	color: var(--accent);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 24px;
-	font-weight: 600;
-	font-variant-numeric: tabular-nums;
-}
-
-.section-number::after {
-	content: "";
-	display: inline-block;
-	width: 48px;
-	height: 1px;
-	margin: 0 0 7px 17px;
-	background: var(--line);
-}
-
-.section-label {
-	color: var(--text-secondary);
-	font-size: 16px;
-	font-weight: 600;
-	letter-spacing: 0.16em;
-}
-
 .roadmap-title {
-	margin: 20px 0 0;
+	margin: 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
 	font-size: 52px;
@@ -527,45 +495,25 @@ body {
 	text-transform: none;
 }
 
-.roadmap-context {
-	margin: 12px 0 0;
-	color: var(--text-secondary);
-	font-size: 17px;
-	font-weight: 400;
-	letter-spacing: 0.08em;
-}
-
-.roadmap-header-rule {
-	position: absolute;
-	top: 45px;
-	left: 50%;
-	width: 640px;
+.roadmap-title::after,
+.architecture-title::after {
+	content: "";
+	display: block;
+	width: 320px;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, var(--line) 22%, var(--line) 78%, transparent);
-	transform: translateX(-50%);
-}
-
-.roadmap-header-rule span {
-	position: absolute;
-	top: -4px;
-	left: 50%;
-	width: 9px;
-	height: 9px;
-	border: 1px solid var(--line);
-	border-radius: 50%;
-	background: var(--bg);
-	transform: translateX(-50%);
+	margin: 18px auto 0;
+	background: linear-gradient(90deg, transparent, var(--line) 16%, var(--line) 84%, transparent);
 }
 
 .roadmap {
 	position: absolute;
-	top: 228px;
+	top: 208px;
 	left: 76px;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	column-gap: 26px;
 	width: 1448px;
-	height: 400px;
+	height: 420px;
 	z-index: 3;
 }
 
@@ -746,7 +694,7 @@ body {
 
 .architecture-header {
 	position: absolute;
-	top: 52px;
+	top: 64px;
 	left: 300px;
 	width: 1000px;
 	text-align: center;
@@ -754,7 +702,7 @@ body {
 }
 
 .architecture-title {
-	margin: 20px 0 0;
+	margin: 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
 	font-size: 52px;
@@ -765,45 +713,15 @@ body {
 	text-transform: none;
 }
 
-.architecture-context {
-	margin: 12px 0 0;
-	color: var(--text-secondary);
-	font-size: 17px;
-	font-weight: 400;
-	letter-spacing: 0.07em;
-}
-
-.architecture-header-rule {
-	position: absolute;
-	top: 45px;
-	left: 50%;
-	width: 640px;
-	height: 1px;
-	background: linear-gradient(90deg, transparent, var(--line) 22%, var(--line) 78%, transparent);
-	transform: translateX(-50%);
-}
-
-.architecture-header-rule span {
-	position: absolute;
-	top: -4px;
-	left: 50%;
-	width: 9px;
-	height: 9px;
-	border: 1px solid var(--line);
-	border-radius: 50%;
-	background: var(--bg);
-	transform: translateX(-50%);
-}
-
 .architecture-layout {
 	position: absolute;
-	top: 228px;
+	top: 208px;
 	left: 72px;
 	display: grid;
 	grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
 	gap: 46px;
 	width: 1456px;
-	height: 510px;
+	height: 530px;
 	z-index: 3;
 }
 
@@ -1157,13 +1075,13 @@ body {
 
 .diagram-layout {
 	position: absolute;
-	top: 228px;
+	top: 208px;
 	left: 72px;
 	display: grid;
 	grid-template-columns: minmax(0, 2.72fr) minmax(0, 1fr);
 	gap: 42px;
 	width: 1456px;
-	height: 528px;
+	height: 548px;
 	z-index: 3;
 }
 
