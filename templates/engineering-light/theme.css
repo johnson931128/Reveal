@@ -715,7 +715,7 @@ body {
 
 .architecture-layout {
 	position: absolute;
-	top: 208px;
+	top: 196px;
 	left: 72px;
 	display: grid;
 	grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
@@ -738,16 +738,6 @@ body {
 	border-left: 1px solid rgba(103, 147, 192, 0.18);
 }
 
-.architecture-diagram::after {
-	content: "FIG. 03 / REPLACEABLE FIGURE";
-	position: absolute;
-	top: -28px;
-	right: 0;
-	color: rgba(75, 97, 121, 0.62);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 13px;
-	letter-spacing: 0.09em;
-}
 .architecture-placeholder {
 	display: block;
 	position: relative;
@@ -1176,17 +1166,6 @@ body {
 		linear-gradient(90deg, rgba(85, 139, 194, 0.045) 1px, transparent 1px),
 		rgba(255, 255, 255, 0.22);
 	background-size: 40px 40px;
-}
-
-.diagram-canvas::before {
-	content: "FIG. 04 / DIAGRAM REVIEW";
-	position: absolute;
-	top: -28px;
-	right: 0;
-	color: rgba(75, 97, 121, 0.62);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 13px;
-	letter-spacing: 0.09em;
 }
 
 .diagram-frame {
