@@ -1120,13 +1120,13 @@ body {
 
 .diagram-layout {
 	position: absolute;
-	top: 228px;
+	top: 218px;
 	left: 72px;
 	display: grid;
-	grid-template-columns: minmax(0, 2.38fr) minmax(0, 1fr);
-	gap: 48px;
+	grid-template-columns: minmax(0, 2.72fr) minmax(0, 1fr);
+	gap: 42px;
 	width: 1456px;
-	height: 510px;
+	height: 538px;
 	z-index: 3;
 }
 
@@ -1157,10 +1157,10 @@ body {
 
 .diagram-frame {
 	position: absolute;
-	top: 32px;
-	right: 32px;
-	bottom: 38px;
-	left: 32px;
+	top: 26px;
+	right: 26px;
+	bottom: 32px;
+	left: 26px;
 	border: 1px solid rgba(103, 147, 192, 0.24);
 	background: rgba(247, 249, 251, 0.58);
 }
@@ -1398,11 +1398,40 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 270px;
-	height: 102px;
+	width: 390px;
+	height: 178px;
 	border-bottom: 1px solid rgba(103, 147, 192, 0.18);
 	border-left: 1px solid rgba(103, 147, 192, 0.14);
+	background-image:
+		radial-gradient(circle, rgba(85, 139, 194, 0.16) 1.2px, transparent 1.4px),
+		linear-gradient(rgba(85, 139, 194, 0.045) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(85, 139, 194, 0.045) 1px, transparent 1px);
+	background-position: 210px 28px, 42px 68px, 42px 68px;
+	background-size: 18px 18px, 36px 36px, 36px 36px;
+	mask-image: linear-gradient(90deg, transparent 4%, #000 46%, #000 100%);
 	pointer-events: none;
+}
+
+.diagram-corner-rule::before {
+	content: "";
+	position: absolute;
+	top: 105px;
+	left: 34px;
+	width: 220px;
+	height: 1px;
+	background: linear-gradient(90deg, rgba(103, 147, 192, 0.24), rgba(103, 147, 192, 0.04));
+}
+
+.diagram-corner-rule::after {
+	content: "";
+	position: absolute;
+	top: 101px;
+	left: 30px;
+	width: 9px;
+	height: 9px;
+	border: 1px solid rgba(103, 147, 192, 0.34);
+	border-radius: 50%;
+	background: var(--bg);
 }
 
 @media (max-aspect-ratio: 4/3) {
