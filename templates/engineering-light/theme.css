@@ -785,37 +785,11 @@ body {
 	text-align: center;
 }
 
-.architecture-placeholder-index {
-	display: block;
-	margin-bottom: 16px;
-	color: var(--accent);
-	font-size: 13px;
-	font-weight: 650;
-	letter-spacing: 0.18em;
-}
-
-.architecture-placeholder-content strong {
-	display: block;
-	color: var(--primary-text);
-	font-size: 25px;
-	font-weight: 570;
-	letter-spacing: 0.035em;
-}
-
-.architecture-placeholder-content p {
-	margin: 12px 0 0;
-	color: var(--secondary-text);
-	font-size: 15px;
-	letter-spacing: 0.045em;
-}
-
-.architecture-placeholder figcaption {
-	position: absolute;
-	right: 34px;
-	bottom: 31px;
-	color: rgba(72, 96, 125, 0.66);
-	font-size: 11px;
-	letter-spacing: 0.14em;
+.architecture-placeholder-label {
+	color: rgba(72, 96, 125, 0.36);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	letter-spacing: 0.16em;
 }
 
 .arch-node {
