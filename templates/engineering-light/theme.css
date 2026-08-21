@@ -1040,10 +1040,11 @@ body {
 }
 
 .key-point {
+	position: relative;
 	display: grid;
 	grid-template-columns: 46px minmax(0, 1fr);
 	column-gap: 17px;
-	padding: 30px 0 31px;
+	padding: 21px 0 22px;
 	border-top: 1px solid rgba(103, 147, 192, 0.22);
 }
 
@@ -1060,7 +1061,7 @@ body {
 	margin: 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: 650;
 	line-height: 1.2;
 	text-shadow: none;
@@ -1068,11 +1069,25 @@ body {
 }
 
 .key-point p {
-	margin: 12px 0 0;
+	margin: 8px 0 0;
 	color: var(--text-secondary);
-	font-size: 17px;
+	font-size: 16px;
 	font-weight: 400;
-	line-height: 1.45;
+	line-height: 1.4;
+}
+
+.key-point-emphasis {
+	background: linear-gradient(90deg, rgba(78, 137, 207, 0.07), transparent 88%);
+}
+
+.key-point-emphasis::before {
+	content: "";
+	position: absolute;
+	top: 21px;
+	bottom: 22px;
+	left: 0;
+	width: 2px;
+	background: rgba(78, 137, 207, 0.62);
 }
 
 .architecture-grid {
