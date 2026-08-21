@@ -78,7 +78,8 @@
 		"test": "node scripts/test.js",
 		"react:build": "npm run --prefix react build",
 		"react:demo": "npm run --prefix react demo",
-		"react:test": "npm run --prefix react test"
+		"react:test": "npm run --prefix react test",
+		"export:pdf": "node scripts/export-pdf.mjs"
 	},
 	"author": {
 		"name": "Hakim El Hattab",
