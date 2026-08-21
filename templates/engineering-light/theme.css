@@ -476,15 +476,17 @@ body {
 
 .roadmap-header {
 	position: absolute;
-	top: 58px;
-	left: 72px;
-	width: 1030px;
+	top: 52px;
+	left: 300px;
+	width: 1000px;
+	text-align: center;
 	z-index: 3;
 }
 
 .section-identity {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 17px;
 	height: 31px;
 }
@@ -514,10 +516,10 @@ body {
 }
 
 .roadmap-title {
-	margin: 25px 0 0;
+	margin: 20px 0 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
-	font-size: 56px;
+	font-size: 52px;
 	font-weight: 700;
 	line-height: 1.12;
 	letter-spacing: 0.02em;
@@ -526,7 +528,7 @@ body {
 }
 
 .roadmap-context {
-	margin: 16px 0 0;
+	margin: 12px 0 0;
 	color: var(--text-secondary);
 	font-size: 17px;
 	font-weight: 400;
@@ -535,27 +537,29 @@ body {
 
 .roadmap-header-rule {
 	position: absolute;
-	top: 50px;
-	left: 720px;
-	width: 510px;
+	top: 45px;
+	left: 50%;
+	width: 640px;
 	height: 1px;
-	background: linear-gradient(90deg, var(--line), transparent);
+	background: linear-gradient(90deg, transparent, var(--line) 22%, var(--line) 78%, transparent);
+	transform: translateX(-50%);
 }
 
 .roadmap-header-rule span {
 	position: absolute;
 	top: -4px;
-	left: 0;
+	left: 50%;
 	width: 9px;
 	height: 9px;
 	border: 1px solid var(--line);
 	border-radius: 50%;
 	background: var(--bg);
+	transform: translateX(-50%);
 }
 
 .roadmap {
 	position: absolute;
-	top: 240px;
+	top: 228px;
 	left: 76px;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -742,17 +746,18 @@ body {
 
 .architecture-header {
 	position: absolute;
-	top: 58px;
-	left: 72px;
-	width: 1120px;
+	top: 52px;
+	left: 300px;
+	width: 1000px;
+	text-align: center;
 	z-index: 3;
 }
 
 .architecture-title {
-	margin: 25px 0 0;
+	margin: 20px 0 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
-	font-size: 50px;
+	font-size: 52px;
 	font-weight: 700;
 	line-height: 1.12;
 	letter-spacing: 0.018em;
@@ -761,7 +766,7 @@ body {
 }
 
 .architecture-context {
-	margin: 14px 0 0;
+	margin: 12px 0 0;
 	color: var(--text-secondary);
 	font-size: 17px;
 	font-weight: 400;
@@ -770,22 +775,24 @@ body {
 
 .architecture-header-rule {
 	position: absolute;
-	top: 50px;
-	left: 790px;
-	width: 470px;
+	top: 45px;
+	left: 50%;
+	width: 640px;
 	height: 1px;
-	background: linear-gradient(90deg, var(--line), transparent);
+	background: linear-gradient(90deg, transparent, var(--line) 22%, var(--line) 78%, transparent);
+	transform: translateX(-50%);
 }
 
 .architecture-header-rule span {
 	position: absolute;
 	top: -4px;
-	left: 0;
+	left: 50%;
 	width: 9px;
 	height: 9px;
 	border: 1px solid var(--line);
 	border-radius: 50%;
 	background: var(--bg);
+	transform: translateX(-50%);
 }
 
 .architecture-layout {
@@ -1150,13 +1157,13 @@ body {
 
 .diagram-layout {
 	position: absolute;
-	top: 218px;
+	top: 228px;
 	left: 72px;
 	display: grid;
 	grid-template-columns: minmax(0, 2.72fr) minmax(0, 1fr);
 	gap: 42px;
 	width: 1456px;
-	height: 538px;
+	height: 528px;
 	z-index: 3;
 }
 
