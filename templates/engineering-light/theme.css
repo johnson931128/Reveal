@@ -1100,10 +1100,316 @@ body {
 	pointer-events: none;
 }
 
+.reveal .slides section.diagram-slide {
+	position: relative;
+	display: block;
+	width: 1600px;
+	height: 900px;
+	min-height: 900px;
+	padding: 0;
+	overflow: hidden;
+	background:
+		linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(247, 249, 251, 0.32)),
+		var(--bg);
+	color: var(--text-primary);
+}
+
+.reveal .slides section.report-stack > section.diagram-slide {
+	position: absolute;
+}
+
+.diagram-layout {
+	position: absolute;
+	top: 228px;
+	left: 72px;
+	display: grid;
+	grid-template-columns: minmax(0, 2.38fr) minmax(0, 1fr);
+	gap: 48px;
+	width: 1456px;
+	height: 510px;
+	z-index: 3;
+}
+
+.diagram-canvas {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border-top: 1px solid rgba(103, 147, 192, 0.3);
+	border-left: 1px solid rgba(103, 147, 192, 0.2);
+	background:
+		linear-gradient(rgba(85, 139, 194, 0.045) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(85, 139, 194, 0.045) 1px, transparent 1px),
+		rgba(255, 255, 255, 0.22);
+	background-size: 40px 40px;
+}
+
+.diagram-canvas::before {
+	content: "FIG. 04 / DIAGRAM REVIEW";
+	position: absolute;
+	top: -28px;
+	right: 0;
+	color: rgba(75, 97, 121, 0.62);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 13px;
+	letter-spacing: 0.09em;
+}
+
+.diagram-frame {
+	position: absolute;
+	top: 32px;
+	right: 32px;
+	bottom: 38px;
+	left: 32px;
+	border: 1px solid rgba(103, 147, 192, 0.24);
+	background: rgba(247, 249, 251, 0.58);
+}
+
+.diagram-frame::before,
+.diagram-frame::after {
+	content: "";
+	position: absolute;
+}
+
+.diagram-frame::before {
+	top: 50%;
+	left: -13px;
+	width: 25px;
+	height: 1px;
+	background: var(--accent-soft);
+}
+
+.diagram-frame::after {
+	top: calc(50% - 3px);
+	left: -3px;
+	width: 7px;
+	height: 7px;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	background: var(--bg);
+}
+
+.diagram-frame-corner {
+	position: absolute;
+	width: 28px;
+	height: 28px;
+	border-color: var(--accent);
+	border-style: solid;
+}
+
+.corner-top-left {
+	top: -1px;
+	left: -1px;
+	border-width: 2px 0 0 2px;
+}
+
+.corner-top-right {
+	top: -1px;
+	right: -1px;
+	border-width: 2px 2px 0 0;
+}
+
+.corner-bottom-left {
+	bottom: -1px;
+	left: -1px;
+	border-width: 0 0 2px 2px;
+}
+
+.corner-bottom-right {
+	right: -1px;
+	bottom: -1px;
+	border-width: 0 2px 2px 0;
+}
+
+.diagram-placeholder {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 650px;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+.diagram-placeholder-index {
+	margin-bottom: 18px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+}
+
+.diagram-placeholder-mark {
+	position: relative;
+	width: 90px;
+	height: 46px;
+	margin-bottom: 21px;
+}
+
+.diagram-placeholder-mark::before,
+.diagram-placeholder-mark::after,
+.diagram-placeholder-mark span {
+	content: "";
+	position: absolute;
+	top: 20px;
+	height: 1px;
+	background: var(--line);
+}
+
+.diagram-placeholder-mark::before {
+	left: 0;
+	width: 30px;
+}
+
+.diagram-placeholder-mark::after {
+	right: 0;
+	width: 30px;
+}
+
+.diagram-placeholder-mark span {
+	left: 30px;
+	width: 30px;
+}
+
+.diagram-placeholder-mark i {
+	position: absolute;
+	top: 14px;
+	left: 39px;
+	width: 14px;
+	height: 14px;
+	border: 1px solid var(--accent);
+	background: var(--bg);
+	transform: rotate(45deg);
+}
+
+.diagram-placeholder strong {
+	color: var(--text-primary);
+	font-size: 27px;
+	font-weight: 650;
+	letter-spacing: 0.025em;
+}
+
+.diagram-placeholder p {
+	margin: 13px 0 0;
+	color: var(--text-secondary);
+	font-size: 17px;
+	letter-spacing: 0.035em;
+}
+
+.diagram-canvas figcaption {
+	position: absolute;
+	right: 34px;
+	bottom: 12px;
+	color: rgba(75, 97, 121, 0.54);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 11px;
+	letter-spacing: 0.11em;
+}
+
+.diagram-notes {
+	position: relative;
+	height: 100%;
+	padding: 0 8px 0 28px;
+	border-left: 1px solid rgba(103, 147, 192, 0.28);
+}
+
+.diagram-notes::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -1px;
+	width: 1px;
+	height: 84px;
+	background: var(--accent);
+}
+
+.diagram-notes-header {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	height: 38px;
+	color: var(--text-secondary);
+	font-size: 15px;
+	font-weight: 650;
+	letter-spacing: 0.15em;
+}
+
+.diagram-notes-header i {
+	display: block;
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.diagram-focus-point {
+	display: grid;
+	grid-template-columns: 43px minmax(0, 1fr);
+	column-gap: 14px;
+	padding: 17px 0 18px;
+	border-top: 1px solid rgba(103, 147, 192, 0.22);
+}
+
+.diagram-focus-index {
+	padding-top: 3px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 15px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+.diagram-focus-point h2 {
+	margin: 0;
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 20px;
+	font-weight: 650;
+	line-height: 1.2;
+	text-shadow: none;
+	text-transform: none;
+}
+
+.diagram-focus-point p {
+	margin: 7px 0 0;
+	color: var(--text-secondary);
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.4;
+}
+
+.diagram-background-grid {
+	position: absolute;
+	top: 270px;
+	left: 46px;
+	width: 1030px;
+	height: 430px;
+	background-image:
+		linear-gradient(rgba(85, 139, 194, 0.035) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(85, 139, 194, 0.035) 1px, transparent 1px);
+	background-size: 40px 40px;
+	mask-image: linear-gradient(90deg, transparent, #000 14%, #000 88%, transparent);
+	pointer-events: none;
+}
+
+.diagram-corner-rule {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 270px;
+	height: 102px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.18);
+	border-left: 1px solid rgba(103, 147, 192, 0.14);
+	pointer-events: none;
+}
+
 @media (max-aspect-ratio: 4/3) {
 	.reveal .slides section.cover-slide,
 	.reveal .slides section.roadmap-slide,
-	.reveal .slides section.architecture-slide {
+	.reveal .slides section.architecture-slide,
+	.reveal .slides section.diagram-slide {
 		min-height: 900px;
 	}
 }
