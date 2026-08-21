@@ -154,6 +154,127 @@
 							</div>
 						</footer>
 					</section>
+
+					<section class="architecture-slide" data-transition="none">
+						<div class="architecture-grid" aria-hidden="true"></div>
+						<div class="architecture-corner-rule" aria-hidden="true"></div>
+
+						<header class="architecture-header">
+							<div class="section-identity">
+								<span class="section-number">03</span>
+								<span class="section-label">TECHNICAL ARCHITECTURE</span>
+							</div>
+							<h1 class="architecture-title">EtherCAT 資料路徑概覽</h1>
+							<p class="architecture-context">From EtherCAT Datagram to Slave Application</p>
+							<div class="architecture-header-rule" aria-hidden="true"><span></span></div>
+						</header>
+
+						<main class="architecture-layout">
+							<figure class="architecture-diagram" aria-label="EtherCAT data path architecture diagram">
+								<div class="arch-node arch-node-primary">
+									<span class="arch-node-index">M</span>
+									<div class="arch-node-copy">
+										<span class="arch-node-label">SYSTEM SOURCE</span>
+										<strong>EtherCAT Master</strong>
+									</div>
+								</div>
+
+								<span class="arch-connector" aria-hidden="true"></span>
+
+								<div class="arch-node arch-node-datagram">
+									<span class="arch-node-index">D</span>
+									<div class="arch-node-copy">
+										<span class="arch-node-label">PROTOCOL UNIT</span>
+										<strong>EtherCAT Datagram</strong>
+									</div>
+								</div>
+
+								<span class="arch-connector" aria-hidden="true"></span>
+
+								<section class="arch-subsystem" aria-label="EtherCAT Slave Controller internal data path">
+									<header class="arch-subsystem-header">
+										<span>ESC / 01</span>
+										<strong>EtherCAT Slave Controller</strong>
+									</header>
+
+									<div class="arch-stage-flow">
+										<div class="arch-node arch-stage">
+											<span class="arch-node-index">01</span>
+											<strong>FMMU</strong>
+										</div>
+										<span class="arch-connector arch-connector-short" aria-hidden="true"></span>
+										<div class="arch-node arch-stage">
+											<span class="arch-node-index">02</span>
+											<strong>SyncManager</strong>
+										</div>
+										<span class="arch-connector arch-connector-short" aria-hidden="true"></span>
+										<div class="arch-node arch-stage">
+											<span class="arch-node-index">03</span>
+											<strong>Process RAM</strong>
+										</div>
+										<span class="arch-connector arch-connector-short" aria-hidden="true"></span>
+										<div class="arch-node arch-stage arch-stage-output">
+											<span class="arch-node-index">A</span>
+											<strong>Slave Application</strong>
+										</div>
+									</div>
+								</section>
+							</figure>
+
+							<aside class="explanation-panel" aria-label="Architecture key points">
+								<header class="explanation-header">
+									<span>KEY POINTS</span>
+									<i aria-hidden="true"></i>
+								</header>
+
+								<article class="key-point">
+									<span class="key-index">01</span>
+									<div>
+										<h2>FMMU</h2>
+										<p>Logical Address → ESC local address</p>
+									</div>
+								</article>
+
+								<article class="key-point">
+									<span class="key-index">02</span>
+									<div>
+										<h2>SyncManager</h2>
+										<p>Controls consistent process data exchange</p>
+									</div>
+								</article>
+
+								<article class="key-point">
+									<span class="key-index">03</span>
+									<div>
+										<h2>Process RAM</h2>
+										<p>Stores mapped process data</p>
+									</div>
+								</article>
+							</aside>
+						</main>
+
+						<div class="logo-area" aria-label="Company logo placeholder">
+							<span class="logo-mark" aria-hidden="true">△</span>
+							<span class="logo-placeholder">DELTA LOGO</span>
+						</div>
+
+						<footer class="slide-footer">
+							<span class="footer-corner" aria-hidden="true"></span>
+							<div class="footer-meta">
+								<span class="footer-arrow" aria-hidden="true"></span>
+								<span>范舜傑</span>
+								<span class="meta-divider">|</span>
+								<span>MDSBU 通訊工程課</span>
+								<span class="meta-divider">|</span>
+								<time datetime="2026-08-31">08/31/2026</time>
+							</div>
+							<div class="page-number" aria-label="Page 3">
+								<span class="page-rule"></span>
+								<span>03</span>
+								<span class="page-rule"></span>
+							</div>
+						</footer>
+					</section>
 				</section>
 			</div>
 		</div>
