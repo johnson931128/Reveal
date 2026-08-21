@@ -507,13 +507,13 @@ body {
 
 .roadmap {
 	position: absolute;
-	top: 208px;
+	top: 196px;
 	left: 76px;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	column-gap: 26px;
 	width: 1448px;
-	height: 420px;
+	height: 432px;
 	z-index: 3;
 }
 
@@ -739,7 +739,7 @@ body {
 }
 
 .architecture-diagram::after {
-	content: "FIG. 03 / DATA PATH";
+	content: "FIG. 03 / REPLACEABLE FIGURE";
 	position: absolute;
 	top: -28px;
 	right: 0;
@@ -747,6 +747,85 @@ body {
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 13px;
 	letter-spacing: 0.09em;
+}
+.architecture-placeholder {
+	display: block;
+	position: relative;
+	padding: 0;
+	background-image:
+		linear-gradient(rgba(93, 145, 204, 0.055) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(93, 145, 204, 0.055) 1px, transparent 1px);
+	background-size: 34px 34px;
+}
+
+.architecture-placeholder-frame {
+	position: absolute;
+	inset: 24px;
+	border: 1px solid rgba(125, 155, 188, 0.28);
+}
+
+.architecture-placeholder-frame::before,
+.architecture-placeholder-frame::after {
+	content: "";
+	position: absolute;
+	width: 42px;
+	height: 42px;
+}
+
+.architecture-placeholder-frame::before {
+	top: -1px;
+	left: -1px;
+	border-top: 2px solid rgba(72, 137, 207, 0.68);
+	border-left: 2px solid rgba(72, 137, 207, 0.68);
+}
+
+.architecture-placeholder-frame::after {
+	right: -1px;
+	bottom: -1px;
+	border-right: 2px solid rgba(72, 137, 207, 0.68);
+	border-bottom: 2px solid rgba(72, 137, 207, 0.68);
+}
+
+.architecture-placeholder-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 78%;
+	text-align: center;
+}
+
+.architecture-placeholder-index {
+	display: block;
+	margin-bottom: 16px;
+	color: var(--accent);
+	font-size: 13px;
+	font-weight: 650;
+	letter-spacing: 0.18em;
+}
+
+.architecture-placeholder-content strong {
+	display: block;
+	color: var(--primary-text);
+	font-size: 25px;
+	font-weight: 570;
+	letter-spacing: 0.035em;
+}
+
+.architecture-placeholder-content p {
+	margin: 12px 0 0;
+	color: var(--secondary-text);
+	font-size: 15px;
+	letter-spacing: 0.045em;
+}
+
+.architecture-placeholder figcaption {
+	position: absolute;
+	right: 34px;
+	bottom: 31px;
+	color: rgba(72, 96, 125, 0.66);
+	font-size: 11px;
+	letter-spacing: 0.14em;
 }
 
 .arch-node {
@@ -1075,13 +1154,13 @@ body {
 
 .diagram-layout {
 	position: absolute;
-	top: 208px;
+	top: 196px;
 	left: 72px;
 	display: grid;
-	grid-template-columns: minmax(0, 2.72fr) minmax(0, 1fr);
-	gap: 42px;
+	grid-template-columns: minmax(0, 2.45fr) minmax(0, 1fr);
+	gap: 36px;
 	width: 1456px;
-	height: 548px;
+	height: 560px;
 	z-index: 3;
 }
 
