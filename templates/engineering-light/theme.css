@@ -1595,8 +1595,18 @@ body {
 }
 
 .spec-note-emphasis {
-	border-left: 2px solid rgba(78, 137, 207, 0.58);
-	padding-left: 16px;
+	/* Keep the emphasis accent out of the row's box model so its content aligns with the other notes. */
+}
+
+.spec-note-emphasis::after {
+	content: "";
+	position: absolute;
+	top: 4px;
+	bottom: 10px;
+	left: 0;
+	width: 2px;
+	background: rgba(78, 137, 207, 0.58);
+	pointer-events: none;
 }
 
 @media (max-aspect-ratio: 4/3) {
