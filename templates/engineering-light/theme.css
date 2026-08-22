@@ -1772,12 +1772,13 @@ body {
 }
 
 .reveal .slides section.section-divider-slide {
-	--section-divider-bg: #EEF4FA;
-	--section-divider-bg-soft: #F4F8FC;
-	--section-divider-title: #16385C;
-	--section-divider-accent: #4A84D8;
-	--section-divider-secondary: #4E6A8A;
-	--section-divider-line: rgba(74, 132, 216, 0.16);
+	--section-divider-bg: #E3EDF8;
+	--section-divider-bg-soft: #EDF4FB;
+	--section-divider-title: #143A63;
+	--section-divider-accent: #4D86DA;
+	--section-divider-secondary: #4C6889;
+	--section-divider-summary: #486684;
+	--section-divider-line: rgba(77, 134, 218, 0.19);
 	position: relative;
 	display: block;
 	width: 1600px;
@@ -1785,7 +1786,7 @@ body {
 	min-height: 900px;
 	padding: 0;
 	overflow: hidden;
-	background: linear-gradient(90deg, var(--section-divider-bg-soft), var(--section-divider-bg));
+	background: linear-gradient(90deg, var(--section-divider-bg), var(--section-divider-bg) 56%, var(--section-divider-bg-soft));
 	color: var(--section-divider-title);
 }
 
@@ -1804,7 +1805,7 @@ body {
 		linear-gradient(90deg, var(--section-divider-line) 1px, transparent 1px);
 	background-size: 40px 40px;
 	mask-image: linear-gradient(90deg, transparent, #000 18%, #000 86%, transparent);
-	opacity: 0.52;
+	opacity: 0.58;
 	pointer-events: none;
 }
 
@@ -1875,7 +1876,7 @@ body {
 	position: absolute;
 	top: 66px;
 	left: 120px;
-	width: 830px;
+	width: 880px;
 	height: 434px;
 	z-index: 3;
 }
@@ -1899,7 +1900,7 @@ body {
 .section-divider-index {
 	color: var(--section-divider-accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 118px;
+	font-size: 132px;
 	font-weight: 400;
 	line-height: 1;
 	letter-spacing: -0.08em;
@@ -1912,14 +1913,14 @@ body {
 	align-items: flex-start;
 	justify-content: center;
 	min-width: 0;
-	transform: translateY(15px);
+	transform: translateY(18px);
 }
 
 .section-divider-kicker {
 	margin: 0 0 20px;
 	color: var(--section-divider-accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 600;
 	line-height: 1.2;
 	letter-spacing: 0.20em;
@@ -1929,7 +1930,7 @@ body {
 	margin: 0;
 	color: var(--section-divider-title);
 	font-family: var(--font-sans);
-	font-size: 76px;
+	font-size: 88px;
 	font-weight: 700;
 	line-height: 1.04;
 	letter-spacing: 0.012em;
@@ -1940,7 +1941,7 @@ body {
 .section-divider-subtitle {
 	margin: 24px 0 0;
 	color: var(--section-divider-secondary);
-	font-size: 34px;
+	font-size: 40px;
 	font-weight: 400;
 	line-height: 1.2;
 	letter-spacing: 0.08em;
@@ -1962,8 +1963,8 @@ body {
 .section-divider-summary {
 	max-width: 566px;
 	margin: 22px 0 0;
-	color: var(--section-divider-secondary);
-	font-size: 22px;
+	color: var(--section-divider-summary);
+	font-size: 26px;
 	font-weight: 400;
 	line-height: 1.45;
 	letter-spacing: 0.01em;
