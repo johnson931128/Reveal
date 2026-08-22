@@ -1772,6 +1772,12 @@ body {
 }
 
 .reveal .slides section.section-divider-slide {
+	--section-divider-bg: #EEF4FA;
+	--section-divider-bg-soft: #F4F8FC;
+	--section-divider-title: #16385C;
+	--section-divider-accent: #4A84D8;
+	--section-divider-secondary: #4E6A8A;
+	--section-divider-line: rgba(74, 132, 216, 0.16);
 	position: relative;
 	display: block;
 	width: 1600px;
@@ -1779,10 +1785,8 @@ body {
 	min-height: 900px;
 	padding: 0;
 	overflow: hidden;
-	background:
-		linear-gradient(90deg, rgba(255, 255, 255, 0.86), rgba(247, 249, 251, 0.44)),
-		var(--bg);
-	color: var(--text-primary);
+	background: linear-gradient(90deg, var(--section-divider-bg-soft), var(--section-divider-bg));
+	color: var(--section-divider-title);
 }
 
 .reveal .slides section.report-stack > section.section-divider-slide {
@@ -1796,8 +1800,8 @@ body {
 	width: 670px;
 	height: 520px;
 	background-image:
-		linear-gradient(rgba(85, 139, 194, 0.055) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(85, 139, 194, 0.055) 1px, transparent 1px);
+		linear-gradient(var(--section-divider-line) 1px, transparent 1px),
+		linear-gradient(90deg, var(--section-divider-line) 1px, transparent 1px);
 	background-size: 40px 40px;
 	mask-image: linear-gradient(90deg, transparent, #000 18%, #000 86%, transparent);
 	opacity: 0.52;
@@ -1810,8 +1814,8 @@ body {
 	right: 54px;
 	width: 278px;
 	height: 162px;
-	border-top: 1px solid rgba(103, 147, 192, 0.18);
-	border-right: 1px solid rgba(103, 147, 192, 0.14);
+	border-top: 1px solid var(--section-divider-line);
+	border-right: 1px solid var(--section-divider-line);
 	pointer-events: none;
 }
 
@@ -1822,7 +1826,7 @@ body {
 	left: -112px;
 	width: 214px;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, rgba(103, 147, 192, 0.3));
+	background: linear-gradient(90deg, transparent, var(--section-divider-line));
 }
 
 .section-divider-corner::after {
@@ -1832,9 +1836,9 @@ body {
 	left: -116px;
 	width: 9px;
 	height: 9px;
-	border: 1px solid rgba(103, 147, 192, 0.42);
+	border: 1px solid var(--section-divider-line);
 	border-radius: 50%;
-	background: var(--bg);
+	background: var(--section-divider-bg);
 }
 
 .section-divider-axis {
@@ -1843,7 +1847,7 @@ body {
 	left: 72px;
 	width: 166px;
 	height: 452px;
-	border-left: 1px solid rgba(103, 147, 192, 0.18);
+	border-left: 1px solid var(--section-divider-line);
 	pointer-events: none;
 }
 
@@ -1853,7 +1857,7 @@ body {
 	left: -1px;
 	width: 1px;
 	height: 290px;
-	background: linear-gradient(180deg, var(--accent), rgba(78, 137, 207, 0));
+	background: linear-gradient(180deg, var(--section-divider-accent), transparent);
 }
 
 .section-divider-axis-node {
@@ -1862,9 +1866,9 @@ body {
 	left: -5px;
 	width: 9px;
 	height: 9px;
-	border: 1px solid var(--accent);
+	border: 1px solid var(--section-divider-accent);
 	border-radius: 50%;
-	background: var(--bg);
+	background: var(--section-divider-bg);
 }
 
 .section-divider-content {
@@ -1882,7 +1886,7 @@ body {
 	column-gap: 54px;
 	align-items: center;
 	height: 228px;
-	border-bottom: 1px solid rgba(103, 147, 192, 0.24);
+	border-bottom: 1px solid var(--section-divider-line);
 }
 
 .section-divider-lower {
@@ -1893,7 +1897,7 @@ body {
 }
 
 .section-divider-index {
-	color: var(--accent);
+	color: var(--section-divider-accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 118px;
 	font-weight: 400;
@@ -1913,7 +1917,7 @@ body {
 
 .section-divider-kicker {
 	margin: 0 0 20px;
-	color: var(--accent);
+	color: var(--section-divider-accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 12px;
 	font-weight: 600;
@@ -1923,7 +1927,7 @@ body {
 
 .section-divider-title {
 	margin: 0;
-	color: var(--text-primary);
+	color: var(--section-divider-title);
 	font-family: var(--font-sans);
 	font-size: 76px;
 	font-weight: 700;
@@ -1935,7 +1939,7 @@ body {
 
 .section-divider-subtitle {
 	margin: 24px 0 0;
-	color: var(--text-secondary);
+	color: var(--section-divider-secondary);
 	font-size: 34px;
 	font-weight: 400;
 	line-height: 1.2;
@@ -1952,13 +1956,13 @@ body {
 	width: 240px;
 	height: 1px;
 	margin: 0;
-	background: linear-gradient(90deg, var(--accent), rgba(78, 137, 207, 0.12));
+	background: linear-gradient(90deg, var(--section-divider-accent), var(--section-divider-line));
 }
 
 .section-divider-summary {
 	max-width: 566px;
 	margin: 22px 0 0;
-	color: var(--text-secondary);
+	color: var(--section-divider-secondary);
 	font-size: 22px;
 	font-weight: 400;
 	line-height: 1.45;
@@ -1972,7 +1976,7 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	color: rgba(75, 97, 121, 0.72);
+	color: var(--section-divider-secondary);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 11px;
 	font-weight: 600;
@@ -1984,7 +1988,7 @@ body {
 	display: block;
 	width: 44px;
 	height: 1px;
-	background: var(--line);
+	background: var(--section-divider-line);
 }
 
 @media (max-aspect-ratio: 4/3) {
