@@ -269,6 +269,91 @@
 							</div>
 						</footer>
 					</section>
+					<section class="problem-goal-slide" data-transition="none">
+						<div class="problem-goal-grid" aria-hidden="true"></div>
+
+						<header class="problem-goal-header">
+							<h1 class="problem-goal-title">分析問題與目標</h1>
+						</header>
+
+						<main class="problem-goal-content">
+							<div class="problem-goal-columns">
+								<article class="problem-goal-panel">
+									<header class="problem-goal-panel-header">
+										<span class="problem-goal-index">01</span>
+										<span class="problem-goal-label">PROBLEM</span>
+									</header>
+									<span class="problem-goal-panel-rule" aria-hidden="true"></span>
+									<h2>封包解析提供的是獨立的 CoE / SDO Record</h2>
+									<p class="problem-goal-description">單一 Datagram 無法直接表示一次完整的 SDO object access，<br>Request 與 Response 必須跨封包建立關聯。</p>
+									<ul class="problem-goal-list">
+										<li>Request / Response 分散</li>
+										<li>Index / SubIndex 資訊分散</li>
+										<li>Result / Abort 狀態需要整合</li>
+									</ul>
+								</article>
+
+								<div class="problem-goal-spine" aria-hidden="true">
+									<span></span>
+								</div>
+
+								<article class="problem-goal-panel">
+									<header class="problem-goal-panel-header">
+										<span class="problem-goal-index">02</span>
+										<span class="problem-goal-label">GOAL</span>
+									</header>
+									<span class="problem-goal-panel-rule" aria-hidden="true"></span>
+									<h2>重建完整的 SDO Transaction</h2>
+									<p class="problem-goal-description">將 Mailbox / CoE / SDO 欄位重新組合，<br>建立可供後續 PDO Mapping 分析使用的 transaction-level model。</p>
+									<ul class="problem-goal-list">
+										<li>Request ↔ Response</li>
+										<li>Index / SubIndex</li>
+										<li>Access Direction</li>
+										<li>Result / Abort</li>
+									</ul>
+								</article>
+							</div>
+
+							<div class="problem-goal-trace" aria-label="Input and output trace">
+								<div class="problem-goal-trace-stage">
+									<span>INPUT</span>
+									<strong>Mailbox / CoE Datagram</strong>
+								</div>
+								<span class="problem-goal-trace-arrow" aria-hidden="true">&rarr;</span>
+								<div class="problem-goal-trace-stage">
+									<span>ANALYZER</span>
+									<strong>Transaction Reconstruction</strong>
+								</div>
+								<span class="problem-goal-trace-arrow" aria-hidden="true">&rarr;</span>
+								<div class="problem-goal-trace-stage">
+									<span>OUTPUT</span>
+									<strong>SDO Transaction Model</strong>
+								</div>
+							</div>
+						</main>
+
+						<div class="logo-area" aria-label="Company logo placeholder">
+							<span class="logo-mark" aria-hidden="true">△</span>
+							<span class="logo-placeholder">DELTA LOGO</span>
+						</div>
+
+						<footer class="slide-footer">
+							<span class="footer-corner" aria-hidden="true"></span>
+							<div class="footer-meta">
+								<span class="footer-arrow" aria-hidden="true"></span>
+								<span>范舜傑</span>
+								<span class="meta-divider">|</span>
+								<span>MDSBU 通訊工程課</span>
+								<span class="meta-divider">|</span>
+								<time datetime="2026-08-31">08/31/2026</time>
+							</div>
+							<div class="page-number" aria-label="Page 5">
+								<span class="page-rule"></span>
+								<span>05</span>
+								<span class="page-rule"></span>
+							</div>
+						</footer>
+					</section>
 					<section class="spec-slide" data-transition="none">
 						<div class="spec-background-grid" aria-hidden="true"></div>
 						<div class="spec-corner-rule" aria-hidden="true"></div>
@@ -338,9 +423,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 5">
+							<div class="page-number" aria-label="Page 6">
 								<span class="page-rule"></span>
-								<span>05</span>
+								<span>06</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -425,9 +510,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 6">
+							<div class="page-number" aria-label="Page 7">
 								<span class="page-rule"></span>
-								<span>06</span>
+								<span>07</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -503,9 +588,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 7">
+							<div class="page-number" aria-label="Page 8">
 								<span class="page-rule"></span>
-								<span>07</span>
+								<span>08</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
