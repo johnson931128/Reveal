@@ -1480,13 +1480,13 @@ body {
 	display: block;
 	width: 320px;
 	height: 1px;
-	margin: 18px auto 0;
+	margin: 15px auto 0;
 	background: linear-gradient(90deg, transparent, var(--line) 16%, var(--line) 84%, transparent);
 }
 
 .problem-goal-content {
 	position: absolute;
-	top: 184px;
+	top: 188px;
 	left: 92px;
 	width: 1416px;
 	z-index: 3;
@@ -1531,13 +1531,13 @@ body {
 	display: block;
 	width: 100%;
 	height: 1px;
-	margin-top: 17px;
+	margin-top: 15px;
 	background: linear-gradient(90deg, var(--line), rgba(171, 196, 223, 0.18));
 }
 
 .problem-goal-panel h2 {
 	max-width: 650px;
-	margin: 21px 0 0;
+	margin: 20px 0 0;
 	color: var(--text-primary);
 	font-size: 32px;
 	font-weight: 650;
@@ -1567,64 +1567,41 @@ body {
 
 .problem-goal-list li {
 	position: relative;
-	padding-left: 22px;
+	padding-left: 0;
 	border-top: 1px solid rgba(171, 196, 223, 0.42);
 }
 
 .problem-goal-list li::before {
-	content: "";
-	position: absolute;
-	top: 15px;
-	left: 1px;
-	width: 6px;
-	height: 6px;
-	border: 1px solid var(--accent);
-	border-radius: 50%;
-	background: var(--bg);
+	display: none;
 }
 
 .problem-goal-spine {
 	position: relative;
-	margin: 30px 0 28px;
-	border-left: 1px solid rgba(103, 147, 192, 0.3);
+	margin: 0;
+	border-left: 1px solid rgba(103, 147, 192, 0.18);
 }
 
 .problem-goal-spine span {
-	position: absolute;
-	top: 44%;
-	left: -5px;
-	width: 9px;
-	height: 9px;
-	border: 1px solid var(--accent);
-	border-radius: 50%;
-	background: var(--bg);
+	display: none;
 }
 
 .problem-goal-trace {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr) 82px minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr) 64px minmax(0, 1fr);
 	align-items: start;
 	column-gap: 0;
-	margin-top: 29px;
+	margin-top: 32px;
 }
 
 .problem-goal-trace-stage {
 	position: relative;
 	min-width: 0;
-	padding-top: 17px;
+	padding-top: 14px;
 	border-top: 1px solid rgba(103, 147, 192, 0.38);
 }
 
 .problem-goal-trace-stage::before {
-	content: "";
-	position: absolute;
-	top: -5px;
-	left: 0;
-	width: 9px;
-	height: 9px;
-	border: 1px solid var(--accent);
-	border-radius: 50%;
-	background: var(--bg);
+	display: none;
 }
 
 .problem-goal-trace-stage span {
@@ -1650,9 +1627,9 @@ body {
 .problem-goal-trace-arrow {
 	position: relative;
 	align-self: start;
-	margin-top: -8px;
+	margin-top: -5px;
 	color: var(--accent);
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: 400;
 	line-height: 1;
 	text-align: center;
@@ -1661,9 +1638,9 @@ body {
 .problem-goal-trace-arrow::before {
 	content: "";
 	position: absolute;
-	top: 13px;
-	left: 8px;
-	width: 66px;
+	top: 11px;
+	left: 0;
+	width: 64px;
 	height: 1px;
 	background: rgba(103, 147, 192, 0.38);
 }
