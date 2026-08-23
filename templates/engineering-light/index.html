@@ -324,6 +324,8 @@
 									<strong>SDO Transaction Model</strong>
 								</div>
 							</div>
+							<span class="problem-goal-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+							<span class="problem-goal-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -685,10 +687,19 @@
 				pdfSeparateFragments: false
 			}).then(() => {
 				const technicalFlowSelector = 'section.technical-flow-slide';
+				const problemGoalSelector = 'section.problem-goal-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
 					document.documentElement.classList.contains('print-pdf')
+				);
+
+				const isTechnicalFlowSlide = slide => (
+					slide && slide.matches(technicalFlowSelector)
+				);
+
+				const isProblemGoalSlide = slide => (
+					slide && slide.matches(problemGoalSelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -706,40 +717,74 @@
 						stage.dataset.flowState = stageState;
 					});
 
-					slide.querySelector('.technical-flow-axis').dataset.flowState = flowState;
+					 slide.querySelector('.technical-flow-axis').dataset.flowState = flowState;
+				};
+
+				const applyProblemGoalState = (slide, state) => {
+					if (!isProblemGoalSlide(slide)) return;
+
+					const problemGoalState = isPrintMode() ? 3 : Math.max(1, Math.min(3, state));
+					slide.dataset.problemGoalState = problemGoalState;
 				};
 
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
 
+				const isProblemGoalFragment = fragment => (
+					fragment && fragment.classList.contains('problem-goal-state-fragment')
+				);
+
+				const resetInteractiveSlide = slide => {
+					if (!slide || isPrintMode()) return;
+
+					Reveal.navigateFragment(-1);
+				};
+
 				if (isPrintMode()) {
 					document.querySelectorAll(technicalFlowSelector).forEach(slide => {
 						applyTechnicalFlowState(slide, 6);
 					});
+					document.querySelectorAll(problemGoalSelector).forEach(slide => {
+						applyProblemGoalState(slide, 3);
+					});
 				} else {
-					applyTechnicalFlowState(Reveal.getCurrentSlide(), 1);
+					const currentSlide = Reveal.getCurrentSlide();
+					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
+					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 				}
 
 				Reveal.on('slidechanged', event => {
-					if (event.currentSlide?.matches(technicalFlowSelector)) {
-						if (!isPrintMode()) Reveal.navigateFragment(-1);
+					if (isTechnicalFlowSlide(event.currentSlide)) {
+						resetInteractiveSlide(event.currentSlide);
 						applyTechnicalFlowState(event.currentSlide, 1);
+					}
+					if (isProblemGoalSlide(event.currentSlide)) {
+						resetInteractiveSlide(event.currentSlide);
+						applyProblemGoalState(event.currentSlide, 1);
 					}
 				});
 
 				Reveal.on('fragmentshown', event => {
-					if (!isTechnicalFlowFragment(event.fragment)) return;
 					const slide = Reveal.getCurrentSlide();
 					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
-					applyTechnicalFlowState(slide, fragmentIndex + 2);
+					if (isTechnicalFlowFragment(event.fragment)) {
+						applyTechnicalFlowState(slide, fragmentIndex + 2);
+					}
+					if (isProblemGoalFragment(event.fragment)) {
+						applyProblemGoalState(slide, fragmentIndex + 2);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
-					if (!isTechnicalFlowFragment(event.fragment)) return;
 					const slide = Reveal.getCurrentSlide();
 					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
-					applyTechnicalFlowState(slide, fragmentIndex + 1);
+					if (isTechnicalFlowFragment(event.fragment)) {
+						applyTechnicalFlowState(slide, fragmentIndex + 1);
+					}
+					if (isProblemGoalFragment(event.fragment)) {
+						applyProblemGoalState(slide, fragmentIndex + 1);
+					}
 				});
 			});
 		</script>

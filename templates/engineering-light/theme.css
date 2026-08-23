@@ -1609,6 +1609,42 @@ body {
 	white-space: nowrap;
 }
 
+.problem-goal-state-fragment {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.problem-goal-slide[data-problem-goal-state="1"] .problem-goal-panel:first-child {
+	opacity: 1;
+	border-color: rgba(103, 147, 192, 0.42);
+}
+
+.problem-goal-slide[data-problem-goal-state="1"] .problem-goal-panel:nth-child(2) {
+	opacity: 0.35;
+}
+
+.problem-goal-slide[data-problem-goal-state="1"] .problem-goal-trace,
+.problem-goal-slide[data-problem-goal-state="2"] .problem-goal-trace {
+	opacity: 0.3;
+}
+
+.problem-goal-slide[data-problem-goal-state="2"] .problem-goal-panel:first-child {
+	opacity: 0.6;
+}
+
+.problem-goal-slide[data-problem-goal-state="2"] .problem-goal-panel:nth-child(2) {
+	opacity: 1;
+	border-color: rgba(103, 147, 192, 0.42);
+}
+
+.problem-goal-slide[data-problem-goal-state="3"] .problem-goal-panel,
+.problem-goal-slide[data-problem-goal-state="3"] .problem-goal-trace {
+	opacity: 1;
+}
+
 .reveal .slides section.technical-flow-slide {
 	position: relative;
 	display: block;
