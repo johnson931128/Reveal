@@ -321,11 +321,11 @@
 									</header>
 									<div class="command-operation-chain">
 										<div class="command-operation-chain-node"><strong>Startup / Discovery</strong><span>APWR / APRD</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<span class="command-operation-chain-connector" aria-hidden="true"></span>
 										<div class="command-operation-chain-node"><strong>PDO Configuration</strong><span>SDO Download</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<span class="command-operation-chain-connector" aria-hidden="true"></span>
 										<div class="command-operation-chain-node"><strong>Process Data Path</strong><span>FPWR</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<span class="command-operation-chain-connector" aria-hidden="true"></span>
 										<div class="command-operation-chain-node"><strong>Cyclic Process Data</strong><span>LWR / LRD / LRW</span></div>
 									</div>
 									<p class="command-operation-chain-summary">從封包操作整理 Master 對 Slave 的初始化、組態與週期資料交換流程。</p>
@@ -337,31 +337,49 @@
 										<div class="command-operation-block">
 											<div class="command-operation-vertical-flow">
 												<div class="command-operation-node"><strong>APWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>ADO 0x0010</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>Configured Station Address</strong></div>
 											</div>
 											<p class="command-operation-description">Master 寫入 Slave 的 Configured Station Address。</p>
 										</div>
 										<div class="command-operation-block command-eeprom-operation">
-											<div class="command-operation-vertical-flow">
+											<div class="command-eeprom-datagram-label">APWR DATAGRAM</div>
+											<div class="command-operation-vertical-flow command-eeprom-command-flow">
 												<div class="command-operation-node"><strong>APWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
-												<div class="command-operation-node"><strong>ADO 0x0502</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
-												<div class="command-operation-node"><strong>EEPROM Read Command</strong><span>+ EEPROM Word Address</span></div>
+												<span class="command-operation-connector" aria-hidden="true"></span>
+												<div class="command-operation-node"><strong>ADO = 0x0502</strong></div>
+												<span class="command-operation-connector" aria-hidden="true"></span>
+												<div class="command-operation-node"><strong>Length &gt;= 6</strong></div>
 											</div>
-											<div class="command-operation-follow-up">
-												<div class="command-operation-vertical-flow">
+											<div class="command-eeprom-payload">
+												<div class="command-eeprom-payload-heading">REGISTER PAYLOAD</div>
+												<div class="command-eeprom-payload-row"><strong>0x0502:0x0503</strong><span>EEPROM Control / Status</span><em>READ Command</em></div>
+												<div class="command-eeprom-payload-row"><strong>0x0504:0x0505</strong><span>EEPROM Address Low</span></div>
+												<div class="command-eeprom-payload-row"><strong>0x0506:0x0507</strong><span>EEPROM Address High</span></div>
+											</div>
+											<div class="command-eeprom-address-result">
+												<span class="command-eeprom-register-range">0x0504:0x0507</span>
+												<strong>32-bit EEPROM Address Register</strong>
+												<span>EEPROM Word Address</span>
+												<code>AddressLow | (AddressHigh &lt;&lt; 16)</code>
+											</div>
+											<div class="command-eeprom-readback">
+												<div class="command-eeprom-datagram-label">READBACK</div>
+												<div class="command-operation-vertical-flow command-eeprom-readback-flow">
 													<div class="command-operation-node"><strong>APRD</strong></div>
-													<span class="command-operation-connector" aria-hidden="true">↓</span>
-													<div class="command-operation-node"><strong>ADO 0x0508</strong></div>
-													<span class="command-operation-connector" aria-hidden="true">↓</span>
+													<span class="command-operation-connector" aria-hidden="true"></span>
+													<div class="command-operation-node"><strong>ADO = 0x0508</strong></div>
+													<span class="command-operation-connector" aria-hidden="true"></span>
 													<div class="command-operation-node"><strong>EEPROM Data</strong></div>
 												</div>
+												<p>使用前面記錄的 EEPROM Word Address，判斷 Data 是 Vendor ID 或 Product Code。</p>
 											</div>
-											<div class="command-eeprom-words"><div><strong>EEPROM Word 0x0008</strong><span>→ Vendor ID</span></div><div><strong>EEPROM Word 0x000A</strong><span>→ Product Code</span></div></div>
+											<div class="command-eeprom-word-space">
+												<div class="command-eeprom-datagram-label">EEPROM WORD ADDRESS</div>
+												<div class="command-eeprom-words"><div><strong>0x0008</strong><span>Vendor ID</span></div><div><strong>0x000A</strong><span>Product Code</span></div></div>
+											</div>
 										</div>
 									</div>
 								</article>
@@ -372,16 +390,16 @@
 										<div class="command-operation-block">
 											<div class="command-operation-vertical-flow">
 												<div class="command-operation-node"><strong>SDO Download</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+														<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>0x1600 / 0x1A00</strong><span>PDO Mapping</span></div>
 											</div>
 											<p class="command-operation-description">定義 PDO 內包含哪些 OD Index / SubIndex，以及各 Entry 的 bit length。</p>
 										</div>
-										<span class="command-operation-horizontal-connector" aria-hidden="true">→</span>
+										<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
 										<div class="command-operation-block">
 											<div class="command-operation-vertical-flow">
 												<div class="command-operation-node"><strong>SDO Download</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+														<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>0x1C12 / 0x1C13</strong><span>SM Assignment</span></div>
 											</div>
 											<p class="command-operation-description">指定 RxPDO / TxPDO Mapping Object 所屬的 SyncManager。</p>
@@ -395,20 +413,20 @@
 										<div class="command-operation-block">
 											<div class="command-operation-vertical-flow">
 												<div class="command-operation-node"><strong>FPWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+														<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>0x0800 ~ 0x087F</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+														<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>SyncManager Registers</strong></div>
 											</div>
 											<p class="command-operation-description">設定 Process RAM 的起始位置、長度與資料方向。</p>
 										</div>
-										<span class="command-operation-horizontal-connector" aria-hidden="true">→</span>
+										<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
 										<div class="command-operation-block">
 											<div class="command-operation-vertical-flow">
 												<div class="command-operation-node"><strong>FPWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+													<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>0x0600 ~ 0x06FF</strong></div>
-												<span class="command-operation-connector" aria-hidden="true">↓</span>
+														<span class="command-operation-connector" aria-hidden="true"></span>
 												<div class="command-operation-node"><strong>FMMU Registers</strong></div>
 											</div>
 											<p class="command-operation-description">建立 Logical Address 與 Slave Process RAM 的映射。</p>
@@ -419,12 +437,13 @@
 								<article class="command-addressing-detail-state" data-detail-state="5">
 									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">CYCLIC DATA</span><h2>Cyclic Process Data</h2></header>
 									<div class="command-cyclic-workspace">
-										<div class="command-cyclic-start"><strong>SAFEOP / OP</strong><span class="command-operation-connector" aria-hidden="true">↓</span><strong>Process Data Exchange</strong></div>
+										<div class="command-cyclic-start"><strong>SAFEOP / OP</strong><span class="command-operation-connector" aria-hidden="true"></span><strong>Process Data Exchange</strong></div>
 										<div class="command-cyclic-cards">
-											<div class="command-cyclic-card"><strong>LWR</strong><span>Master 寫入 Slave Output</span><p>通常承載 RPDO</p></div>
-											<div class="command-cyclic-card"><strong>LRD</strong><span>Master 讀取 Slave Input</span><p>通常承載 TPDO</p></div>
-											<div class="command-cyclic-card"><strong>LRW</strong><span>同一 Datagram</span><p>同時讀取與寫入</p></div>
+											<div class="command-cyclic-card"><strong>LWR</strong><span>Logical Memory Write</span><p>Master → Slave</p><p>寫入控制 / 命令 Process Data</p><p>通常對應 RxPDO</p></div>
+											<div class="command-cyclic-card"><strong>LRD</strong><span>Logical Memory Read</span><p>Slave → Master</p><p>讀回狀態 / 回授 Process Data</p><p>通常對應 TxPDO</p></div>
+											<div class="command-cyclic-card"><strong>LRW</strong><span>Logical Memory Read Write</span><p>同一 Datagram</p><p>Master → Slave 寫入</p><p>+ Slave → Master 讀回</p><p>實際 Read / Write 範圍由 FMMU Mapping 決定</p></div>
 										</div>
+										<p class="command-cyclic-direction-note">RxPDO / TxPDO 的方向名稱以 Slave 為視角：RxPDO = Slave Receive；TxPDO = Slave Transmit</p>
 									</div>
 								</article>
 							</div>
