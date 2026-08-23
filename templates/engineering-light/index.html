@@ -271,41 +271,44 @@
 					</section>
 					<section class="command-addressing-slide" data-transition="none">
 						<header class="command-addressing-header">
-							<h1 class="command-addressing-title">EtherCAT Command / Addressing</h1>
+							<h1 class="command-addressing-title">Master → Slave Operations</h1>
 						</header>
 
-						<main class="command-addressing-layout" aria-label="EtherCAT Command / Addressing layout">
-							<nav class="command-addressing-nav" aria-label="Addressing families">
+						<main class="command-addressing-layout" aria-label="Master to Slave Operations layout">
+							<nav class="command-addressing-nav" aria-label="Master to Slave operation selectors">
 								<article class="command-addressing-item">
 									<span class="command-addressing-index">01</span>
 									<div>
-										<span class="command-addressing-family-label">DEVICE / POSITION</span>
-										<h2>Auto Increment</h2>
-										<p>利用 position 遞增語意逐站命中 slave</p>
+										<span class="command-addressing-family-label">STARTUP / DISCOVERY</span>
+										<span class="command-addressing-command">APWR / APRD</span>
+										<h2>Station Address</h2>
+										<p>Slave Identity</p>
 									</div>
 								</article>
 								<article class="command-addressing-item">
 									<span class="command-addressing-index">02</span>
 									<div>
-										<span class="command-addressing-family-label">DEVICE / NODE</span>
-										<h2>Configured Address</h2>
-										<p>以 configured station address 定向存取單一 slave</p>
+										<span class="command-addressing-family-label">PDO CONFIGURATION</span>
+										<span class="command-addressing-command">SDO Download</span>
+										<h2>PDO Mapping</h2>
+										<p>SM Assignment</p>
 									</div>
 								</article>
 								<article class="command-addressing-item">
 									<span class="command-addressing-index">03</span>
 									<div>
-										<span class="command-addressing-family-label">DEVICE / ALL</span>
-										<h2>Broadcast</h2>
-										<p>對所有 slave 的相同 local offset 共同操作</p>
+										<span class="command-addressing-family-label">PROCESS DATA PATH</span>
+										<span class="command-addressing-command">FPWR</span>
+										<h2>SyncManager</h2>
+										<p>FMMU</p>
 									</div>
 								</article>
 								<article class="command-addressing-item">
 									<span class="command-addressing-index">04</span>
 									<div>
-										<span class="command-addressing-family-label">LOGICAL / FMMU</span>
-										<h2>Logical Address</h2>
-										<p>以 logical address 經 FMMU 映射至 local memory</p>
+										<span class="command-addressing-family-label">CYCLIC DATA</span>
+										<span class="command-addressing-command">LWR / LRD / LRW</span>
+										<h2>Process Data Exchange</h2>
 									</div>
 								</article>
 							</nav>
@@ -314,87 +317,114 @@
 								<article class="command-addressing-detail-state" data-detail-state="1">
 									<header class="command-addressing-detail-header">
 										<span class="command-addressing-detail-kicker">OVERVIEW</span>
-										<h2>四種主要的 EtherCAT addressing family</h2>
+										<h2>Master → Slave Operations</h2>
 									</header>
-									<div class="command-addressing-detail-sections command-addressing-overview-sections">
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide">
-											<h3>說明</h3>
-											<p>EtherCAT datagram 的存取方式可從位址語意分成四類：Auto Increment、Configured Address、Broadcast、Logical Address。<br>前 3 類主要圍繞 slave 與 local register / local memory 的存取；Logical Address 則進一步透過 FMMU 映射到 process data 的邏輯位址空間。</p>
-										</div>
-										<div class="command-addressing-detail-section">
-											<h3>Auto Increment</h3>
-											<p>逐站探索與拓樸查找</p>
-										</div>
-										<div class="command-addressing-detail-section">
-											<h3>Configured Address</h3>
-											<p>已識別 slave 的定向存取</p>
-										</div>
-										<div class="command-addressing-detail-section">
-											<h3>Broadcast</h3>
-											<p>對所有 slave 執行共同操作</p>
-										</div>
-										<div class="command-addressing-detail-section">
-											<h3>Logical Address</h3>
-											<p>對 process data 進行週期性邏輯存取</p>
-										</div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion">
-											<h3>結論</h3>
-											<p>前 3 類偏向裝置導向，Logical Address 偏向資料路徑導向。</p>
-										</div>
+									<div class="command-operation-chain">
+										<div class="command-operation-chain-node"><strong>Startup / Discovery</strong><span>APWR / APRD</span></div>
+										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<div class="command-operation-chain-node"><strong>PDO Configuration</strong><span>SDO Download</span></div>
+										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<div class="command-operation-chain-node"><strong>Process Data Path</strong><span>FPWR</span></div>
+										<span class="command-operation-chain-connector" aria-hidden="true">→</span>
+										<div class="command-operation-chain-node"><strong>Cyclic Process Data</strong><span>LWR / LRD / LRW</span></div>
 									</div>
+									<p class="command-operation-chain-summary">從封包操作整理 Master 對 Slave 的初始化、組態與週期資料交換流程。</p>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="2">
-									<header class="command-addressing-detail-header">
-										<span class="command-addressing-detail-kicker">01 / DEVICE / POSITION</span>
-										<h2>Auto Increment</h2>
-									</header>
-									<div class="command-addressing-detail-meta">
-										<div><span>指令</span><strong>APRD / APWR / APRW</strong></div>
-										<div><span>地址欄位</span><strong>ADP + ADO</strong></div>
-									</div>
-									<div class="command-addressing-detail-sections">
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Master 送出帶有 Auto Increment 語意的 datagram。封包沿線經過各 slave 時，ADP 會依序變化。當某個 slave 視角下看到 ADP = 0 時，該 slave 會執行這次存取。</p></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這種模式的重點不是把 ADP 當成固定站址，而是利用封包逐站傳遞時的遞增特性，讓操作自然落在某一個位置的 slave。</p></div>
-										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>啟動階段常看到 0x0000、0xFFFF 這類起始值。分析時要觀察的是：</p><ul><li>ADP 如何隨封包傳遞而變化</li><li>哪個 slave 在看到 ADP = 0 時實際執行操作</li><li>搭配的 ADO 指向哪個 local register / local memory 區域</li></ul></div>
-										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>拓樸查找</li><li>逐站探索</li><li>初始化早期的 slave discovery</li><li>讀取基本識別資訊後再配置站址</li></ul></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Auto Increment 是從「鏈路順序」出發的存取方式。</p></div>
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">STARTUP / DISCOVERY</span><h2>Startup / Discovery</h2></header>
+									<div class="command-operation-workspace command-startup-workspace">
+										<div class="command-operation-block">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>APWR</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>ADO 0x0010</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>Configured Station Address</strong></div>
+											</div>
+											<p class="command-operation-description">Master 寫入 Slave 的 Configured Station Address。</p>
+										</div>
+										<div class="command-operation-block command-eeprom-operation">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>APWR</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>ADO 0x0502</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>EEPROM Read Command</strong><span>+ EEPROM Word Address</span></div>
+											</div>
+											<div class="command-operation-follow-up">
+												<div class="command-operation-vertical-flow">
+													<div class="command-operation-node"><strong>APRD</strong></div>
+													<span class="command-operation-connector" aria-hidden="true">↓</span>
+													<div class="command-operation-node"><strong>ADO 0x0508</strong></div>
+													<span class="command-operation-connector" aria-hidden="true">↓</span>
+													<div class="command-operation-node"><strong>EEPROM Data</strong></div>
+												</div>
+											</div>
+											<div class="command-eeprom-words"><div><strong>EEPROM Word 0x0008</strong><span>→ Vendor ID</span></div><div><strong>EEPROM Word 0x000A</strong><span>→ Product Code</span></div></div>
+										</div>
 									</div>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="3">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">02 / DEVICE / NODE</span><h2>Configured Address</h2></header>
-									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>FPRD / FPWR / FPRW</strong></div><div><span>地址欄位</span><strong>Station Address (ADP) + ADO</strong></div></div>
-									<div class="command-addressing-detail-sections">
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>當 slave 已經具有 configured address 後，Master 可直接指定目標站址，對單一 slave 進行定向讀寫，不再依賴 Auto Increment 的逐站命中方式。</p></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這時 ADP 應理解為 configured station address。若系統有啟用 alias，則可由 alias 對應到 station identity 的匹配邏輯。</p></div>
-										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>ADP 是否已成為穩定的 configured station address</li><li>ADO 對應的 local register 是什麼</li><li>操作是否已從 discovery 階段轉入穩定單站操作</li></ul></div>
-										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>對特定 slave 讀寫 ESC register</li><li>slave 身分確立後的定向控制</li><li>後續個別參數與狀態存取</li></ul></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Configured Address 是從「已知目標 slave」出發的存取方式。</p></div>
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PDO CONFIGURATION</span><h2>PDO Configuration</h2></header>
+									<div class="command-pdo-workspace">
+										<div class="command-operation-block">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>SDO Download</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>0x1600 / 0x1A00</strong><span>PDO Mapping</span></div>
+											</div>
+											<p class="command-operation-description">定義 PDO 內包含哪些 OD Index / SubIndex，以及各 Entry 的 bit length。</p>
+										</div>
+										<span class="command-operation-horizontal-connector" aria-hidden="true">→</span>
+										<div class="command-operation-block">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>SDO Download</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>0x1C12 / 0x1C13</strong><span>SM Assignment</span></div>
+											</div>
+											<p class="command-operation-description">指定 RxPDO / TxPDO Mapping Object 所屬的 SyncManager。</p>
+										</div>
 									</div>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="4">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">03 / DEVICE / ALL</span><h2>Broadcast</h2></header>
-									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>BRD / BWR / BRW</strong></div><div><span>地址欄位</span><strong>All Slaves + ADO</strong></div></div>
-									<div class="command-addressing-detail-sections">
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Broadcast 不是鎖定單一 slave，而是讓所有 slave 對同一個 local offset 進行共同存取。</p></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這種模式的重點不在於辨識「哪一站被命中」，而在於「所有 slave 是否都對同一個 ADO 做了相同操作」。</p></div>
-										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>使用的 ADO 是哪個共通欄位</li><li>所有 slave 是否都對該 local offset 參與存取</li><li>封包行為是否符合初始化或共通狀態操作</li></ul></div>
-										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>初始化階段共通設定</li><li>全體共同狀態讀寫</li><li>對所有 slave 的一致性操作</li></ul></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Broadcast 是從「全體 slave」出發的存取方式。</p></div>
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PROCESS DATA PATH</span><h2>SyncManager / FMMU Configuration</h2></header>
+									<div class="command-process-workspace">
+										<div class="command-operation-block">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>FPWR</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>0x0800 ~ 0x087F</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>SyncManager Registers</strong></div>
+											</div>
+											<p class="command-operation-description">設定 Process RAM 的起始位置、長度與資料方向。</p>
+										</div>
+										<span class="command-operation-horizontal-connector" aria-hidden="true">→</span>
+										<div class="command-operation-block">
+											<div class="command-operation-vertical-flow">
+												<div class="command-operation-node"><strong>FPWR</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>0x0600 ~ 0x06FF</strong></div>
+												<span class="command-operation-connector" aria-hidden="true">↓</span>
+												<div class="command-operation-node"><strong>FMMU Registers</strong></div>
+											</div>
+											<p class="command-operation-description">建立 Logical Address 與 Slave Process RAM 的映射。</p>
+										</div>
 									</div>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="5">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">04 / LOGICAL / FMMU</span><h2>Logical Address</h2></header>
-									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>LRD / LWR / LRW</strong></div><div><span>地址欄位</span><strong>32-bit Logical Address</strong></div></div>
-									<div class="command-addressing-detail-sections">
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Master 存取的是 logical address，而不是直接指定某個 slave 的 ADP / ADO。邏輯位址範圍會經由 FMMU 映射到對應 slave 的 local memory，進而形成 process data 的資料路徑。</p></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這個 family 的重點已從「命中哪個 slave」，轉成「logical region 如何被映射到實際資料區塊」。</p></div>
-										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>logical address 範圍</li><li>對應 FMMU 映射結果</li><li>最終落到哪些 slave / local memory 區段</li><li>是否為 PDO / cyclic process data path</li></ul></div>
-										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>PDO / process data 週期性讀寫</li><li>邏輯位址空間的 cyclic access</li><li>與 FMMU / SyncManager 分析串接</li></ul></div>
-										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Logical Address 是從「資料路徑與映射結果」出發的存取方式。</p></div>
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">CYCLIC DATA</span><h2>Cyclic Process Data</h2></header>
+									<div class="command-cyclic-workspace">
+										<div class="command-cyclic-start"><strong>SAFEOP / OP</strong><span class="command-operation-connector" aria-hidden="true">↓</span><strong>Process Data Exchange</strong></div>
+										<div class="command-cyclic-cards">
+											<div class="command-cyclic-card"><strong>LWR</strong><span>Master 寫入 Slave Output</span><p>通常承載 RPDO</p></div>
+											<div class="command-cyclic-card"><strong>LRD</strong><span>Master 讀取 Slave Input</span><p>通常承載 TPDO</p></div>
+											<div class="command-cyclic-card"><strong>LRW</strong><span>同一 Datagram</span><p>同時讀取與寫入</p></div>
+										</div>
 									</div>
 								</article>
 							</div>
@@ -434,120 +464,117 @@
 						</header>
 
 						<main class="register-access-layout" aria-label="Startup Register Access layout">
-							<div class="register-groups" aria-label="Analyzer Used Registers">
-								<header class="register-groups-header">
-									<span>ANALYZER USED REGISTERS</span>
-								</header>
-								<div class="register-groups-grid">
-									<article class="register-group">
-										<div class="register-group-heading">
-											<span class="register-group-index">01</span>
-											<h2>STATION ADDRESS</h2>
-										</div>
-										<div class="register-items">
-											<div class="register-item">
-												<div class="register-item-main">
-													<span class="register-address">0x0010</span>
-													<strong>Configured Station Address</strong>
+							<nav class="register-access-selectors" aria-label="Analyzer used register selectors">
+								<article class="register-access-selector">
+									<span class="register-selector-index">01</span>
+									<div>
+										<span class="register-selector-label">STATION ADDRESS</span>
+										<span class="register-selector-address">0x0010</span>
+										<h2>Configured Station Address</h2>
+									</div>
+								</article>
+								<article class="register-access-selector">
+									<span class="register-selector-index">02</span>
+									<div>
+										<span class="register-selector-label">AL STATE</span>
+										<span class="register-selector-address">0x0120 / 0x0130</span>
+										<h2>AL Control / AL Status</h2>
+									</div>
+								</article>
+								<article class="register-access-selector">
+									<span class="register-selector-index">03</span>
+									<div>
+										<span class="register-selector-label">SII EEPROM</span>
+										<span class="register-selector-address">0x0502 / 0x0508</span>
+										<h2>Vendor ID / Product Code</h2>
+									</div>
+								</article>
+							</nav>
+
+							<div class="register-access-workspace" aria-label="Register access workspace">
+								<div class="register-workspace-state register-workspace-overview" data-register-workspace-state="1">
+									<span class="register-workspace-kicker">OVERVIEW</span>
+									<div class="register-overview-list">
+										<div><span>0x0010</span><strong>Station Address</strong></div>
+										<div><span>0x0120 / 0x0130</span><strong>AL State</strong></div>
+										<div><span>0x0502 / 0x0508</span><strong>SII EEPROM</strong></div>
+									</div>
+								</div>
+
+								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="2">
+									<header class="register-workspace-header">
+										<span class="register-workspace-kicker">STATION ADDRESS</span>
+										<h2>Configured Station Address</h2>
+									</header>
+									<div class="register-station-flow" aria-label="Station address flow">
+										<article class="register-flow-node"><strong>APWR</strong><span>Master 寫入</span></article>
+										<span class="register-flow-connector" aria-hidden="true">↓</span>
+										<article class="register-flow-node"><strong>ADO 0x0010</strong><span>Configured Station Address Register</span></article>
+										<span class="register-flow-connector" aria-hidden="true">↓</span>
+										<article class="register-flow-node"><strong>Configured Station Address</strong><span>取得新的固定站址</span></article>
+										<span class="register-flow-connector" aria-hidden="true">↓</span>
+										<article class="register-flow-node"><strong>Bind to Topology Position</strong><span>Analyzer 將站址綁定到 Auto Increment 推導出的 topology position</span></article>
+									</div>
+								</div>
+
+								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="3">
+									<header class="register-workspace-header">
+										<span class="register-workspace-kicker">AL STATE</span>
+										<h2>Control / Status waveform</h2>
+									</header>
+									<div class="register-al-flow">
+										<article class="register-al-card">
+											<span class="register-workspace-address">0x0120</span>
+											<h3>AL Control</h3>
+											<div class="register-al-stream"><span>Master requested state</span><b>↓</b><strong>Control waveform</strong></div>
+										</article>
+										<span class="register-al-relation">Request / Report</span>
+										<article class="register-al-card">
+											<span class="register-workspace-address">0x0130</span>
+											<h3>AL Status</h3>
+											<div class="register-al-stream"><span>Slave current state</span><b>↓</b><strong>Status waveform</strong></div>
+										</article>
+									</div>
+								</div>
+
+								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="4">
+									<header class="register-workspace-header">
+										<span class="register-workspace-kicker">SII EEPROM</span>
+										<h2>ESC Register → SII EEPROM Word</h2>
+									</header>
+									<div class="register-sii-space">
+										<div class="register-sii-esc">
+											<header><span>ESC REGISTER</span><strong>ESC Register Address · 0x0502 / 0x0508</strong></header>
+											<div class="register-sii-operations">
+												<div class="register-sii-operation">
+													<article class="register-flow-node"><strong>APWR</strong></article>
+													<span class="register-flow-connector" aria-hidden="true">↓</span>
+													<article class="register-flow-node"><strong>ADO 0x0502</strong><span>EEPROM Control / Status</span></article>
+													<span class="register-flow-connector" aria-hidden="true">↓</span>
+													<article class="register-flow-node"><strong>EEPROM Read Command</strong><span>+ EEPROM Word Address</span></article>
 												</div>
-												<p>透過 APWR 寫入 Configured Station Address，並將該值綁定到由 Auto Increment Address 推導出的 topology position。</p>
-												<div class="register-path" aria-label="Configured Station Address access path">
-													<span>APWR</span>
-													<span>ADO = 0x0010</span>
-													<b>↓</b>
-													<strong>Configured Station Address</strong>
+												<div class="register-sii-operation">
+													<article class="register-flow-node"><strong>APRD</strong></article>
+													<span class="register-flow-connector" aria-hidden="true">↓</span>
+													<article class="register-flow-node"><strong>ADO 0x0508</strong><span>EEPROM Data</span></article>
 												</div>
 											</div>
 										</div>
-									</article>
-									<article class="register-group">
-										<div class="register-group-heading">
-											<span class="register-group-index">02</span>
-											<h2>AL STATE</h2>
-										</div>
-										<div class="register-items">
-											<div class="register-item">
-												<div class="register-item-main">
-													<span class="register-address">0x0120</span>
-													<strong>AL Control</strong>
-												</div>
-												<p>擷取 Master 寫入的 AL Control 值，後續整理為 Slave 的 Control waveform。</p>
-												<div class="register-signal"><span>0x0120</span><strong>AL Control</strong><em>Master requested state</em></div>
-											</div>
-											<div class="register-item">
-												<div class="register-item-main">
-													<span class="register-address">0x0130</span>
-													<strong>AL Status</strong>
-												</div>
-												<p>擷取 Slave 回報的 AL Status 值，後續整理為 Slave 的 Status waveform。</p>
-												<div class="register-signal"><span>0x0130</span><strong>AL Status</strong><em>Slave current state</em></div>
+										<div class="register-sii-word-space">
+											<header><span>SII EEPROM WORD</span><strong>SII EEPROM Word Address · 0x0008 / 0x000A</strong></header>
+											<div class="register-sii-word-cards">
+												<article><strong>0x0008</strong><span>Vendor ID</span></article>
+												<article><strong>0x000A</strong><span>Product Code</span></article>
 											</div>
 										</div>
-									</article>
-									<article class="register-group">
-										<div class="register-group-heading">
-											<span class="register-group-index">03</span>
-											<h2>SII EEPROM IDENTITY</h2>
-										</div>
-										<div class="register-items">
-											<div class="register-item">
-												<div class="register-item-main">
-													<span class="register-address">0x0502</span>
-													<strong>EEPROM Control / Status</strong>
-												</div>
-												<p>透過 APWR 發出 EEPROM Read 操作，並取得本次欲讀取的 EEPROM Word Address。</p>
-												<div class="register-path" aria-label="EEPROM read command path">
-													<span>APWR</span>
-													<span>ADO = 0x0502</span>
-													<b>↓</b>
-													<strong>EEPROM Read Command</strong>
-													<span>+</span>
-													<strong>EEPROM Word Address</strong>
-												</div>
-											</div>
-											<div class="register-item">
-												<div class="register-item-main">
-													<span class="register-address">0x0508</span>
-													<strong>EEPROM Data</strong>
-												</div>
-												<p>接續前一筆 EEPROM Read，透過 APRD 取得 EEPROM Data，再依先前記錄的 EEPROM Word Address 判斷資料用途。</p>
-												<div class="register-path" aria-label="EEPROM data access path">
-													<span>APRD</span>
-													<span>ADO = 0x0508</span>
-													<b>↓</b>
-													<strong>EEPROM Data</strong>
-												</div>
-											</div>
-											<div class="sii-words">
-												<div><span>EEPROM Word 0x0008</span><strong>Vendor ID</strong></div>
-												<div><span>EEPROM Word 0x000A</span><strong>Product Code</strong></div>
-											</div>
-										</div>
-									</article>
+									</div>
 								</div>
 							</div>
-
-							<aside class="register-access-side">
-								<div class="register-operations" aria-label="Common Operations">
-									<header><span>COMMON OPERATIONS</span></header>
-									<ul>
-										<li><span class="operation-index">01</span><div><strong>配置 Slave Station Address</strong><p>APWR<br>ADO 0x0010<br>→ Configured Station Address</p></div></li>
-										<li><span class="operation-index">02</span><div><strong>記錄 AL Control</strong><p>0x0120<br>→ Control waveform</p></div></li>
-										<li><span class="operation-index">03</span><div><strong>記錄 AL Status</strong><p>0x0130<br>→ Status waveform</p></div></li>
-										<li><span class="operation-index">04</span><div><strong>讀取 Slave Identity</strong><p>APWR 0x0502<br>→ EEPROM Read<br>APRD 0x0508<br>→ EEPROM Data<br>0x0008 → Vendor ID<br>0x000A → Product Code</p></div></li>
-									</ul>
-								</div>
-
-								<div class="register-important-note" aria-label="Address Space note">
-									<header><span>ADDRESS SPACE</span></header>
-									<p>ESC Register Address 與 SII EEPROM Word Address<br>屬於不同 address space。</p>
-									<ul>
-										<li><span>0x0502 / 0x0508</span><strong>→ ESC Register</strong></li>
-										<li><span>0x0008 / 0x000A</span><strong>→ SII EEPROM Word</strong></li>
-									</ul>
-								</div>
-							</aside>
 						</main>
+
+						<span class="register-access-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+						<span class="register-access-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+						<span class="register-access-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1061,6 +1088,7 @@
 				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
+				const registerAccessSelector = 'section.register-access-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1077,6 +1105,10 @@
 
 				const isCommandAddressingSlide = slide => (
 					slide && slide.matches(commandAddressingSelector)
+				);
+
+				const isRegisterAccessSlide = slide => (
+					slide && slide.matches(registerAccessSelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -1111,6 +1143,13 @@
 					slide.dataset.commandAddressingState = commandAddressingState;
 				};
 
+				const applyRegisterAccessState = (slide, state) => {
+					if (!isRegisterAccessSlide(slide)) return;
+
+					const registerAccessState = isPrintMode() ? 4 : Math.max(1, Math.min(4, state));
+					slide.dataset.registerAccessState = registerAccessState;
+				};
+
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
@@ -1121,6 +1160,10 @@
 
 				const isCommandAddressingFragment = fragment => (
 					fragment && fragment.classList.contains('command-addressing-state-fragment')
+				);
+
+				const isRegisterAccessFragment = fragment => (
+					fragment && fragment.classList.contains('register-access-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -1139,11 +1182,15 @@
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
 						applyCommandAddressingState(slide, 5);
 					});
+					document.querySelectorAll(registerAccessSelector).forEach(slide => {
+						applyRegisterAccessState(slide, 4);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
+					if (isRegisterAccessSlide(currentSlide)) applyRegisterAccessState(currentSlide, 1);
 				}
 
 				Reveal.on('slidechanged', event => {
@@ -1159,6 +1206,10 @@
 						resetInteractiveSlide(event.currentSlide);
 						applyCommandAddressingState(event.currentSlide, 1);
 					}
+					if (isRegisterAccessSlide(event.currentSlide)) {
+						resetInteractiveSlide(event.currentSlide);
+						applyRegisterAccessState(event.currentSlide, 1);
+					}
 				});
 
 				Reveal.on('fragmentshown', event => {
@@ -1173,6 +1224,9 @@
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 2);
 					}
+					if (isRegisterAccessFragment(event.fragment)) {
+						applyRegisterAccessState(slide, fragmentIndex + 2);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1186,6 +1240,9 @@
 					}
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 1);
+					}
+					if (isRegisterAccessFragment(event.fragment)) {
+						applyRegisterAccessState(slide, fragmentIndex + 1);
 					}
 				});
 			});
