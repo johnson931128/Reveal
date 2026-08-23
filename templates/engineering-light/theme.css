@@ -1972,11 +1972,11 @@ body {
 
 .command-addressing-fields p {
 	display: grid;
-	grid-template-columns: 205px minmax(0, 1fr);
+	grid-template-columns: 170px minmax(0, 1fr);
 	align-items: baseline;
-	column-gap: 18px;
+	column-gap: 14px;
 	margin: 0;
-	padding: 8px 0;
+	padding: 4px 0;
 	border-bottom: 1px solid rgba(103, 147, 192, 0.14);
 }
 

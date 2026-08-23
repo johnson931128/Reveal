@@ -278,56 +278,56 @@
 							<article class="command-addressing-family">
 								<header class="command-addressing-family-header">
 									<span class="command-addressing-index">01</span>
-									<span class="command-addressing-family-label">[FAMILY A]</span>
+									<span class="command-addressing-family-label">DEVICE / POSITION</span>
 								</header>
 								<div class="command-addressing-fields">
-									<h2>[GROUP TITLE]</h2>
-									<p><span>[COMMAND LIST]</span><strong>[COMMAND LIST]</strong></p>
-									<p><span>[ADDRESS DESCRIPTION]</span><strong>[ADDRESS DESCRIPTION]</strong></p>
-									<p><span>[MEANING]</span><strong>[MEANING]</strong></p>
-									<p><span>[USE CASE]</span><strong>[USE CASE]</strong></p>
+									<h2>Auto Increment</h2>
+									<p><span>COMMANDS</span><strong>APRD / APWR / APRW</strong></p>
+									<p><span>ADDRESS</span><strong>Position (ADP) + Local Offset (ADO)</strong></p>
+									<p><span>BEHAVIOR</span><strong>Each Slave increments Position; ADP = 0 executes</strong></p>
+									<p><span>USE</span><strong>Startup scan / topology enumeration</strong></p>
 								</div>
 							</article>
 
 							<article class="command-addressing-family">
 								<header class="command-addressing-family-header">
 									<span class="command-addressing-index">02</span>
-									<span class="command-addressing-family-label">[FAMILY B]</span>
+									<span class="command-addressing-family-label">DEVICE / NODE</span>
 								</header>
 								<div class="command-addressing-fields">
-									<h2>[GROUP TITLE]</h2>
-									<p><span>[COMMAND LIST]</span><strong>[COMMAND LIST]</strong></p>
-									<p><span>[ADDRESS DESCRIPTION]</span><strong>[ADDRESS DESCRIPTION]</strong></p>
-									<p><span>[MEANING]</span><strong>[MEANING]</strong></p>
-									<p><span>[USE CASE]</span><strong>[USE CASE]</strong></p>
+									<h2>Configured Address</h2>
+									<p><span>COMMANDS</span><strong>FPRD / FPWR / FPRW</strong></p>
+									<p><span>ADDRESS</span><strong>Station Address (ADP) + Local Offset (ADO)</strong></p>
+									<p><span>BEHAVIOR</span><strong>Station Address or enabled Alias match executes</strong></p>
+									<p><span>USE</span><strong>Register access after Slave identification</strong></p>
 								</div>
 							</article>
 
 							<article class="command-addressing-family">
 								<header class="command-addressing-family-header">
 									<span class="command-addressing-index">03</span>
-									<span class="command-addressing-family-label">[FAMILY C]</span>
+									<span class="command-addressing-family-label">DEVICE / ALL</span>
 								</header>
 								<div class="command-addressing-fields">
-									<h2>[GROUP TITLE]</h2>
-									<p><span>[COMMAND LIST]</span><strong>[COMMAND LIST]</strong></p>
-									<p><span>[ADDRESS DESCRIPTION]</span><strong>[ADDRESS DESCRIPTION]</strong></p>
-									<p><span>[MEANING]</span><strong>[MEANING]</strong></p>
-									<p><span>[USE CASE]</span><strong>[USE CASE]</strong></p>
+									<h2>Broadcast</h2>
+									<p><span>COMMANDS</span><strong>BRD / BWR / BRW</strong></p>
+									<p><span>ADDRESS</span><strong>All Slaves + Local Offset (ADO)</strong></p>
+									<p><span>BEHAVIOR</span><strong>Every Slave accesses the same local offset</strong></p>
+									<p><span>USE</span><strong>Initialization / common-state access</strong></p>
 								</div>
 							</article>
 
 							<article class="command-addressing-family">
 								<header class="command-addressing-family-header">
 									<span class="command-addressing-index">04</span>
-									<span class="command-addressing-family-label">[FAMILY D]</span>
+									<span class="command-addressing-family-label">LOGICAL / FMMU</span>
 								</header>
 								<div class="command-addressing-fields">
-									<h2>[GROUP TITLE]</h2>
-									<p><span>[COMMAND LIST]</span><strong>[COMMAND LIST]</strong></p>
-									<p><span>[ADDRESS DESCRIPTION]</span><strong>[ADDRESS DESCRIPTION]</strong></p>
-									<p><span>[MEANING]</span><strong>[MEANING]</strong></p>
-									<p><span>[USE CASE]</span><strong>[USE CASE]</strong></p>
+									<h2>Logical Address</h2>
+									<p><span>COMMANDS</span><strong>LRD / LWR / LRW</strong></p>
+									<p><span>ADDRESS</span><strong>32-bit Logical Address</strong></p>
+									<p><span>BEHAVIOR</span><strong>FMMU match maps logical range to local memory</strong></p>
+									<p><span>USE</span><strong>Cyclic process data access</strong></p>
 								</div>
 							</article>
 						</main>
