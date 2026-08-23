@@ -71,45 +71,108 @@
 					</footer>
 					</section>
 
-					<section class="achievements-slide" data-transition="none">
-						<div class="achievements-background-grid" aria-hidden="true"></div>
-						<div class="achievements-corner-rule" aria-hidden="true"></div>
+					<section class="roadmap-slide" data-transition="none">
+						<div class="roadmap-background-grid" aria-hidden="true"></div>
+						<div class="roadmap-corner-detail" aria-hidden="true"></div>
+						<div class="roadmap-dot-field" aria-hidden="true"></div>
 
-						<header class="achievements-header">
-							<h1 class="achievements-title">本月完成摘要</h1>
+						<header class="roadmap-header">
+							<h1 class="roadmap-title">本月工作大綱</h1>
 						</header>
 
-						<main class="achievements-list" aria-label="Monthly achievements summary">
-							<article class="achievement-item">
-								<div class="achievement-meta">
-									<span class="achievement-index">01</span>
-									<span class="achievement-label">SDO TRANSACTION</span>
+						<main class="roadmap" aria-label="August monthly work overview">
+							<article class="roadmap-item">
+								<div class="week-content">
+									<p class="week-date">08/xx – 08/xx</p>
+									<div class="work-section">
+										<header class="work-heading">
+											<h2 class="week-topic">理解封包與 EtherCAT</h2>
+											<span class="work-percentage">100%</span>
+										</header>
+										<ul class="work-list">
+											<li>使用 Wireshark 觀察從上電抓的原始 EtherCAT 封包</li>
+											<li>整理 Broadcast、AP、FP 等指令對 Slave 的操作方式</li>
+											<li>整理 Master 對 Slave ESC 暫存器的讀寫流程</li>
+											<li>理解 CoE、SDO、PDO 與 Object Dictionary 的關係</li>
+											<li>建立本月主線：CoE / SDO → PDO Mapping / Assignment → SyncManager → FMMU</li>
+										</ul>
+									</div>
 								</div>
-								<p class="achievement-description">CoE / SDO transaction reconstruction</p>
 							</article>
 
-							<article class="achievement-item">
-								<div class="achievement-meta">
-									<span class="achievement-index">02</span>
-									<span class="achievement-label">PDO MAPPING</span>
+							<article class="roadmap-item">
+								<div class="week-content">
+									<p class="week-date">08/xx – 08/xx</p>
+									<div class="work-section">
+										<header class="work-heading">
+											<h2 class="week-topic">建立 Slave 拓樸關係</h2>
+											<span class="work-percentage">80%</span>
+										</header>
+										<ul class="work-list">
+											<li>理解 Master 如何透過 Auto Increment / Configured Address 指定 Slave</li>
+											<li>理解 Configured Station Address 與 Configured Station Alias 的差異</li>
+											<li>設計 AP Datagram 配對、Slave Discovery 模型與分析流程</li>
+										</ul>
+									</div>
+									<div class="work-section work-section-secondary">
+										<header class="work-heading">
+											<h2 class="week-topic">設計 Analyzer 驗證 Agent</h2>
+											<span class="work-percentage">20%</span>
+										</header>
+										<ul class="work-list">
+											<li>建立 Stage 3 Result Check</li>
+											<li>由 Capture evidence 驗證 Slave Count、Topology、Address 與 Identity</li>
+										</ul>
+									</div>
 								</div>
-								<p class="achievement-description">Mapping / Assignment relationship reconstruction</p>
 							</article>
 
-							<article class="achievement-item">
-								<div class="achievement-meta">
-									<span class="achievement-index">03</span>
-									<span class="achievement-label">SM / FMMU</span>
+							<article class="roadmap-item">
+								<div class="week-content">
+									<p class="week-date">08/xx – 08/xx</p>
+									<div class="work-section">
+										<header class="work-heading">
+											<h2 class="week-topic">Mailbox / CoE / SDO</h2>
+											<span class="work-percentage">70%</span>
+										</header>
+										<ul class="work-list">
+											<li>在 Datagram Record 中加入 CoE / SDO decoded fields</li>
+											<li>重建 SDO Initiate Download Request / Response Transaction</li>
+											<li>依 SDO Index / SubIndex 辨識 PDO Mapping / Assignment 操作</li>
+											<li>重建 RxPDO / TxPDO Mapping Configuration</li>
+											<li>重建 0x1C12 / 0x1C13 PDO Assignment Configuration</li>
+										</ul>
+									</div>
+									<div class="work-section work-section-secondary">
+										<header class="work-heading">
+											<h2 class="week-topic">完善 Agent 驗證流程</h2>
+											<span class="work-percentage">30%</span>
+										</header>
+										<ul class="work-list">
+											<li>整理 TShark EtherCAT / CoE / SDO 查詢與 JSON 結構規格</li>
+											<li>將常用 Capture 查詢封裝成 Python tools，提供 LLM 多種驗證方式</li>
+										</ul>
+									</div>
 								</div>
-								<p class="achievement-description">Process data path analysis</p>
 							</article>
 
-							<article class="achievement-item">
-								<div class="achievement-meta">
-									<span class="achievement-index">04</span>
-									<span class="achievement-label">ADDRESS BINDING</span>
+							<article class="roadmap-item">
+								<div class="week-content">
+									<p class="week-date">08/xx – 08/xx</p>
+									<div class="work-section">
+										<header class="work-heading">
+											<h2 class="week-topic">SyncManager / FMMU 分析</h2>
+											<span class="work-percentage">100%</span>
+										</header>
+										<ul class="work-list">
+											<li>在 Datagram Record 中加入 SyncManager / FMMU decoded fields</li>
+											<li>重建 SyncManager Configuration</li>
+											<li>重建 FMMU Configuration</li>
+											<li>驗證 PDO Assignment 與 SM2 / SM3 的設定關係</li>
+											<li>驗證 FMMU Physical Address 與 SyncManager RAM 區段的對應</li>
+										</ul>
+									</div>
 								</div>
-								<p class="achievement-description">Logical region to configured slave binding</p>
 							</article>
 						</main>
 
@@ -131,68 +194,6 @@
 							<div class="page-number" aria-label="Page 2">
 								<span class="page-rule"></span>
 								<span>02</span>
-								<span class="page-rule"></span>
-							</div>
-						</footer>
-					</section>
-
-					<section class="roadmap-slide" data-transition="none">
-						<div class="roadmap-background-grid" aria-hidden="true"></div>
-						<div class="roadmap-corner-detail" aria-hidden="true"></div>
-						<div class="roadmap-dot-field" aria-hidden="true"></div>
-
-						<header class="roadmap-header">
-							<h1 class="roadmap-title">本月工作大綱</h1>
-						</header>
-
-						<main class="roadmap" aria-label="August 2026 monthly roadmap">
-							<article class="roadmap-item">
-								<div class="week-content">
-									<p class="week-label">WEEK 01</p>
-									<h2 class="week-topic">Title</h2>
-								</div>
-							</article>
-
-							<article class="roadmap-item">
-								<div class="week-content">
-									<p class="week-label">WEEK 02</p>
-									<h2 class="week-topic">Title</h2>
-								</div>
-							</article>
-
-							<article class="roadmap-item">
-								<div class="week-content">
-									<p class="week-label">WEEK 03</p>
-									<h2 class="week-topic">Title</h2>
-								</div>
-							</article>
-
-							<article class="roadmap-item">
-								<div class="week-content">
-									<p class="week-label">WEEK 04</p>
-									<h2 class="week-topic">Title</h2>
-								</div>
-							</article>
-						</main>
-
-						<div class="logo-area" aria-label="Company logo placeholder">
-							<span class="logo-mark" aria-hidden="true">△</span>
-							<span class="logo-placeholder">DELTA LOGO</span>
-						</div>
-
-						<footer class="slide-footer">
-							<span class="footer-corner" aria-hidden="true"></span>
-							<div class="footer-meta">
-								<span class="footer-arrow" aria-hidden="true"></span>
-								<span>范舜傑</span>
-								<span class="meta-divider">|</span>
-								<span>MDSBU 通訊工程課</span>
-								<span class="meta-divider">|</span>
-								<time datetime="2026-08-31">08/31/2026</time>
-							</div>
-							<div class="page-number" aria-label="Page 3">
-								<span class="page-rule"></span>
-								<span>03</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -246,9 +247,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 4">
+							<div class="page-number" aria-label="Page 3">
 								<span class="page-rule"></span>
-								<span>04</span>
+								<span>03</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -394,9 +395,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 5">
+							<div class="page-number" aria-label="Page 4">
 								<span class="page-rule"></span>
-								<span>05</span>
+								<span>04</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -536,9 +537,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 6">
+							<div class="page-number" aria-label="Page 5">
 								<span class="page-rule"></span>
-								<span>06</span>
+								<span>05</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -605,9 +606,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 7">
+							<div class="page-number" aria-label="Page 6">
 								<span class="page-rule"></span>
-								<span>07</span>
+								<span>06</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -687,9 +688,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 8">
+							<div class="page-number" aria-label="Page 7">
 								<span class="page-rule"></span>
-								<span>08</span>
+								<span>07</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -765,9 +766,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 9">
+							<div class="page-number" aria-label="Page 8">
 								<span class="page-rule"></span>
-								<span>09</span>
+								<span>08</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -841,9 +842,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 10">
+							<div class="page-number" aria-label="Page 9">
 								<span class="page-rule"></span>
-								<span>10</span>
+								<span>09</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -928,9 +929,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 11">
+							<div class="page-number" aria-label="Page 10">
 								<span class="page-rule"></span>
-								<span>11</span>
+								<span>10</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1006,9 +1007,9 @@
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-31">08/31/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 12">
+							<div class="page-number" aria-label="Page 11">
 								<span class="page-rule"></span>
-								<span>12</span>
+								<span>11</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
