@@ -358,6 +358,11 @@
 							<span class="technical-flow-level technical-flow-level-input">PACKET LEVEL</span>
 							<span class="technical-flow-level technical-flow-level-output">TRANSACTION LEVEL</span>
 							<span class="technical-flow-axis" aria-hidden="true"></span>
+							<span class="technical-flow-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+							<span class="technical-flow-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+							<span class="technical-flow-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
+							<span class="technical-flow-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
+							<span class="technical-flow-state-fragment fragment" data-fragment-index="4" aria-hidden="true"></span>
 
 							<ol class="technical-flow-stages">
 								<li class="technical-flow-stage">
@@ -676,7 +681,66 @@
 				progress: false,
 				center: false,
 				transition: 'none',
-				backgroundTransition: 'none'
+				backgroundTransition: 'none',
+				pdfSeparateFragments: false
+			}).then(() => {
+				const technicalFlowSelector = 'section.technical-flow-slide';
+
+				const isPrintMode = () => (
+					Reveal.getConfig().view === 'print' ||
+					document.documentElement.classList.contains('print-pdf')
+				);
+
+				const applyTechnicalFlowState = (slide, state) => {
+					if (!slide || !slide.matches(technicalFlowSelector)) return;
+
+					const flowState = isPrintMode() ? 6 : Math.max(1, Math.min(6, state));
+					slide.dataset.technicalFlowState = flowState;
+
+					slide.querySelectorAll('.technical-flow-stage').forEach((stage, index) => {
+						const stageState = index + 1 < flowState
+							? 'completed'
+							: index + 1 === flowState
+								? 'active'
+								: 'future';
+						stage.dataset.flowState = stageState;
+					});
+
+					slide.querySelector('.technical-flow-axis').dataset.flowState = flowState;
+				};
+
+				const isTechnicalFlowFragment = fragment => (
+					fragment && fragment.classList.contains('technical-flow-state-fragment')
+				);
+
+				if (isPrintMode()) {
+					document.querySelectorAll(technicalFlowSelector).forEach(slide => {
+						applyTechnicalFlowState(slide, 6);
+					});
+				} else {
+					applyTechnicalFlowState(Reveal.getCurrentSlide(), 1);
+				}
+
+				Reveal.on('slidechanged', event => {
+					if (event.currentSlide?.matches(technicalFlowSelector)) {
+						if (!isPrintMode()) Reveal.navigateFragment(-1);
+						applyTechnicalFlowState(event.currentSlide, 1);
+					}
+				});
+
+				Reveal.on('fragmentshown', event => {
+					if (!isTechnicalFlowFragment(event.fragment)) return;
+					const slide = Reveal.getCurrentSlide();
+					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
+					applyTechnicalFlowState(slide, fragmentIndex + 2);
+				});
+
+				Reveal.on('fragmenthidden', event => {
+					if (!isTechnicalFlowFragment(event.fragment)) return;
+					const slide = Reveal.getCurrentSlide();
+					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
+					applyTechnicalFlowState(slide, fragmentIndex + 1);
+				});
 			});
 		</script>
 	</body>
