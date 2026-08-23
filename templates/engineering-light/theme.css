@@ -494,13 +494,13 @@ body {
 
 .roadmap {
 	position: absolute;
-	top: 188px;
+	top: 180px;
 	left: 58px;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	column-gap: 18px;
 	width: 1484px;
-	height: 594px;
+	height: 560px;
 	z-index: 3;
 }
 
