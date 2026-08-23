@@ -315,106 +315,78 @@
 
 							<div class="command-addressing-detail">
 								<article class="command-addressing-detail-state" data-detail-state="1">
-									<header class="command-addressing-detail-header">
-										<span class="command-addressing-detail-kicker">OVERVIEW</span>
-										<h2>Master → Slave Operations</h2>
-									</header>
 									<div class="command-operation-chain">
-										<div class="command-operation-chain-node"><strong>Startup / Discovery</strong><span>APWR / APRD</span></div>
+										<div class="command-operation-chain-node"><strong>Startup / Discovery</strong><span>Broadcast / APWR / APRD</span></div>
 										<span class="command-operation-chain-connector" aria-hidden="true"></span>
 										<div class="command-operation-chain-node"><strong>PDO Configuration</strong><span>SDO Download</span></div>
 										<span class="command-operation-chain-connector" aria-hidden="true"></span>
 										<div class="command-operation-chain-node"><strong>Process Data Path</strong><span>FPWR</span></div>
 										<span class="command-operation-chain-connector" aria-hidden="true"></span>
-										<div class="command-operation-chain-node"><strong>Cyclic Process Data</strong><span>LWR / LRD / LRW</span></div>
+										<div class="command-operation-chain-node"><strong>Cyclic Process Data</strong><span>SAFEOP / OP</span><span>LWR / LRD / LRW</span></div>
 									</div>
-									<p class="command-operation-chain-summary">從封包操作整理 Master 對 Slave 的初始化、組態與週期資料交換流程。</p>
+									<p class="command-operation-chain-summary">上電後，Master 先以 Broadcast 對所有 slave 進行初始化與共通設定，再透過 Auto Increment / Configured Address 完成站點識別與位址建立。接著以 SDO Download 設定 PDO Mapping 與 SyncManager Assignment，再以 FPWR 寫入 SyncManager / FMMU 相關暫存器建立 process data path。當 slave 切換至 SAFEOP / OP 後，即以 LWR、LRD 或 LRW 進行週期性 process data 交換。</p>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="2">
 									<table class="command-startup-table">
 										<caption class="sr-only">Startup / Discovery register and packet operations</caption>
 										<thead>
-											<tr><th scope="col">Command</th><th scope="col">Address</th><th scope="col">Register / Data</th><th scope="col">Operation</th></tr>
+											<tr><th scope="col">Command</th><th scope="col">Address / Register</th><th scope="col">Data / Meaning</th><th scope="col">Analyzer View</th></tr>
 										</thead>
 										<tbody>
-											<tr><td><code>APWR</code></td><td><code>ADO 0x0010</code></td><td>Configured Station Address</td><td>Master 寫入新的 Slave Station Address</td></tr>
-											<tr><td><code>APWR</code></td><td><code>ADO 0x0502</code></td><td><code>0x0502:0x0503</code><br>EEPROM Control / Status</td><td>發出 EEPROM Read Command</td></tr>
-											<tr><td>同一筆 APWR payload</td><td><code>0x0504:0x0505</code></td><td>EEPROM Address Low</td><td>EEPROM Word Address 低 16-bit</td></tr>
-											<tr><td>同一筆 APWR payload</td><td><code>0x0506:0x0507</code></td><td>EEPROM Address High</td><td>EEPROM Word Address 高 16-bit</td></tr>
+											<tr><td>Broadcast</td><td><code>common init registers</code></td><td>全體初始化 / 共通狀態設定</td><td>觀察上電初期對所有 slave 的共通操作</td></tr>
+											<tr><td><code>APWR</code></td><td><code>ADO 0x0010</code></td><td>Configured Station Address</td><td>依 outgoing ADP 推得 topology position，將 station address 綁到該 slave</td></tr>
+											<tr><td><code>APWR</code></td><td><code>ADO 0x0502</code></td><td>EEPROM Control / Status + Read Command</td><td>啟動 EEPROM read</td></tr>
+											<tr><td>同一筆 APWR payload</td><td><code>0x0504:0x0505</code></td><td>EEPROM Address Low</td><td>指定 EEPROM Word Address 低 16-bit</td></tr>
+											<tr><td>同一筆 APWR payload</td><td><code>0x0506:0x0507</code></td><td>EEPROM Address High</td><td>指定 EEPROM Word Address 高 16-bit</td></tr>
 											<tr><td><code>APRD</code></td><td><code>ADO 0x0508</code></td><td>EEPROM Data</td><td>讀回指定 EEPROM Word 的資料</td></tr>
-											<tr><td>EEPROM Word</td><td><code>0x0008</code></td><td>Vendor ID</td><td>Slave Vendor Identity</td></tr>
-											<tr><td>EEPROM Word</td><td><code>0x000A</code></td><td>Product Code</td><td>Slave Product Identity</td></tr>
+											<tr><td>EEPROM Word</td><td><code>0x0008</code></td><td>Vendor ID</td><td>Slave identity</td></tr>
+											<tr><td>EEPROM Word</td><td><code>0x000A</code></td><td>Product Code</td><td>Slave identity</td></tr>
 										</tbody>
 									</table>
 									<div class="command-startup-explanation">
 										<span>封包觀察</span>
-										<p>在啟動階段，Master 先利用 Auto Increment Address 對鏈路上的 Slave 進行逐站操作。APWR 寫入 ADO 0x0010 時，Data 內容就是要配置給該 Slave 的 Configured Station Address；Analyzer 依 outgoing ADP 推導 topology position，再將新的 Station Address 綁定到該位置。</p>
-										<p>讀取 Slave Identity 時，Master 以 APWR 從 ADO 0x0502 開始寫入 EEPROM Control / Status 與 32-bit EEPROM Address，其中 0x0504:0x0505 為 Address Low，0x0506:0x0507 為 Address High。之後再以 APRD 讀取 ADO 0x0508 的 EEPROM Data。Analyzer 會先記住此次 EEPROM Word Address，再利用讀回的 Data 判斷：Word 0x0008 為 Vendor ID，Word 0x000A 為 Product Code。</p>
+										<p>上電初期先會看到 Broadcast 對所有 slave 做全體初始化。接著 APWR 寫入 ADO 0x0010，建立 Configured Station Address；Analyzer 依 outgoing ADP 推得 topology position，將 station address 綁到該 slave。</p>
+										<p>讀取 slave identity 時，Master 先用 APWR 寫入 ADO 0x0502，並同時帶入 0x0504:0x0507 的 EEPROM Word Address，再用 APRD 讀取 ADO 0x0508。Analyzer 依先前指定的 EEPROM Word 判斷資料是 Vendor ID（0x0008）或 Product Code（0x000A）。</p>
 									</div>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="3">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PDO CONFIGURATION</span><h2>PDO Configuration</h2></header>
-									<div class="command-pdo-workspace">
-										<div class="command-operation-block">
-											<div class="command-operation-vertical-flow">
-												<div class="command-operation-node"><strong>SDO Download</strong></div>
-														<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>0x1600 / 0x1A00</strong><span>PDO Mapping</span></div>
-											</div>
-											<p class="command-operation-description">定義 PDO 內包含哪些 OD Index / SubIndex，以及各 Entry 的 bit length。</p>
-										</div>
-										<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
-										<div class="command-operation-block">
-											<div class="command-operation-vertical-flow">
-												<div class="command-operation-node"><strong>SDO Download</strong></div>
-														<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>0x1C12 / 0x1C13</strong><span>SM Assignment</span></div>
-											</div>
-											<p class="command-operation-description">指定 RxPDO / TxPDO Mapping Object 所屬的 SyncManager。</p>
-										</div>
-									</div>
+									<header class="command-simple-detail-header"><h2>PDO Configuration</h2></header>
+									<table class="command-operation-summary-table">
+										<thead><tr><th scope="col">Address / Object</th><th scope="col">Configuration</th><th scope="col">Meaning</th></tr></thead>
+										<tbody>
+											<tr><td><code>0x1600 / 0x1A00</code></td><td>PDO Mapping</td><td>定義 PDO 內包含哪些 OD Index / SubIndex，以及每個 entry 的 bit length</td></tr>
+											<tr><td><code>0x1C12 / 0x1C13</code></td><td>SM Assignment</td><td>指定 RxPDO / TxPDO Mapping Object 所屬的 SyncManager</td></tr>
+										</tbody>
+									</table>
+									<p class="command-detail-explanation">這一步不是立刻做 cyclic exchange，而是先決定哪些 object 會進 PDO，以及這些 PDO 由哪個 SyncManager 承接，讓後續 Process Data Path 可以建立。</p>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="4">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PROCESS DATA PATH</span><h2>SyncManager / FMMU Configuration</h2></header>
-									<div class="command-process-workspace">
-										<div class="command-operation-block">
-											<div class="command-operation-vertical-flow">
-												<div class="command-operation-node"><strong>FPWR</strong></div>
-														<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>0x0800 ~ 0x087F</strong></div>
-														<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>SyncManager Registers</strong></div>
-											</div>
-											<p class="command-operation-description">設定 Process RAM 的起始位置、長度與資料方向。</p>
-										</div>
-										<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
-										<div class="command-operation-block">
-											<div class="command-operation-vertical-flow">
-												<div class="command-operation-node"><strong>FPWR</strong></div>
-													<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>0x0600 ~ 0x06FF</strong></div>
-														<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>FMMU Registers</strong></div>
-											</div>
-											<p class="command-operation-description">建立 Logical Address 與 Slave Process RAM 的映射。</p>
-										</div>
-									</div>
+									<header class="command-simple-detail-header"><h2>Process Data Path</h2></header>
+									<table class="command-operation-summary-table">
+										<thead><tr><th scope="col">Command</th><th scope="col">Address / Register</th><th scope="col">Meaning</th></tr></thead>
+										<tbody>
+											<tr><td><code>FPWR</code></td><td><code>0x0800~0x087F</code><br>SyncManager Registers</td><td>設定 process RAM 區段、長度、方向</td></tr>
+											<tr><td><code>FPWR</code></td><td><code>0x0600~0x06FF</code><br>FMMU Registers</td><td>建立 Logical Address 到 slave process RAM 的映射</td></tr>
+											<tr><td>Result</td><td><code>Logical Path</code><br>process data path ready</td><td>cyclic datagram 可依 logical address 落到對應 slave / local memory</td></tr>
+										</tbody>
+									</table>
+									<p class="command-detail-explanation">這一步是把 PDO 組態結果落到實際傳輸路徑：SyncManager 決定 process RAM 的區段、長度與方向，FMMU 決定 logical address 對應到哪個 slave 的哪段 local memory。完成後，cyclic datagram 才知道資料路徑。</p>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="5">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">CYCLIC DATA</span><h2>Cyclic Process Data</h2></header>
-									<div class="command-cyclic-workspace">
-										<div class="command-cyclic-start"><strong>SAFEOP / OP</strong><span class="command-operation-connector" aria-hidden="true"></span><strong>Process Data Exchange</strong></div>
-										<div class="command-cyclic-cards">
-											<div class="command-cyclic-card"><strong>LWR</strong><span>Logical Memory Write</span><p>Master → Slave</p><p>寫入控制 / 命令 Process Data</p><p>通常對應 RxPDO</p></div>
-											<div class="command-cyclic-card"><strong>LRD</strong><span>Logical Memory Read</span><p>Slave → Master</p><p>讀回狀態 / 回授 Process Data</p><p>通常對應 TxPDO</p></div>
-											<div class="command-cyclic-card"><strong>LRW</strong><span>Logical Memory Read Write</span><p>同一 Datagram</p><p>Master → Slave 寫入</p><p>+ Slave → Master 讀回</p><p>實際 Read / Write 範圍由 FMMU Mapping 決定</p></div>
-										</div>
-										<p class="command-cyclic-direction-note">RxPDO / TxPDO 的方向名稱以 Slave 為視角：RxPDO = Slave Receive；TxPDO = Slave Transmit</p>
-									</div>
+									<header class="command-simple-detail-header"><h2>Cyclic Data</h2></header>
+									<table class="command-operation-summary-table">
+										<thead><tr><th scope="col">Command</th><th scope="col">Data Path</th><th scope="col">Operation</th><th scope="col">Typical Use</th></tr></thead>
+										<tbody>
+											<tr><td><code>LWR</code></td><td>Master → Slave Output Process Image</td><td>寫入輸出資料</td><td>常見於控制輸出更新</td></tr>
+											<tr><td><code>LRD</code></td><td>Slave Input Process Image → Master</td><td>讀回輸入資料</td><td>常見於狀態 / 感測資料回讀</td></tr>
+											<tr><td><code>LRW</code></td><td>Read + Write in one datagram</td><td>同時讀寫</td><td>雙向 cyclic exchange</td></tr>
+										</tbody>
+									</table>
+									<p class="command-detail-explanation">「Master 寫入 Slave Output」是指主站把控制資料寫進 slave 的 output process image；「Master 讀取 Slave Input」是指主站從 slave 的 input process image 取回狀態 / 感測資料。slave 進入 SAFEOP / OP 後，才進入這種週期性 process data 交換。</p>
 								</article>
 							</div>
 							<span class="command-addressing-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
