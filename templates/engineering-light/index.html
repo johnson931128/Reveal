@@ -275,61 +275,133 @@
 						</header>
 
 						<main class="command-addressing-layout" aria-label="EtherCAT Command / Addressing layout">
-							<article class="command-addressing-family">
-								<header class="command-addressing-family-header">
+							<nav class="command-addressing-nav" aria-label="Addressing families">
+								<article class="command-addressing-item">
 									<span class="command-addressing-index">01</span>
-									<span class="command-addressing-family-label">DEVICE / POSITION</span>
-								</header>
-								<div class="command-addressing-fields">
-									<h2>Auto Increment</h2>
-									<p><span>COMMANDS</span><strong>APRD / APWR / APRW</strong></p>
-									<p><span>ADDRESS</span><strong>Position (ADP) + Local Offset (ADO)</strong></p>
-									<p><span>BEHAVIOR</span><strong>Each Slave increments Position; ADP = 0 executes</strong></p>
-									<p><span>USE</span><strong>Startup scan / topology enumeration</strong></p>
-								</div>
-							</article>
-
-							<article class="command-addressing-family">
-								<header class="command-addressing-family-header">
+									<div>
+										<span class="command-addressing-family-label">DEVICE / POSITION</span>
+										<h2>Auto Increment</h2>
+										<p>利用 position 遞增語意逐站命中 slave</p>
+									</div>
+								</article>
+								<article class="command-addressing-item">
 									<span class="command-addressing-index">02</span>
-									<span class="command-addressing-family-label">DEVICE / NODE</span>
-								</header>
-								<div class="command-addressing-fields">
-									<h2>Configured Address</h2>
-									<p><span>COMMANDS</span><strong>FPRD / FPWR / FPRW</strong></p>
-									<p><span>ADDRESS</span><strong>Station Address (ADP) + Local Offset (ADO)</strong></p>
-									<p><span>BEHAVIOR</span><strong>Station Address or enabled Alias match executes</strong></p>
-									<p><span>USE</span><strong>Register access after Slave identification</strong></p>
-								</div>
-							</article>
-
-							<article class="command-addressing-family">
-								<header class="command-addressing-family-header">
+									<div>
+										<span class="command-addressing-family-label">DEVICE / NODE</span>
+										<h2>Configured Address</h2>
+										<p>以 configured station address 定向存取單一 slave</p>
+									</div>
+								</article>
+								<article class="command-addressing-item">
 									<span class="command-addressing-index">03</span>
-									<span class="command-addressing-family-label">DEVICE / ALL</span>
-								</header>
-								<div class="command-addressing-fields">
-									<h2>Broadcast</h2>
-									<p><span>COMMANDS</span><strong>BRD / BWR / BRW</strong></p>
-									<p><span>ADDRESS</span><strong>All Slaves + Local Offset (ADO)</strong></p>
-									<p><span>BEHAVIOR</span><strong>Every Slave accesses the same local offset</strong></p>
-									<p><span>USE</span><strong>Initialization / common-state access</strong></p>
-								</div>
-							</article>
-
-							<article class="command-addressing-family">
-								<header class="command-addressing-family-header">
+									<div>
+										<span class="command-addressing-family-label">DEVICE / ALL</span>
+										<h2>Broadcast</h2>
+										<p>對所有 slave 的相同 local offset 共同操作</p>
+									</div>
+								</article>
+								<article class="command-addressing-item">
 									<span class="command-addressing-index">04</span>
-									<span class="command-addressing-family-label">LOGICAL / FMMU</span>
-								</header>
-								<div class="command-addressing-fields">
-									<h2>Logical Address</h2>
-									<p><span>COMMANDS</span><strong>LRD / LWR / LRW</strong></p>
-									<p><span>ADDRESS</span><strong>32-bit Logical Address</strong></p>
-									<p><span>BEHAVIOR</span><strong>FMMU match maps logical range to local memory</strong></p>
-									<p><span>USE</span><strong>Cyclic process data access</strong></p>
-								</div>
-							</article>
+									<div>
+										<span class="command-addressing-family-label">LOGICAL / FMMU</span>
+										<h2>Logical Address</h2>
+										<p>以 logical address 經 FMMU 映射至 local memory</p>
+									</div>
+								</article>
+							</nav>
+
+							<div class="command-addressing-detail">
+								<article class="command-addressing-detail-state" data-detail-state="1">
+									<header class="command-addressing-detail-header">
+										<span class="command-addressing-detail-kicker">OVERVIEW</span>
+										<h2>四種主要的 EtherCAT addressing family</h2>
+									</header>
+									<div class="command-addressing-detail-sections command-addressing-overview-sections">
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide">
+											<h3>說明</h3>
+											<p>EtherCAT datagram 的存取方式可從位址語意分成四類：Auto Increment、Configured Address、Broadcast、Logical Address。<br>前 3 類主要圍繞 slave 與 local register / local memory 的存取；Logical Address 則進一步透過 FMMU 映射到 process data 的邏輯位址空間。</p>
+										</div>
+										<div class="command-addressing-detail-section">
+											<h3>Auto Increment</h3>
+											<p>逐站探索與拓樸查找</p>
+										</div>
+										<div class="command-addressing-detail-section">
+											<h3>Configured Address</h3>
+											<p>已識別 slave 的定向存取</p>
+										</div>
+										<div class="command-addressing-detail-section">
+											<h3>Broadcast</h3>
+											<p>對所有 slave 執行共同操作</p>
+										</div>
+										<div class="command-addressing-detail-section">
+											<h3>Logical Address</h3>
+											<p>對 process data 進行週期性邏輯存取</p>
+										</div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion">
+											<h3>結論</h3>
+											<p>前 3 類偏向裝置導向，Logical Address 偏向資料路徑導向。</p>
+										</div>
+									</div>
+								</article>
+
+								<article class="command-addressing-detail-state" data-detail-state="2">
+									<header class="command-addressing-detail-header">
+										<span class="command-addressing-detail-kicker">01 / DEVICE / POSITION</span>
+										<h2>Auto Increment</h2>
+									</header>
+									<div class="command-addressing-detail-meta">
+										<div><span>指令</span><strong>APRD / APWR / APRW</strong></div>
+										<div><span>地址欄位</span><strong>ADP + ADO</strong></div>
+									</div>
+									<div class="command-addressing-detail-sections">
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Master 送出帶有 Auto Increment 語意的 datagram。封包沿線經過各 slave 時，ADP 會依序變化。當某個 slave 視角下看到 ADP = 0 時，該 slave 會執行這次存取。</p></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這種模式的重點不是把 ADP 當成固定站址，而是利用封包逐站傳遞時的遞增特性，讓操作自然落在某一個位置的 slave。</p></div>
+										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>啟動階段常看到 0x0000、0xFFFF 這類起始值。分析時要觀察的是：</p><ul><li>ADP 如何隨封包傳遞而變化</li><li>哪個 slave 在看到 ADP = 0 時實際執行操作</li><li>搭配的 ADO 指向哪個 local register / local memory 區域</li></ul></div>
+										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>拓樸查找</li><li>逐站探索</li><li>初始化早期的 slave discovery</li><li>讀取基本識別資訊後再配置站址</li></ul></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Auto Increment 是從「鏈路順序」出發的存取方式。</p></div>
+									</div>
+								</article>
+
+								<article class="command-addressing-detail-state" data-detail-state="3">
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">02 / DEVICE / NODE</span><h2>Configured Address</h2></header>
+									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>FPRD / FPWR / FPRW</strong></div><div><span>地址欄位</span><strong>Station Address (ADP) + ADO</strong></div></div>
+									<div class="command-addressing-detail-sections">
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>當 slave 已經具有 configured address 後，Master 可直接指定目標站址，對單一 slave 進行定向讀寫，不再依賴 Auto Increment 的逐站命中方式。</p></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這時 ADP 應理解為 configured station address。若系統有啟用 alias，則可由 alias 對應到 station identity 的匹配邏輯。</p></div>
+										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>ADP 是否已成為穩定的 configured station address</li><li>ADO 對應的 local register 是什麼</li><li>操作是否已從 discovery 階段轉入穩定單站操作</li></ul></div>
+										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>對特定 slave 讀寫 ESC register</li><li>slave 身分確立後的定向控制</li><li>後續個別參數與狀態存取</li></ul></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Configured Address 是從「已知目標 slave」出發的存取方式。</p></div>
+									</div>
+								</article>
+
+								<article class="command-addressing-detail-state" data-detail-state="4">
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">03 / DEVICE / ALL</span><h2>Broadcast</h2></header>
+									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>BRD / BWR / BRW</strong></div><div><span>地址欄位</span><strong>All Slaves + ADO</strong></div></div>
+									<div class="command-addressing-detail-sections">
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Broadcast 不是鎖定單一 slave，而是讓所有 slave 對同一個 local offset 進行共同存取。</p></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這種模式的重點不在於辨識「哪一站被命中」，而在於「所有 slave 是否都對同一個 ADO 做了相同操作」。</p></div>
+										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>使用的 ADO 是哪個共通欄位</li><li>所有 slave 是否都對該 local offset 參與存取</li><li>封包行為是否符合初始化或共通狀態操作</li></ul></div>
+										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>初始化階段共通設定</li><li>全體共同狀態讀寫</li><li>對所有 slave 的一致性操作</li></ul></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Broadcast 是從「全體 slave」出發的存取方式。</p></div>
+									</div>
+								</article>
+
+								<article class="command-addressing-detail-state" data-detail-state="5">
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">04 / LOGICAL / FMMU</span><h2>Logical Address</h2></header>
+									<div class="command-addressing-detail-meta"><div><span>指令</span><strong>LRD / LWR / LRW</strong></div><div><span>地址欄位</span><strong>32-bit Logical Address</strong></div></div>
+									<div class="command-addressing-detail-sections">
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>核心機制</h3><p>Master 存取的是 logical address，而不是直接指定某個 slave 的 ADP / ADO。邏輯位址範圍會經由 FMMU 映射到對應 slave 的 local memory，進而形成 process data 的資料路徑。</p></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide"><h3>補充說明</h3><p>這個 family 的重點已從「命中哪個 slave」，轉成「logical region 如何被映射到實際資料區塊」。</p></div>
+										<div class="command-addressing-detail-section"><h3>封包觀察</h3><p>分析時要關注：</p><ul><li>logical address 範圍</li><li>對應 FMMU 映射結果</li><li>最終落到哪些 slave / local memory 區段</li><li>是否為 PDO / cyclic process data path</li></ul></div>
+										<div class="command-addressing-detail-section"><h3>典型用途</h3><ul><li>PDO / process data 週期性讀寫</li><li>邏輯位址空間的 cyclic access</li><li>與 FMMU / SyncManager 分析串接</li></ul></div>
+										<div class="command-addressing-detail-section command-addressing-detail-section-wide command-addressing-detail-conclusion"><h3>結論</h3><p>Logical Address 是從「資料路徑與映射結果」出發的存取方式。</p></div>
+									</div>
+								</article>
+							</div>
+							<span class="command-addressing-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+							<span class="command-addressing-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+							<span class="command-addressing-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
+							<span class="command-addressing-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -931,6 +1003,7 @@
 			}).then(() => {
 				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
+				const commandAddressingSelector = 'section.command-addressing-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -943,6 +1016,10 @@
 
 				const isProblemGoalSlide = slide => (
 					slide && slide.matches(problemGoalSelector)
+				);
+
+				const isCommandAddressingSlide = slide => (
+					slide && slide.matches(commandAddressingSelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -970,12 +1047,23 @@
 					slide.dataset.problemGoalState = problemGoalState;
 				};
 
+				const applyCommandAddressingState = (slide, state) => {
+					if (!isCommandAddressingSlide(slide)) return;
+
+					const commandAddressingState = isPrintMode() ? 5 : Math.max(1, Math.min(5, state));
+					slide.dataset.commandAddressingState = commandAddressingState;
+				};
+
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
 
 				const isProblemGoalFragment = fragment => (
 					fragment && fragment.classList.contains('problem-goal-state-fragment')
+				);
+
+				const isCommandAddressingFragment = fragment => (
+					fragment && fragment.classList.contains('command-addressing-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -991,10 +1079,14 @@
 					document.querySelectorAll(problemGoalSelector).forEach(slide => {
 						applyProblemGoalState(slide, 3);
 					});
+					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
+						applyCommandAddressingState(slide, 5);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
+					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
 				}
 
 				Reveal.on('slidechanged', event => {
@@ -1005,6 +1097,10 @@
 					if (isProblemGoalSlide(event.currentSlide)) {
 						resetInteractiveSlide(event.currentSlide);
 						applyProblemGoalState(event.currentSlide, 1);
+					}
+					if (isCommandAddressingSlide(event.currentSlide)) {
+						resetInteractiveSlide(event.currentSlide);
+						applyCommandAddressingState(event.currentSlide, 1);
 					}
 				});
 
@@ -1017,6 +1113,9 @@
 					if (isProblemGoalFragment(event.fragment)) {
 						applyProblemGoalState(slide, fragmentIndex + 2);
 					}
+					if (isCommandAddressingFragment(event.fragment)) {
+						applyCommandAddressingState(slide, fragmentIndex + 2);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1027,6 +1126,9 @@
 					}
 					if (isProblemGoalFragment(event.fragment)) {
 						applyProblemGoalState(slide, fragmentIndex + 1);
+					}
+					if (isCommandAddressingFragment(event.fragment)) {
+						applyCommandAddressingState(slide, fragmentIndex + 1);
 					}
 				});
 			});

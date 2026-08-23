@@ -1909,28 +1909,222 @@ body {
 .command-addressing-layout {
 	position: absolute;
 	top: 190px;
-	left: 110px;
+	left: 92px;
 	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	grid-template-rows: repeat(2, minmax(0, 1fr));
-	gap: 34px 42px;
-	width: 1380px;
-	height: 530px;
+	grid-template-columns: 390px minmax(0, 1fr);
+	column-gap: 42px;
+	width: 1416px;
+	height: 574px;
 	z-index: 3;
 }
 
-.command-addressing-family {
+.command-addressing-nav {
+	display: flex;
+	flex-direction: column;
 	min-width: 0;
-	padding: 20px 30px 18px;
-	border-top: 1px solid rgba(103, 147, 192, 0.42);
-	border-bottom: 1px solid rgba(103, 147, 192, 0.18);
+	border-top: 1px solid rgba(103, 147, 192, 0.38);
 }
 
-.command-addressing-family-header {
+.command-addressing-item {
+	display: grid;
+	grid-template-columns: 40px minmax(0, 1fr);
+	column-gap: 16px;
+	align-items: start;
+	flex: 1;
+	min-height: 0;
+	padding: 18px 18px 16px 14px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.22);
+	border-left: 3px solid transparent;
+	opacity: 0.3;
+}
+
+.command-addressing-item .command-addressing-index {
+	padding-top: 2px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 20px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+}
+
+.command-addressing-item .command-addressing-family-label {
+	display: block;
+	margin: 0;
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.command-addressing-item h2 {
+	margin: 9px 0 0;
+	color: var(--text-primary);
+	font-size: 23px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.command-addressing-item p {
+	margin: 9px 0 0;
+	color: var(--text-secondary);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.35;
+}
+
+.command-addressing-slide[data-command-addressing-state="1"] .command-addressing-item:nth-child(1),
+.command-addressing-slide[data-command-addressing-state="2"] .command-addressing-item:nth-child(1),
+.command-addressing-slide[data-command-addressing-state="3"] .command-addressing-item:nth-child(2),
+.command-addressing-slide[data-command-addressing-state="4"] .command-addressing-item:nth-child(3),
+.command-addressing-slide[data-command-addressing-state="5"] .command-addressing-item:nth-child(4) {
+	border-left-color: var(--accent);
+	background: rgba(103, 147, 192, 0.1);
+	opacity: 1;
+}
+
+.command-addressing-detail {
+	position: relative;
+	min-width: 0;
+	height: 574px;
+	padding: 22px 28px 20px 30px;
+	border-top: 1px solid rgba(103, 147, 192, 0.42);
+	border-bottom: 1px solid rgba(103, 147, 192, 0.22);
+	border-left: 1px solid rgba(103, 147, 192, 0.22);
+	background: rgba(255, 255, 255, 0.28);
+	overflow: hidden;
+}
+
+.command-addressing-detail-state {
+	display: none;
+	height: 100%;
+}
+
+.command-addressing-slide[data-command-addressing-state="1"] .command-addressing-detail-state[data-detail-state="1"],
+.command-addressing-slide[data-command-addressing-state="2"] .command-addressing-detail-state[data-detail-state="2"],
+.command-addressing-slide[data-command-addressing-state="3"] .command-addressing-detail-state[data-detail-state="3"],
+.command-addressing-slide[data-command-addressing-state="4"] .command-addressing-detail-state[data-detail-state="4"],
+.command-addressing-slide[data-command-addressing-state="5"] .command-addressing-detail-state[data-detail-state="5"] {
+	display: block;
+}
+
+.command-addressing-detail-header {
+	padding-bottom: 15px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.28);
+}
+
+.command-addressing-detail-kicker {
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	line-height: 1.2;
+}
+
+.command-addressing-detail-header h2 {
+	margin: 10px 0 0;
+	color: var(--text-primary);
+	font-size: 31px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.command-addressing-detail-meta {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 24px;
+	margin-top: 15px;
+	padding-bottom: 13px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.22);
+}
+
+.command-addressing-detail-meta div {
 	display: flex;
 	align-items: baseline;
-	gap: 16px;
-	height: 28px;
+	gap: 18px;
+	min-width: 0;
+}
+
+.command-addressing-detail-meta span,
+.command-addressing-detail-section h3 {
+	flex: 0 0 auto;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	line-height: 1.2;
+}
+
+.command-addressing-detail-meta strong {
+	min-width: 0;
+	color: var(--text-primary);
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.command-addressing-detail-sections {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 15px 26px;
+	margin-top: 15px;
+}
+
+.command-addressing-detail-section {
+	min-width: 0;
+	padding-top: 10px;
+	border-top: 1px solid rgba(103, 147, 192, 0.2);
+}
+
+.command-addressing-detail-section-wide {
+	grid-column: 1 / -1;
+}
+
+.command-addressing-detail-section h3 {
+	margin: 0 0 7px;
+}
+
+.command-addressing-detail-section p,
+.command-addressing-detail-section ul {
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 1.35;
+}
+
+.command-addressing-detail-section ul {
+	padding-left: 19px;
+}
+
+.command-addressing-detail-section li + li {
+	margin-top: 3px;
+}
+
+.command-addressing-detail-conclusion {
+	border-top-color: rgba(103, 147, 192, 0.38);
+}
+
+.command-addressing-detail-conclusion p {
+	color: var(--text-primary);
+	font-weight: 550;
+}
+
+.command-addressing-overview-sections {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.command-addressing-state-fragment {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
 }
 
 .command-addressing-index,
@@ -1943,7 +2137,6 @@ body {
 	line-height: 1;
 }
 
-.command-addressing-family-label,
 .register-groups-header span,
 .register-operations header span,
 .register-important-note header span,
@@ -1953,45 +2146,6 @@ body {
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: 0.16em;
-	line-height: 1.2;
-}
-
-.command-addressing-fields {
-	margin-top: 17px;
-	padding-top: 15px;
-	border-top: 1px solid rgba(103, 147, 192, 0.24);
-}
-
-.command-addressing-fields h2 {
-	margin: 0 0 13px;
-	color: var(--text-primary);
-	font-size: 24px;
-	font-weight: 600;
-	line-height: 1.2;
-}
-
-.command-addressing-fields p {
-	display: grid;
-	grid-template-columns: 170px minmax(0, 1fr);
-	align-items: baseline;
-	column-gap: 14px;
-	margin: 0;
-	padding: 4px 0;
-	border-bottom: 1px solid rgba(103, 147, 192, 0.14);
-}
-
-.command-addressing-fields p span {
-	color: var(--accent);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 13px;
-	font-weight: 600;
-	letter-spacing: 0.04em;
-}
-
-.command-addressing-fields p strong {
-	color: var(--text-secondary);
-	font-size: 18px;
-	font-weight: 500;
 	line-height: 1.2;
 }
 
