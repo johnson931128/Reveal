@@ -212,7 +212,7 @@ body {
 .logo-area {
 	position: absolute;
 	right: 61px;
-	bottom: 39px;
+	bottom: 19px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -252,7 +252,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 68px;
-	right: 315px;
+	right: 249px;
 	height: 1px;
 	background: linear-gradient(90deg, var(--accent-soft), rgba(155, 188, 225, 0.7));
 }
@@ -2090,10 +2090,6 @@ body {
 
 .command-addressing-detail-section li + li {
 	margin-top: 2px;
-}
-
-.command-addressing-slide .logo-area {
-	bottom: 19px;
 }
 
 .command-addressing-detail-conclusion {
