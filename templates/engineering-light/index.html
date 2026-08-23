@@ -332,59 +332,52 @@
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="2">
-									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">STARTUP / DISCOVERY</span><h2>Startup / Discovery</h2></header>
-									<div class="command-operation-workspace command-startup-workspace">
-										<div class="command-operation-block">
-											<div class="command-operation-vertical-flow">
-												<div class="command-operation-node"><strong>APWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>ADO 0x0010</strong></div>
-												<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>Configured Station Address</strong></div>
-											</div>
-											<p class="command-operation-description">Master 寫入 Slave 的 Configured Station Address。</p>
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">STARTUP / DISCOVERY</span><h2>Configured Station Address</h2></header>
+									<div class="command-startup-address-workspace">
+										<div class="command-startup-address-flow">
+											<div class="command-startup-address-node"><strong>APWR</strong><span>Command</span></div>
+											<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
+											<div class="command-startup-address-node"><strong>ADP = Auto Increment Address</strong><span>命中目前位置的 Slave</span></div>
+											<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
+											<div class="command-startup-address-node"><strong>ADO = 0x0010</strong><span>Station Address Register</span></div>
+											<span class="command-operation-horizontal-connector" aria-hidden="true"></span>
+											<div class="command-startup-address-node"><strong>Data = Configured Station Address</strong><span>寫入新的固定站址</span></div>
 										</div>
-										<div class="command-operation-block command-eeprom-operation">
-											<div class="command-eeprom-datagram-label">APWR DATAGRAM</div>
-											<div class="command-operation-vertical-flow command-eeprom-command-flow">
-												<div class="command-operation-node"><strong>APWR</strong></div>
-												<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>ADO = 0x0502</strong></div>
-												<span class="command-operation-connector" aria-hidden="true"></span>
-												<div class="command-operation-node"><strong>Length &gt;= 6</strong></div>
-											</div>
-											<div class="command-eeprom-payload">
-												<div class="command-eeprom-payload-heading">REGISTER PAYLOAD</div>
-												<div class="command-eeprom-payload-row"><strong>0x0502:0x0503</strong><span>EEPROM Control / Status</span><em>READ Command</em></div>
-												<div class="command-eeprom-payload-row"><strong>0x0504:0x0505</strong><span>EEPROM Address Low</span></div>
-												<div class="command-eeprom-payload-row"><strong>0x0506:0x0507</strong><span>EEPROM Address High</span></div>
-											</div>
-											<div class="command-eeprom-address-result">
-												<span class="command-eeprom-register-range">0x0504:0x0507</span>
-												<strong>32-bit EEPROM Address Register</strong>
-												<span>EEPROM Word Address</span>
-												<code>AddressLow | (AddressHigh &lt;&lt; 16)</code>
-											</div>
-											<div class="command-eeprom-readback">
-												<div class="command-eeprom-datagram-label">READBACK</div>
-												<div class="command-operation-vertical-flow command-eeprom-readback-flow">
-													<div class="command-operation-node"><strong>APRD</strong></div>
-													<span class="command-operation-connector" aria-hidden="true"></span>
-													<div class="command-operation-node"><strong>ADO = 0x0508</strong></div>
-													<span class="command-operation-connector" aria-hidden="true"></span>
-													<div class="command-operation-node"><strong>EEPROM Data</strong></div>
-												</div>
-												<p>使用前面記錄的 EEPROM Word Address，判斷 Data 是 Vendor ID 或 Product Code。</p>
-											</div>
-											<div class="command-eeprom-word-space">
-												<div class="command-eeprom-datagram-label">EEPROM WORD ADDRESS</div>
-												<div class="command-eeprom-words"><div><strong>0x0008</strong><span>Vendor ID</span></div><div><strong>0x000A</strong><span>Product Code</span></div></div>
-											</div>
+										<div class="command-startup-result-panel">
+											<span class="command-startup-panel-label">RESULT</span>
+											<p>Master 對目前由 Auto Increment Address 命中的 Slave，寫入新的 Configured Station Address。</p>
 										</div>
+										<p class="command-startup-analyzer-note"><strong>Analyzer：</strong>依 outgoing ADP 推導 topology position，再將寫入的 station address 綁定到該 Slave。</p>
 									</div>
 								</article>
 
 								<article class="command-addressing-detail-state" data-detail-state="3">
+									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">STARTUP / DISCOVERY</span><h2>SII EEPROM Identity Read</h2></header>
+									<div class="command-startup-eeprom-workspace">
+										<div class="command-eeprom-payload-strip">
+											<div class="command-eeprom-payload-meta"><strong>APWR</strong><span>ADP = Auto Increment Address</span><span>ADO = 0x0502</span><span>Length &gt;= 6</span></div>
+											<div class="command-eeprom-payload-fields">
+												<div class="command-eeprom-payload-field"><strong>0x0502:0x0503</strong><span>EEPROM Control / Status</span><em>READ Command</em></div>
+												<div class="command-eeprom-payload-field"><strong>0x0504:0x0505</strong><span>EEPROM Address Low</span></div>
+												<div class="command-eeprom-payload-field"><strong>0x0506:0x0507</strong><span>EEPROM Address High</span></div>
+											</div>
+										</div>
+										<div class="command-eeprom-address-resolution">
+											<div class="command-eeprom-address-source"><span>Address Low</span><strong>0x0504:0x0505</strong></div>
+											<div class="command-eeprom-address-source"><span>Address High</span><strong>0x0506:0x0507</strong></div>
+											<span class="command-eeprom-merge-connector" aria-hidden="true"></span>
+											<div class="command-eeprom-word-address"><span>EEPROM Word Address</span><strong>0x0504:0x0507 = 32-bit EEPROM Address Register</strong><code>AddressLow | (AddressHigh &lt;&lt; 16)</code></div>
+											<div class="command-eeprom-word-identity"><div><strong>EEPROM Word 0x0008</strong><span>Vendor ID</span></div><div><strong>EEPROM Word 0x000A</strong><span>Product Code</span></div></div>
+										</div>
+										<div class="command-eeprom-readback-strip">
+											<span class="command-eeprom-readback-label">READBACK</span>
+											<div class="command-eeprom-readback-flow"><div><strong>APRD</strong></div><span class="command-operation-horizontal-connector" aria-hidden="true"></span><div><strong>ADO = 0x0508</strong><small>EEPROM Data readback 起始位置</small></div><span class="command-operation-horizontal-connector" aria-hidden="true"></span><div><strong>EEPROM Data</strong></div></div>
+											<p>使用前面記錄的 EEPROM Word Address，判斷這筆 Data 是 Vendor ID 或 Product Code。</p>
+										</div>
+									</div>
+								</article>
+
+								<article class="command-addressing-detail-state" data-detail-state="4">
 									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PDO CONFIGURATION</span><h2>PDO Configuration</h2></header>
 									<div class="command-pdo-workspace">
 										<div class="command-operation-block">
@@ -407,7 +400,7 @@
 									</div>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="4">
+								<article class="command-addressing-detail-state" data-detail-state="5">
 									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">PROCESS DATA PATH</span><h2>SyncManager / FMMU Configuration</h2></header>
 									<div class="command-process-workspace">
 										<div class="command-operation-block">
@@ -434,7 +427,7 @@
 									</div>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="5">
+								<article class="command-addressing-detail-state" data-detail-state="6">
 									<header class="command-addressing-detail-header"><span class="command-addressing-detail-kicker">CYCLIC DATA</span><h2>Cyclic Process Data</h2></header>
 									<div class="command-cyclic-workspace">
 										<div class="command-cyclic-start"><strong>SAFEOP / OP</strong><span class="command-operation-connector" aria-hidden="true"></span><strong>Process Data Exchange</strong></div>
@@ -451,6 +444,7 @@
 							<span class="command-addressing-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
 							<span class="command-addressing-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 							<span class="command-addressing-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
+							<span class="command-addressing-state-fragment fragment" data-fragment-index="4" aria-hidden="true"></span>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -1158,7 +1152,7 @@
 				const applyCommandAddressingState = (slide, state) => {
 					if (!isCommandAddressingSlide(slide)) return;
 
-					const commandAddressingState = isPrintMode() ? 5 : Math.max(1, Math.min(5, state));
+					const commandAddressingState = isPrintMode() ? 6 : Math.max(1, Math.min(6, state));
 					slide.dataset.commandAddressingState = commandAddressingState;
 				};
 
