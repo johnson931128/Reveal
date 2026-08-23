@@ -1668,12 +1668,15 @@ body {
 .technical-flow-level {
 	position: absolute;
 	top: 0;
+	width: max-content;
 	color: var(--text-secondary);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 0.16em;
 	line-height: 1;
+	white-space: nowrap;
+	text-align: center;
 }
 
 .technical-flow-level-input {
@@ -1693,6 +1696,7 @@ body {
 	left: calc(100% / 12);
 	right: calc(100% / 12);
 	height: 1px;
+	transform: translateY(-50%);
 	background: rgba(103, 147, 192, 0.44);
 }
 
@@ -1741,14 +1745,14 @@ body {
 
 .technical-flow-node {
 	position: absolute;
-	top: 108px;
+	top: 112px;
 	left: 50%;
 	display: block;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
 	background: var(--accent);
-	transform: translateX(-50%);
+	transform: translate(-50%, -50%);
 }
 
 .technical-flow-name {
