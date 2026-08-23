@@ -3844,14 +3844,14 @@ body {
 }
 
 .reveal .slides section.section-divider-slide {
-	--section-divider-bg: #DCEAF7;
-	--section-divider-bg-soft: #E8F2FA;
-	--section-divider-number: #3F7FC9;
+	--section-divider-bg: #F7F9FB;
+	--section-divider-bg-soft: #F2F6FA;
+	--section-divider-number: #5C91C6;
 	--section-divider-title: #153B63;
-	--section-divider-accent: #3F7FC9;
-	--section-divider-secondary: #496B8D;
-	--section-divider-summary: #496B8D;
-	--section-divider-line: rgba(47, 111, 178, 0.16);
+	--section-divider-accent: #4F86BE;
+	--section-divider-secondary: #52677C;
+	--section-divider-summary: #445E74;
+	--section-divider-line: rgba(47, 111, 178, 0.13);
 	position: relative;
 	display: block;
 	width: 1600px;
@@ -3859,7 +3859,7 @@ body {
 	min-height: 900px;
 	padding: 0;
 	overflow: hidden;
-	background: linear-gradient(90deg, var(--section-divider-bg), var(--section-divider-bg) 56%, var(--section-divider-bg-soft));
+	background: var(--section-divider-bg);
 	color: var(--section-divider-title);
 }
 
@@ -3876,7 +3876,7 @@ body {
 	background-image:
 		linear-gradient(var(--section-divider-line) 1px, transparent 1px),
 		linear-gradient(90deg, var(--section-divider-line) 1px, transparent 1px);
-	background-color: rgba(232, 242, 250, 0.22);
+	background-color: rgba(232, 242, 250, 0.12);
 	background-size: 40px 40px;
 	mask-image: linear-gradient(90deg, transparent, #000 18%, #000 86%, transparent);
 	opacity: 0.58;
@@ -4121,6 +4121,66 @@ body {
 
 .section-divider-slide .page-rule:last-child {
 	background: linear-gradient(90deg, var(--section-divider-line), transparent);
+}
+
+/* Page 04: align the section divider with the light engineering content slides. */
+.section-divider-content {
+	top: 58px;
+	left: 120px;
+	width: 1020px;
+	height: 470px;
+}
+
+.section-divider-upper {
+	grid-template-columns: 190px minmax(0, 1fr);
+	column-gap: 44px;
+	height: 250px;
+}
+
+.section-divider-lower {
+	grid-template-columns: 190px minmax(0, 1fr);
+	column-gap: 44px;
+	height: 220px;
+}
+
+.section-divider-index {
+	font-size: 78px;
+	margin-top: 76px;
+	transform: scale(1.3);
+}
+
+.section-divider-heading {
+	margin-top: 48px;
+	transform: none;
+}
+
+.section-divider-title {
+	font-size: 68px;
+	line-height: 1.08;
+	white-space: nowrap;
+}
+
+.section-divider-subtitle {
+	margin-top: 18px;
+	font-size: 32px;
+}
+
+.section-divider-summary-block {
+	padding-top: 82px;
+}
+
+.section-divider-summary {
+	width: 850px;
+	margin-top: 18px;
+	font-size: 24px;
+	line-height: 1.35;
+	white-space: normal;
+}
+
+.section-divider-trace {
+	right: 108px;
+	bottom: 172px;
+	font-size: 12px;
 }
 
 /* Page 05: split Startup / Discovery into two focused walkthrough states. */
@@ -4582,6 +4642,12 @@ body {
 
 .command-startup-explanation p + p {
 	margin-top: 10px;
+}
+
+/* Page 05: keep all horizontal relationships as lines, without text or glyph arrows. */
+.command-addressing-slide .command-operation-chain-connector::after,
+.command-addressing-slide .command-operation-horizontal-connector::after {
+	display: none;
 }
 
 @media (max-aspect-ratio: 4/3) {
