@@ -519,26 +519,14 @@ body {
 	flex-direction: column;
 	height: 100%;
 	padding: 18px 17px 20px;
-	border-top: 1px solid rgba(103, 147, 192, 0.34);
+	border: 1px solid rgba(103, 147, 192, 0.5);
+	background: rgba(248, 251, 254, 0.72);
 	text-align: left;
 }
 
 .week-content::before,
 .week-content::after {
-	content: "";
-	position: absolute;
-	top: -1px;
-	width: 1px;
-	height: 27px;
-	background: rgba(103, 147, 192, 0.3);
-}
-
-.week-content::before {
-	left: 0;
-}
-
-.week-content::after {
-	right: 0;
+	display: none;
 }
 
 .week-date {
@@ -560,7 +548,7 @@ body {
 .work-section-secondary {
 	margin-top: 16px;
 	padding-top: 14px;
-	border-top: 1px solid rgba(103, 147, 192, 0.24);
+	border-top: 1px solid rgba(103, 147, 192, 0.36);
 }
 
 .work-heading {
