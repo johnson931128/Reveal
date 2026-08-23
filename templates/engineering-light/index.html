@@ -429,65 +429,122 @@
 
 					<section class="register-access-slide" data-transition="none">
 						<header class="register-access-header">
+							<span class="register-access-kicker">ANALYZER USED REGISTERS</span>
 							<h1 class="register-access-title">Startup Register Access</h1>
 						</header>
 
 						<main class="register-access-layout" aria-label="Startup Register Access layout">
-							<div class="register-groups" aria-label="Register groups placeholder">
+							<div class="register-groups" aria-label="Analyzer Used Registers">
 								<header class="register-groups-header">
-									<span>[REGISTER GROUPS]</span>
+									<span>ANALYZER USED REGISTERS</span>
 								</header>
 								<div class="register-groups-grid">
 									<article class="register-group">
-										<h2>[REGISTER GROUP A]</h2>
+										<div class="register-group-heading">
+											<span class="register-group-index">01</span>
+											<h2>STATION ADDRESS</h2>
+										</div>
 										<div class="register-items">
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
+											<div class="register-item">
+												<div class="register-item-main">
+													<span class="register-address">0x0010</span>
+													<strong>Configured Station Address</strong>
+												</div>
+												<p>透過 APWR 寫入 Configured Station Address，並將該值綁定到由 Auto Increment Address 推導出的 topology position。</p>
+												<div class="register-path" aria-label="Configured Station Address access path">
+													<span>APWR</span>
+													<span>ADO = 0x0010</span>
+													<b>↓</b>
+													<strong>Configured Station Address</strong>
+												</div>
+											</div>
 										</div>
 									</article>
 									<article class="register-group">
-										<h2>[REGISTER GROUP B]</h2>
+										<div class="register-group-heading">
+											<span class="register-group-index">02</span>
+											<h2>AL STATE</h2>
+										</div>
 										<div class="register-items">
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
+											<div class="register-item">
+												<div class="register-item-main">
+													<span class="register-address">0x0120</span>
+													<strong>AL Control</strong>
+												</div>
+												<p>擷取 Master 寫入的 AL Control 值，後續整理為 Slave 的 Control waveform。</p>
+												<div class="register-signal"><span>0x0120</span><strong>AL Control</strong><em>Master requested state</em></div>
+											</div>
+											<div class="register-item">
+												<div class="register-item-main">
+													<span class="register-address">0x0130</span>
+													<strong>AL Status</strong>
+												</div>
+												<p>擷取 Slave 回報的 AL Status 值，後續整理為 Slave 的 Status waveform。</p>
+												<div class="register-signal"><span>0x0130</span><strong>AL Status</strong><em>Slave current state</em></div>
+											</div>
 										</div>
 									</article>
 									<article class="register-group">
-										<h2>[REGISTER GROUP C]</h2>
-										<div class="register-items">
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
+										<div class="register-group-heading">
+											<span class="register-group-index">03</span>
+											<h2>SII EEPROM IDENTITY</h2>
 										</div>
-									</article>
-									<article class="register-group">
-										<h2>[REGISTER GROUP D]</h2>
 										<div class="register-items">
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
-											<p><span>[ADDRESS]</span><strong>[NAME]</strong><em>[SHORT PURPOSE]</em></p>
+											<div class="register-item">
+												<div class="register-item-main">
+													<span class="register-address">0x0502</span>
+													<strong>EEPROM Control / Status</strong>
+												</div>
+												<p>透過 APWR 發出 EEPROM Read 操作，並取得本次欲讀取的 EEPROM Word Address。</p>
+												<div class="register-path" aria-label="EEPROM read command path">
+													<span>APWR</span>
+													<span>ADO = 0x0502</span>
+													<b>↓</b>
+													<strong>EEPROM Read Command</strong>
+													<span>+</span>
+													<strong>EEPROM Word Address</strong>
+												</div>
+											</div>
+											<div class="register-item">
+												<div class="register-item-main">
+													<span class="register-address">0x0508</span>
+													<strong>EEPROM Data</strong>
+												</div>
+												<p>接續前一筆 EEPROM Read，透過 APRD 取得 EEPROM Data，再依先前記錄的 EEPROM Word Address 判斷資料用途。</p>
+												<div class="register-path" aria-label="EEPROM data access path">
+													<span>APRD</span>
+													<span>ADO = 0x0508</span>
+													<b>↓</b>
+													<strong>EEPROM Data</strong>
+												</div>
+											</div>
+											<div class="sii-words">
+												<div><span>EEPROM Word 0x0008</span><strong>Vendor ID</strong></div>
+												<div><span>EEPROM Word 0x000A</span><strong>Product Code</strong></div>
+											</div>
 										</div>
 									</article>
 								</div>
 							</div>
 
 							<aside class="register-access-side">
-								<div class="register-operations" aria-label="Common operations placeholder">
-									<header><span>[COMMON OPERATIONS]</span></header>
+								<div class="register-operations" aria-label="Common Operations">
+									<header><span>COMMON OPERATIONS</span></header>
 									<ul>
-										<li>[COMMON OPERATION]</li>
-										<li>[COMMON OPERATION]</li>
-										<li>[COMMON OPERATION]</li>
-										<li>[COMMON OPERATION]</li>
-										<li>[COMMON OPERATION]</li>
+										<li><span class="operation-index">01</span><div><strong>配置 Slave Station Address</strong><p>APWR<br>ADO 0x0010<br>→ Configured Station Address</p></div></li>
+										<li><span class="operation-index">02</span><div><strong>記錄 AL Control</strong><p>0x0120<br>→ Control waveform</p></div></li>
+										<li><span class="operation-index">03</span><div><strong>記錄 AL Status</strong><p>0x0130<br>→ Status waveform</p></div></li>
+										<li><span class="operation-index">04</span><div><strong>讀取 Slave Identity</strong><p>APWR 0x0502<br>→ EEPROM Read<br>APRD 0x0508<br>→ EEPROM Data<br>0x0008 → Vendor ID<br>0x000A → Product Code</p></div></li>
 									</ul>
 								</div>
 
-								<div class="register-important-note" aria-label="Important note placeholder">
-									<header><span>[IMPORTANT NOTE TITLE]</span></header>
-									<p>[IMPORTANT NOTE BODY]</p>
+								<div class="register-important-note" aria-label="Address Space note">
+									<header><span>ADDRESS SPACE</span></header>
+									<p>ESC Register Address 與 SII EEPROM Word Address<br>屬於不同 address space。</p>
+									<ul>
+										<li><span>0x0502 / 0x0508</span><strong>→ ESC Register</strong></li>
+										<li><span>0x0008 / 0x000A</span><strong>→ SII EEPROM Word</strong></li>
+									</ul>
 								</div>
 							</aside>
 						</main>
