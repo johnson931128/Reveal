@@ -3835,14 +3835,16 @@ body {
 }
 
 .reveal .slides section.section-divider-slide {
-	--section-divider-bg: #EEF3F8;
-	--section-divider-bg-soft: #E3EDF7;
-	--section-divider-number: #4D86C4;
-	--section-divider-title: #143A63;
-	--section-divider-accent: #4D86DA;
-	--section-divider-secondary: #526A82;
-	--section-divider-summary: #425F79;
-	--section-divider-line: rgba(55, 113, 174, 0.2);
+	--section-divider-bg: #F3F8FA;
+	--section-divider-bg-soft: #E3F0F6;
+	--section-divider-number: #1687E8;
+	--section-divider-title: #123C62;
+	--section-divider-accent: #1687E8;
+	--section-divider-teal: #1AA69F;
+	--section-divider-highlight: #78D64B;
+	--section-divider-secondary: #2E7778;
+	--section-divider-summary: #416B72;
+	--section-divider-line: rgba(20, 135, 190, 0.22);
 	position: relative;
 	display: block;
 	width: 1600px;
@@ -3851,7 +3853,8 @@ body {
 	padding: 0;
 	overflow: hidden;
 	background:
-		linear-gradient(118deg, rgba(218, 230, 242, 0.82) 0%, rgba(237, 243, 248, 0.96) 37%, rgba(248, 250, 252, 0.98) 70%),
+		linear-gradient(135deg, rgba(22, 135, 232, 0.1) 0 13%, transparent 13% 100%),
+		linear-gradient(118deg, rgba(218, 237, 247, 0.92) 0%, rgba(237, 247, 248, 0.97) 39%, rgba(250, 252, 252, 0.99) 72%),
 		linear-gradient(180deg, var(--section-divider-bg-soft), var(--section-divider-bg));
 	color: var(--section-divider-title);
 }
@@ -3867,8 +3870,8 @@ body {
 	width: 720px;
 	height: 540px;
 	background-image:
-		linear-gradient(var(--section-divider-line) 1px, transparent 1px),
-		linear-gradient(90deg, var(--section-divider-line) 1px, transparent 1px);
+		linear-gradient(rgba(22, 135, 232, 0.16) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(26, 166, 159, 0.13) 1px, transparent 1px);
 	background-color: rgba(232, 242, 250, 0.1);
 	background-size: 40px 40px;
 	mask-image: linear-gradient(90deg, transparent, #000 22%, #000 88%, transparent);
@@ -3882,9 +3885,11 @@ body {
 	right: 54px;
 	width: 360px;
 	height: 190px;
-	border-top: 1px solid var(--section-divider-line);
-	border-right: 1px solid var(--section-divider-line);
-	background: linear-gradient(135deg, transparent 0 46%, rgba(210, 227, 242, 0.2) 46% 100%);
+	border-top: 1px solid rgba(22, 135, 232, 0.24);
+	border-right: 1px solid rgba(26, 166, 159, 0.24);
+	background:
+		linear-gradient(135deg, transparent 0 44%, rgba(26, 166, 159, 0.13) 44% 70%, transparent 70% 100%),
+		linear-gradient(135deg, transparent 0 64%, rgba(22, 135, 232, 0.12) 64% 100%);
 	clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
 	pointer-events: none;
 }
@@ -3896,7 +3901,7 @@ body {
 	left: -104px;
 	width: 202px;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, var(--section-divider-line));
+	background: linear-gradient(90deg, transparent, rgba(22, 135, 232, 0.2), rgba(26, 166, 159, 0.28));
 }
 
 .section-divider-corner::after {
@@ -3906,9 +3911,9 @@ body {
 	left: -108px;
 	width: 9px;
 	height: 9px;
-	border: 1px solid var(--section-divider-line);
+	border: 1px solid var(--section-divider-highlight);
 	border-radius: 50%;
-	background: var(--section-divider-bg);
+	background: var(--section-divider-highlight);
 }
 
 .section-divider-axis {
@@ -3927,7 +3932,7 @@ body {
 	left: -1px;
 	width: 1px;
 	height: 300px;
-	background: linear-gradient(180deg, var(--section-divider-accent), transparent);
+	background: linear-gradient(180deg, var(--section-divider-accent), var(--section-divider-teal) 56%, transparent);
 }
 
 .section-divider-axis-node {
@@ -3936,9 +3941,9 @@ body {
 	left: -5px;
 	width: 9px;
 	height: 9px;
-	border: 1px solid var(--section-divider-accent);
+	border: 1px solid var(--section-divider-highlight);
 	border-radius: 50%;
-	background: var(--section-divider-bg);
+	background: var(--section-divider-highlight);
 }
 
 .section-divider-content {
@@ -3989,7 +3994,7 @@ body {
 
 .section-divider-kicker {
 	margin: 0 0 18px;
-	color: var(--section-divider-accent);
+	color: var(--section-divider-teal);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 14px;
 	font-weight: 600;
@@ -4029,7 +4034,7 @@ body {
 	width: 260px;
 	height: 1px;
 	margin: 0;
-	background: linear-gradient(90deg, var(--section-divider-accent), var(--section-divider-line));
+	background: linear-gradient(90deg, var(--section-divider-accent), var(--section-divider-teal) 72%, var(--section-divider-highlight));
 }
 
 .section-divider-summary {
