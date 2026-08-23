@@ -1609,6 +1609,159 @@ body {
 	white-space: nowrap;
 }
 
+.reveal .slides section.technical-flow-slide {
+	position: relative;
+	display: block;
+	width: 1600px;
+	height: 900px;
+	min-height: 900px;
+	padding: 0;
+	overflow: hidden;
+	background:
+		linear-gradient(90deg, rgba(255, 255, 255, 0.82), rgba(247, 249, 251, 0.42)),
+		var(--bg);
+	color: var(--text-primary);
+}
+
+.reveal .slides section.report-stack > section.technical-flow-slide {
+	position: absolute;
+}
+
+.technical-flow-header {
+	position: absolute;
+	top: 64px;
+	left: 260px;
+	width: 1080px;
+	text-align: center;
+	z-index: 3;
+}
+
+.technical-flow-title {
+	margin: 0;
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 52px;
+	font-weight: 700;
+	line-height: 1.12;
+	letter-spacing: 0.018em;
+	text-shadow: none;
+	text-transform: none;
+}
+
+.technical-flow-title-rule {
+	display: block;
+	width: 320px;
+	height: 1px;
+	margin: 18px auto 0;
+	background: linear-gradient(90deg, transparent, var(--line) 16%, var(--line) 84%, transparent);
+}
+
+.technical-flow {
+	position: absolute;
+	top: 267px;
+	left: 110px;
+	width: 1380px;
+	height: 350px;
+	z-index: 3;
+}
+
+.technical-flow-level {
+	position: absolute;
+	top: 0;
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	line-height: 1;
+}
+
+.technical-flow-level-input {
+	left: 0;
+}
+
+.technical-flow-level-output {
+	right: 0;
+}
+
+.technical-flow-axis {
+	position: absolute;
+	top: 154px;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: rgba(103, 147, 192, 0.58);
+}
+
+.technical-flow-stages {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	width: 100%;
+	height: 260px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.technical-flow-stage {
+	position: relative;
+	min-width: 0;
+	height: 260px;
+	padding: 0 8px;
+	text-align: center;
+}
+
+.technical-flow-step {
+	display: block;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 20px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+}
+
+.technical-flow-label {
+	display: block;
+	margin-top: 12px;
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.18em;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.technical-flow-node {
+	position: absolute;
+	top: 112px;
+	left: 50%;
+	display: block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--accent);
+	transform: translateX(-50%);
+}
+
+.technical-flow-name {
+	position: absolute;
+	top: 170px;
+	left: 8px;
+	right: 8px;
+	display: block;
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 21px;
+	font-weight: 500;
+	line-height: 1.3;
+	letter-spacing: 0;
+}
+
 .reveal .slides section.spec-slide {
 	position: relative;
 	display: block;
