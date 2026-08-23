@@ -515,6 +515,9 @@ body {
 	top: 28px;
 	left: 21px;
 	right: 21px;
+	display: flex;
+	align-items: baseline;
+	column-gap: 18px;
 	min-height: 180px;
 	padding: 28px 20px 24px;
 	border-top: 1px solid rgba(103, 147, 192, 0.34);
@@ -549,7 +552,7 @@ body {
 }
 
 .week-topic {
-	margin: 17px 0 0;
+	margin: 0;
 	color: var(--text-primary);
 	font-family: var(--font-sans);
 	font-size: 34px;
