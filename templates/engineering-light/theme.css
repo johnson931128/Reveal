@@ -257,19 +257,6 @@ body {
 	background: linear-gradient(90deg, var(--accent-soft), rgba(155, 188, 225, 0.7));
 }
 
-.slide-footer::after {
-	content: "";
-	position: absolute;
-	top: -27px;
-	right: 0;
-	width: 300px;
-	height: 27px;
-	border-top: 1px solid var(--accent-soft);
-	border-left: 1px solid var(--accent-soft);
-	transform: skewX(-40deg);
-	transform-origin: right bottom;
-}
-
 .footer-corner {
 	position: absolute;
 	top: 0;
