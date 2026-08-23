@@ -1677,12 +1677,12 @@ body {
 }
 
 .technical-flow-level-input {
-	left: 8.333333%;
+	left: calc(100% / 12);
 	transform: translateX(-50%);
 }
 
 .technical-flow-level-output {
-	left: 91.666667%;
+	left: calc(100% - (100% / 12));
 	right: auto;
 	transform: translateX(-50%);
 }
@@ -1690,8 +1690,8 @@ body {
 .technical-flow-axis {
 	position: absolute;
 	top: 154px;
-	left: 8.333333%;
-	right: 8.333333%;
+	left: calc(100% / 12);
+	right: calc(100% / 12);
 	height: 1px;
 	background: rgba(103, 147, 192, 0.44);
 }
@@ -1741,14 +1741,14 @@ body {
 
 .technical-flow-node {
 	position: absolute;
-	top: 112px;
+	top: 108px;
 	left: 50%;
 	display: block;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
 	background: var(--accent);
-	transform: translate(-50%, -50%);
+	transform: translateX(-50%);
 }
 
 .technical-flow-name {
