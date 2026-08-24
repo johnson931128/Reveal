@@ -308,6 +308,7 @@ body {
 }
 
 .page-rule {
+	display: none;
 	width: 117px;
 	height: 1px;
 	background: linear-gradient(90deg, transparent, var(--line));
