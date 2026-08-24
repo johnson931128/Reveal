@@ -5240,6 +5240,20 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	animation: command04-auto-focus 1200ms ease both;
 }
 
+.command-detail-auto .command-auto-slaves,
+.command-detail-auto .command-auto-slave {
+	background-image: none;
+	box-shadow: none;
+}
+
+.command-detail-auto .command-auto-slaves::before,
+.command-detail-auto .command-auto-slaves::after,
+.command-detail-auto .command-auto-slave::before,
+.command-detail-auto .command-auto-slave::after {
+	display: none !important;
+	content: none !important;
+}
+
 .command-detail-auto .command-auto-slave:nth-child(2) {
 	animation-delay: 300ms;
 }
