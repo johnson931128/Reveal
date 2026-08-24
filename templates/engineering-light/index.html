@@ -317,24 +317,21 @@
 								<article class="command-addressing-detail-state command-detail-auto" data-detail-state="3">
 									<div class="command-auto-visual">
 										<div class="command-auto-master">Master</div>
-										<code class="command-auto-command">APRD / APWR / APRW</code>
 										<div class="command-auto-slaves" aria-label="Auto Increment outgoing ADP topology mapping">
 											<div class="command-auto-slave"><strong>Slave 1</strong><code>Outgoing ADP: 0x0000</code><span>Signed: 0</span><small>Topology Position: 1</small></div>
 											<div class="command-auto-slave"><strong>Slave 2</strong><code>Outgoing ADP: 0xFFFF</code><span>Signed: -1</span><small>Topology Position: 2</small></div>
 											<div class="command-auto-slave"><strong>Slave 3</strong><code>Outgoing ADP: 0xFFFE</code><span>Signed: -2</span><small>Topology Position: 3</small></div>
 										</div>
 									</div>
-									<table class="command-flow-table command-auto-table">
-										<caption class="sr-only">Auto Increment addressing fields</caption>
-										<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
-										<tbody><tr><td><code>ADP</code></td><td>Auto Increment Address；Master 可使用 0、-1、-2... 的 outgoing ADP 依拓樸位置指定 Slave</td></tr><tr><td><code>ADO</code></td><td>ESC Register Offset，用來指定 Slave 內要操作的 ESC 位址</td></tr></tbody>
-									</table>
 									<table class="command-flow-table command-auto-mapping-table">
 										<caption class="sr-only">Outgoing Auto Increment Address mapping</caption>
-										<thead><tr><th>Outgoing ADP</th><th>Signed Value</th><th>Topology Position</th></tr></thead>
+										<thead><tr><th>Outgoing ADP</th><th>Signed Value</th><th>命中的拓樸位置</th></tr></thead>
 										<tbody><tr><td><code>0x0000</code></td><td>0</td><td>Slave 1</td></tr><tr><td><code>0xFFFF</code></td><td>-1</td><td>Slave 2</td></tr><tr><td><code>0xFFFE</code></td><td>-2</td><td>Slave 3</td></tr></tbody>
 									</table>
-									<p class="command-flow-explanation">Auto Increment Command 用於依實體鏈路位置逐站存取 Slave。Master 可在 outgoing Datagram 中使用 0x0000、0xFFFF、0xFFFE 等 Auto Increment Address，分別表示 0、-1、-2，對應第 1、2、3 個拓樸位置。封包經過 Slave 時，Auto Increment Address 會依協定規則更新；Slave 在 Address 命中自身時執行該 Datagram 操作，因此 Analyzer 可以利用 outgoing ADP 重建 topology position。</p>
+									<div class="command-auto-notes">
+										<p>Master 以 outgoing ADP = 0、-1、-2… 逐站指定 Slave。</p>
+										<p>ADO 是目標 ESC Register Offset，命中的 Slave 會執行該 Datagram。</p>
+									</div>
 								</article>
 
 								<article class="command-addressing-detail-state command-detail-configured" data-detail-state="4">
@@ -358,10 +355,6 @@
 									<p class="command-flow-explanation">取得 Configured Station Address 後，Master 可使用 Fixed Position Command 直接指定特定 Slave。此時 ADP 表示 Configured Station Address，ADO 則表示該 Slave ESC 內要讀寫的 Register Offset，因此同一套 FPRD / FPWR / FPRW 操作可以用來存取指定 Slave 的不同 ESC Register。</p>
 								</article>
 							</div>
-							<span class="command-addressing-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
-							<span class="command-addressing-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
-							<span class="command-addressing-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
-							<span class="command-addressing-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -393,39 +386,28 @@
 						</header>
 
 						<main class="eeprom-read-layout" aria-label="SII EEPROM Read workflow and address mapping">
-							<div class="eeprom-read-steps" aria-labelledby="eeprom-steps-title">
-								<h2 id="eeprom-steps-title">SII EEPROM Read 操作步驟</h2>
+							<div class="eeprom-read-steps" aria-label="SII EEPROM Read 操作步驟">
 								<ol class="eeprom-step-list">
 									<li class="eeprom-step-item">
 										<span class="eeprom-step-number">01</span>
-										<div><h3>檢查 EEPROM 狀態</h3><p>讀取 ESC Register 0x0502~0x0503，確認 EEPROM Interface 不處於 Busy 狀態，並確認沒有 Error，才能繼續 EEPROM 存取。</p><code>ESC Register · 0x0502~0x0503 · EEPROM Control / Status Register</code></div>
+										<div><h3>檢查 EEPROM 狀態</h3><ul><li>讀取 ESC Register <code>0x0502~0x0503</code></li><li>確認 Busy 清除且沒有 Error</li></ul></div>
 									</li>
 									<li class="eeprom-step-item">
 										<span class="eeprom-step-number">02</span>
-										<div><h3>指定 SII Word Address</h3><p>將欲讀取的 SII EEPROM Word Address 寫入 ESC EEPROM Address Register 0x0504~0x0507。<span class="eeprom-step-example">0x0008 → Vendor ID 起始 Word；0x000A → Product Code 起始 Word</span></p><code>ESC Register · 0x0504~0x0507 · EEPROM Address Register</code></div>
+										<div><h3>指定 SII Word Address</h3><ul><li>寫入 ESC Register <code>0x0504~0x0507</code></li><li><code>0x0008</code> = Vendor ID，<code>0x000A</code> = Product Code 起始 Word</li></ul></div>
 									</li>
 									<li class="eeprom-step-item">
 										<span class="eeprom-step-number">03</span>
-										<div><h3>送出 EEPROM Read Command</h3><p>透過 EEPROM Control / Status Register 的 Command 欄位送出 Read Command，要求 ESC 開始讀取前一步指定的 SII EEPROM Word。</p><code>0x0502[10:8] · Read Command = 001</code></div>
+										<div><h3>送出 EEPROM Read Command</h3><ul><li>在 <code>0x0502~0x0503</code> 的 Control / Status 欄位送出 Read Command</li></ul></div>
 									</li>
 									<li class="eeprom-step-item">
 										<span class="eeprom-step-number">04</span>
-										<div><h3>等待 EEPROM Read 完成</h3><p>再次檢查 EEPROM Control / Status Register，等待 Busy 清除，並確認沒有 EEPROM Error。</p><code>0x0502 · Busy / Error Status</code></div>
-									</li>
-									<li class="eeprom-step-item">
-										<span class="eeprom-step-number">05</span>
-										<div><h3>讀取 EEPROM Data</h3><p>EEPROM Read 完成後，對 ESC EEPROM Data Register 讀取資料。Master 可使用 APRD，ADO = 0x0508，取得先前指定 SII Word 對應的 EEPROM Data。</p><code>ESC Register · 0x0508~0x050F · EEPROM Data Register</code></div>
+										<div><h3>讀取 EEPROM Data</h3><ul><li>以 APRD 讀取 <code>ADO = 0x0508</code></li><li>依前面指定的 SII Word Address 解讀資料內容</li></ul></div>
 									</li>
 								</ol>
-								<p class="eeprom-capture-note">實際 Capture 中，Master 的 APWR 可由 ADO 0x0502 開始，一個 payload 同時涵蓋 EEPROM Control / Status 與 0x0504~0x0507 EEPROM Address；之後再以 APRD 讀取 ADO 0x0508 的 EEPROM Data。因此這 5 個步驟是操作邏輯，不代表每一步一定對應獨立的一個 EtherCAT Datagram。</p>
 							</div>
 
-							<div class="eeprom-address-reference" aria-labelledby="eeprom-address-title">
-								<h2 id="eeprom-address-title">ESC Register 與 SII EEPROM Word Address 對照表</h2>
-								<div class="eeprom-address-definitions">
-									<p><strong>ESC Register Address</strong><span>How Master accesses the EEPROM interface</span></p>
-									<p><strong>SII EEPROM Word Address</strong><span>Where Slave information is stored</span></p>
-								</div>
+							<div class="eeprom-address-reference" aria-label="ESC Register 與 SII EEPROM Word Address 對照表">
 								<table class="eeprom-address-table">
 									<thead><tr><th>Address Space</th><th>Address</th><th>Meaning</th></tr></thead>
 									<tbody>
@@ -436,8 +418,8 @@
 										<tr><td>SII EEPROM Word</td><td><code>0x000A~0x000B</code></td><td>Product Code</td></tr>
 									</tbody>
 								</table>
-								<p class="eeprom-address-key"><code>0x0502 / 0x0504 / 0x0508</code> 是 ESC Register Address；<br><code>0x0008 / 0x000A</code> 是 SII EEPROM Word Address。</p>
 							</div>
+							<p class="eeprom-address-key"><code>0x0502 / 0x0504 / 0x0508</code> 是 Master 操作的 ESC Register；<code>0x0008 / 0x000A</code> 是實際要讀取的 SII EEPROM Word。</p>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -998,7 +980,7 @@
 				const applyCommandAddressingState = (slide, state) => {
 					if (!isCommandAddressingSlide(slide)) return;
 
-					const commandAddressingState = isPrintMode() ? 1 : Math.max(1, Math.min(5, state));
+					const commandAddressingState = isPrintMode() ? 3 : Math.max(1, Math.min(5, state));
 					slide.dataset.commandAddressingState = commandAddressingState;
 					slide.querySelectorAll('.command-addressing-item').forEach(item => {
 						item.setAttribute('aria-pressed', String(commandAddressingState !== 1 && Number(item.dataset.commandState) === commandAddressingState));
@@ -1031,13 +1013,13 @@
 						applyProblemGoalState(slide, 3);
 					});
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
-						applyCommandAddressingState(slide, 1);
+						applyCommandAddressingState(slide, 3);
 					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
-					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
+					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 3);
 				}
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1063,7 +1045,7 @@
 					}
 					if (isCommandAddressingSlide(event.currentSlide)) {
 						resetInteractiveSlide(event.currentSlide);
-						applyCommandAddressingState(event.currentSlide, 1);
+						applyCommandAddressingState(event.currentSlide, 3);
 					}
 				});
 

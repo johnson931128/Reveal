@@ -5186,11 +5186,11 @@ html.print-pdf .command-addressing-slide .command-addressing-detail-state {
 	transform: none !important;
 }
 
-html.print-pdf .command-addressing-slide .command-addressing-detail-state[data-detail-state="1"] {
+html.print-pdf .command-addressing-slide .command-addressing-detail-state[data-detail-state="3"] {
 	display: block !important;
 }
 
-html.print-pdf .command-addressing-slide .command-addressing-detail-state:not([data-detail-state="1"]) {
+html.print-pdf .command-addressing-slide .command-addressing-detail-state:not([data-detail-state="3"]) {
 	display: none !important;
 }
 
@@ -5200,40 +5200,51 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	transform: none !important;
 }
 
-/* Page 04 Auto Increment: independent topology blocks, without a route line. */
+/* Page 04 Auto Increment: concise topology mapping. */
 .command-detail-auto .command-auto-visual {
-	height: 166px;
-	margin-top: 0;
+	display: grid;
+	grid-template-rows: 56px minmax(0, 1fr);
+	height: 228px;
+	margin: 0;
+	border: 1px solid rgba(103, 147, 192, 0.34);
+	background: rgba(255, 255, 255, 0.18);
+	box-sizing: border-box;
+}
+
+.command-detail-auto .command-auto-master {
+	position: static;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 56px;
+	padding: 0 20px;
+	border: 0;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.3);
+	background: rgba(227, 237, 248, 0.46);
+	box-sizing: border-box;
+	color: var(--text-primary);
+	font-size: 24px;
+	font-weight: 650;
 }
 
 .command-detail-auto .command-auto-slaves {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	position: static;
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 18px;
+	padding: 18px 20px 20px;
+	box-sizing: border-box;
 }
 
 .command-detail-auto .command-auto-slave {
 	display: flex;
 	min-width: 0;
-	min-height: 116px;
-	padding: 12px 14px 11px;
+	padding: 14px 16px;
 	flex-direction: column;
 	justify-content: center;
-	border: 1px solid rgba(103, 147, 192, 0.42);
-	background: rgba(255, 255, 255, 0.24);
-	opacity: 0.82;
+	border: 1px solid rgba(103, 147, 192, 0.4);
+	background: rgba(255, 255, 255, 0.28);
 	box-sizing: border-box;
-	animation: command04-auto-focus 1200ms ease both;
-}
-
-.command-detail-auto .command-auto-slaves,
-.command-detail-auto .command-auto-slave {
-	background-image: none;
-	box-shadow: none;
 }
 
 .command-detail-auto .command-auto-slaves::before,
@@ -5244,18 +5255,10 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	content: none !important;
 }
 
-.command-detail-auto .command-auto-slave:nth-child(2) {
-	animation-delay: 300ms;
-}
-
-.command-detail-auto .command-auto-slave:nth-child(3) {
-	animation-delay: 600ms;
-}
-
 .command-detail-auto .command-auto-slave strong {
 	color: var(--text-primary);
-	font-size: 20px;
-	font-weight: 600;
+	font-size: 22px;
+	font-weight: 650;
 	line-height: 1.2;
 }
 
@@ -5264,83 +5267,70 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	margin-top: 9px;
 	color: var(--accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 16px;
-	font-weight: 600;
+	font-size: 17px;
+	font-weight: 650;
 	line-height: 1.2;
 	white-space: nowrap;
 }
 
-.command-detail-auto .command-auto-slave span {
-	display: block;
-	margin-top: 7px;
-	color: var(--text-primary);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 16px;
-	line-height: 1.2;
-}
-
+.command-detail-auto .command-auto-slave span,
 .command-detail-auto .command-auto-slave small {
 	display: block;
 	margin-top: 6px;
 	color: var(--text-secondary);
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 1.2;
 }
 
-.command-detail-auto .command-auto-table th:first-child,
-.command-detail-auto .command-auto-table td:first-child {
-	width: 18%;
-}
-
-.command-detail-auto .command-auto-table td:first-child code,
-.command-detail-auto .command-auto-mapping-table td:first-child code {
-	white-space: nowrap;
-}
-
 .command-detail-auto .command-auto-mapping-table {
-	margin-top: 10px;
+	margin-top: 22px;
+	font-size: 19px;
+}
+
+.command-detail-auto .command-auto-mapping-table th,
+.command-detail-auto .command-auto-mapping-table td {
+	padding: 13px 16px;
+}
+
+.command-detail-auto .command-auto-mapping-table th {
+	font-size: 16px;
 }
 
 .command-detail-auto .command-auto-mapping-table th:nth-child(1),
 .command-detail-auto .command-auto-mapping-table td:nth-child(1) {
-	width: 29%;
+	width: 31%;
 }
 
 .command-detail-auto .command-auto-mapping-table th:nth-child(2),
 .command-detail-auto .command-auto-mapping-table td:nth-child(2) {
-	width: 24%;
+	width: 25%;
 }
 
 .command-detail-auto .command-auto-mapping-table th:nth-child(3),
 .command-detail-auto .command-auto-mapping-table td:nth-child(3) {
-	width: 47%;
+	width: 44%;
 }
 
-.command-detail-auto .command-flow-explanation {
-	margin-top: 18px;
-	font-size: 17px;
-	line-height: 1.32;
+.command-detail-auto .command-auto-mapping-table td:first-child code {
+	white-space: nowrap;
 }
 
-@keyframes command04-auto-focus {
-	0%, 8%, 100% {
-		border-color: rgba(103, 147, 192, 0.42);
-		background: rgba(255, 255, 255, 0.24);
-		opacity: 0.82;
-	}
-	18%, 36% {
-		border-color: var(--accent);
-		background: rgba(103, 147, 192, 0.14);
-		opacity: 1;
-	}
+.command-auto-notes {
+	margin-top: 20px;
+	color: var(--text-primary);
+	font-size: 19px;
+	line-height: 1.35;
 }
 
-html.print-pdf .command-detail-auto .command-auto-slave {
-	animation: none !important;
-	opacity: 1 !important;
+.command-auto-notes p {
+	margin: 0;
 }
 
-/* Page 05: static SII EEPROM read workflow and address reference. */
+.command-auto-notes p + p {
+	margin-top: 8px;
+}
+
+/* Page 05: concise SII EEPROM read workflow and address table. */
 .reveal .slides section.eeprom-read-slide {
 	position: relative;
 	display: block;
@@ -5374,13 +5364,15 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 
 .eeprom-read-layout {
 	position: absolute;
-	top: 148px;
+	top: 158px;
 	left: 92px;
 	display: grid;
-	grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
-	column-gap: 44px;
+	grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+	grid-template-rows: minmax(0, 1fr) auto;
+	column-gap: 48px;
+	row-gap: 24px;
 	width: 1416px;
-	height: 602px;
+	height: 582px;
 	z-index: 3;
 }
 
@@ -5388,52 +5380,35 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 .eeprom-address-reference {
 	box-sizing: border-box;
 	min-width: 0;
-	height: 100%;
 }
 
 .eeprom-read-steps {
-	padding-right: 32px;
-	border-right: 1px solid rgba(103, 147, 192, 0.38);
-}
-
-.eeprom-read-steps h2,
-.eeprom-address-reference h2 {
-	margin: 0;
-	color: var(--text-primary);
-	font-size: 23px;
-	font-weight: 600;
-	line-height: 1.2;
-}
-
-.eeprom-read-steps h2::after,
-.eeprom-address-reference h2::after {
-	content: "";
-	display: block;
-	width: 42px;
-	height: 2px;
-	margin-top: 9px;
-	background: var(--accent);
+	padding-right: 26px;
 }
 
 .eeprom-step-list {
-	margin: 9px 0 0;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 .eeprom-step-item {
 	display: grid;
-	grid-template-columns: 46px minmax(0, 1fr);
-	column-gap: 14px;
-	padding: 7px 0 8px;
-	border-bottom: 1px solid rgba(103, 147, 192, 0.2);
+	grid-template-columns: 52px minmax(0, 1fr);
+	column-gap: 16px;
+	padding: 18px 0 19px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.24);
+}
+
+.eeprom-step-item:first-child {
+	padding-top: 4px;
 }
 
 .eeprom-step-number {
 	padding-top: 1px;
 	color: var(--accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 18px;
+	font-size: 21px;
 	font-weight: 700;
 	letter-spacing: 0.04em;
 }
@@ -5441,101 +5416,63 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 .eeprom-step-item h3 {
 	margin: 0;
 	color: var(--text-primary);
-	font-size: 18px;
+	font-size: 23px;
 	font-weight: 650;
 	line-height: 1.2;
 }
 
-.eeprom-step-item p {
-	margin: 3px 0 4px;
+.eeprom-step-item ul {
+	margin: 9px 0 0;
+	padding: 0;
+	list-style: none;
 	color: var(--text-secondary);
-	font-size: 15.5px;
-	line-height: 1.32;
+	font-size: 18px;
+	line-height: 1.42;
 }
 
-.eeprom-step-example {
-	display: block;
-	margin-top: 1px;
-	color: var(--text-primary);
-	font-size: 14.5px;
+.eeprom-step-item li {
+	position: relative;
+	padding-left: 16px;
+}
+
+.eeprom-step-item li::before {
+	content: "-";
+	position: absolute;
+	left: 0;
+	color: var(--accent);
 }
 
 .eeprom-step-item code,
 .eeprom-address-table code,
 .eeprom-address-key code {
-	font-family: Consolas, "Cascadia Mono", monospace;
-}
-
-.eeprom-step-item code {
-	display: block;
 	color: var(--accent);
-	font-size: 13.5px;
-	font-weight: 700;
-	line-height: 1.2;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-weight: 650;
 	white-space: nowrap;
 }
 
-.eeprom-capture-note {
-	margin: 10px 0 0 60px;
-	color: var(--text-secondary);
-	font-size: 13.5px;
-	line-height: 1.38;
+.eeprom-step-item code {
+	font-size: 17px;
 }
 
 .eeprom-address-reference {
-	padding: 0 0 0 2px;
-}
-
-.eeprom-address-reference h2 {
-	max-width: 540px;
-	font-size: 22px;
-}
-
-.eeprom-address-definitions {
-	display: grid;
-	grid-template-columns: 1fr;
-	row-gap: 6px;
-	margin-top: 18px;
-	padding: 12px 14px;
-	border: 1px solid rgba(103, 147, 192, 0.28);
-	background: rgba(237, 244, 251, 0.48);
-}
-
-.eeprom-address-definitions p {
-	display: grid;
-	grid-template-columns: 210px minmax(0, 1fr);
-	column-gap: 12px;
-	margin: 0;
-}
-
-.eeprom-address-definitions strong {
-	color: var(--text-primary);
-	font-size: 14px;
-	font-weight: 650;
-	line-height: 1.3;
-}
-
-.eeprom-address-definitions span {
-	color: var(--text-secondary);
-	font-size: 13px;
-	line-height: 1.3;
+	padding-top: 4px;
 }
 
 .eeprom-address-table {
 	width: 100%;
-	margin-top: 18px;
 	border-collapse: collapse;
 	table-layout: fixed;
 	color: var(--text-primary);
-	font-size: 14.5px;
-	line-height: 1.25;
+	font-size: 18px;
+	line-height: 1.3;
 }
 
 .eeprom-address-table th,
 .eeprom-address-table td {
 	box-sizing: border-box;
-	padding: 12px 10px;
-	border-bottom: 1px solid rgba(103, 147, 192, 0.26);
+	padding: 17px 14px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.28);
 	text-align: left;
 	vertical-align: middle;
 }
@@ -5543,9 +5480,9 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 .eeprom-address-table th {
 	background: rgba(227, 237, 248, 0.6);
 	color: var(--text-secondary);
-	font-size: 12.5px;
+	font-size: 15px;
 	font-weight: 650;
-	letter-spacing: 0.035em;
+	letter-spacing: 0.025em;
 }
 
 .eeprom-address-table th:nth-child(1),
@@ -5565,15 +5502,12 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 
 .eeprom-address-table td:first-child {
 	color: var(--text-secondary);
-	font-size: 13.5px;
+	font-size: 17px;
 	font-weight: 600;
 }
 
 .eeprom-address-table code {
-	color: var(--accent);
-	font-size: 13.5px;
-	font-weight: 700;
-	white-space: nowrap;
+	font-size: 17px;
 }
 
 .eeprom-address-table .eeprom-address-group-start td {
@@ -5581,17 +5515,17 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 }
 
 .eeprom-address-key {
-	margin: 20px 0 0;
-	padding-top: 14px;
+	grid-column: 1 / -1;
+	margin: 0;
+	padding-top: 18px;
 	border-top: 1px solid rgba(103, 147, 192, 0.34);
 	color: var(--text-primary);
-	font-size: 15px;
+	font-size: 19px;
 	font-weight: 600;
-	line-height: 1.55;
+	line-height: 1.4;
+	text-align: center;
 }
 
 .eeprom-address-key code {
-	color: var(--accent);
-	font-size: 15px;
-	font-weight: 700;
+	font-size: 18px;
 }
