@@ -991,78 +991,62 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="syncmanager-state" data-syncmanager-panel="1">
-								<div class="syncmanager-definition">
-									<p>SyncManager 是 ESC 內用來管理 EtherCAT Side 與 PDI Side 對 Local RAM 存取的硬體單元。</p>
-									<p>每個 SyncManager 會指定一段 ESC Local RAM，透過 Start Address、Length、Direction、Operation Mode 與 Activate 等設定，控制該記憶體區域如何被 EtherCAT Master 與 Slave Application 存取。</p>
+								<div class="syncmanager-copy">
+									<p><strong>SyncManager</strong> 是 EtherCAT Slave Controller（ESC）內的硬體資料交換控制機制。它的主要工作不是定義 PDO 內容，而是管理 EtherCAT Master（<strong>ECAT Side</strong>）與 Slave Application（<strong>PDI Side</strong>）如何存取 <strong>ESC Local RAM</strong>。</p>
+									<p>ET1100 提供 8 個獨立的 SyncManager Channel，也就是 <strong>SM0～SM7</strong>。每個 Channel 都可以指定一段 ESC Local RAM，並獨立設定該區域的起始位址、長度、資料方向、交換模式與啟用狀態。</p>
+									<p>如果沒有 SyncManager，Master 與 Slave Application 直接共享 RAM 時，需要自行處理資料一致性、存取同步與通知問題。SyncManager 將這些交換規則交由 ESC 硬體控制，使兩側能安全地交換 Mailbox 或 Process Data。</p>
 								</div>
-								<div class="syncmanager-control-layout">
-									<div class="syncmanager-esc-diagram" aria-label="SyncManager local RAM control diagram">
-										<div class="syncmanager-side-label">EtherCAT Master</div>
-										<div class="syncmanager-side-flow"><span>EtherCAT Side</span><b>↓</b></div>
-										<div class="syncmanager-esc-shell">
-											<strong>ESC</strong>
-											<div class="syncmanager-sm-block">
-												<strong>SyncManager</strong>
-												<div>Start Address</div><div>Length</div><div>Direction</div><div>Operation Mode</div><div>Activate</div>
-											</div>
-											<div class="syncmanager-local-ram"><span>ESC Local RAM</span><b>Managed RAM Buffer</b></div>
-										</div>
-										<div class="syncmanager-side-flow"><b>↑</b><span>PDI Side</span></div>
-										<div class="syncmanager-side-label">Slave Application</div>
+								<div class="syncmanager-concept-grid">
+									<div class="syncmanager-simple-diagram" aria-label="SyncManager channel and local RAM relationship">
+										<div>EtherCAT Master</div>
+										<div class="syncmanager-simple-link"><span>│</span><small>ECAT Side</small><span>▼</span></div>
+										<div class="syncmanager-simple-node">SyncManager Channel</div>
+										<div class="syncmanager-simple-link"><span>│</span><span>▼</span></div>
+										<div class="syncmanager-simple-node">ESC Local RAM Buffer</div>
+										<div class="syncmanager-simple-link"><span>▲</span><small>PDI Side</small><span>│</span></div>
+										<div>Slave Application</div>
 									</div>
-									<div class="syncmanager-settings">
-										<table class="syncmanager-settings-table">
-											<thead><tr><th>Field</th><th>Function</th></tr></thead>
-											<tbody>
-												<tr><th>Start Address</th><td>指定 Local RAM 起始位址</td></tr>
-												<tr><th>Length</th><td>指定資料區域長度</td></tr>
-												<tr><th>Direction</th><td>決定 EtherCAT / PDI 讀寫方向</td></tr>
-												<tr><th>Operation Mode</th><td>設定 Buffer / Mailbox 等行為</td></tr>
-												<tr><th>Activate</th><td>啟用 SyncManager channel</td></tr>
-											</tbody>
-										</table>
-										<p class="syncmanager-registers">SyncManager Register Area：<code>0x0800 ~ 0x087F</code><br><span>SM2 Register：<code>0x0810 ~ 0x0817</code></span><span>SM3 Register：<code>0x0818 ~ 0x081F</code></span></p>
-									</div>
+									<table class="syncmanager-meaning-table">
+										<thead><tr><th>Item</th><th>Meaning</th></tr></thead>
+										<tbody>
+											<tr><th>SyncManager Channels</th><td>ET1100 提供 SM0～SM7，共 8 個獨立 Channel</td></tr>
+											<tr><th>Physical Start Address</th><td>指定該 Channel 管理的 Local RAM 起始位址</td></tr>
+											<tr><th>Length</th><td>指定該 Local RAM Buffer 的資料長度</td></tr>
+											<tr><th>Direction</th><td>定義 ECAT Side 與 PDI Side 的讀寫方向</td></tr>
+											<tr><th>Operation Mode</th><td>Buffered Mode 或 Mailbox Mode</td></tr>
+											<tr><th>Activate</th><td>啟用或停用該 SyncManager Channel</td></tr>
+										</tbody>
+									</table>
 								</div>
-								<p class="syncmanager-note">SyncManager 不儲存 PDO Mapping 定義；它管理 PDO Process Data 實際使用的 ESC Local RAM 區域。</p>
+								<div class="syncmanager-register-copy">每個 SyncManager Channel 都有自己的 configuration register block。ET1100 的每個 Channel 使用 8 Bytes：<br><code>+0x0~1</code> Physical Start Address　 <code>+0x2~3</code> Length　 <code>+0x4</code> Control　 <code>+0x5</code> Status　 <code>+0x6</code> Activate　 <code>+0x7</code> PDI Control</div>
+								<div class="syncmanager-register-line"><code>SM0  0x0800~0x0807</code>　<code>SM1  0x0808~0x080F</code>　<code>SM2  0x0810~0x0817</code>　<code>SM3  0x0818~0x081F</code>　<code>...　SM7  0x0838~0x083F</code></div>
+								<p class="syncmanager-final-line">可以把 SyncManager Channel 理解成「一個管理特定 Local RAM Buffer 的硬體存取控制器」。</p>
 							</article>
 
 							<article class="syncmanager-state" data-syncmanager-panel="2">
-								<div class="syncmanager-path-layout">
-									<div class="syncmanager-path-flow">
-										<div class="syncmanager-path-node"><small>RxPDO Mapping</small><strong><code>0x1600</code></strong><span>RxPDO Mapping Object</span></div>
-										<div class="syncmanager-path-arrow">↓</div>
-										<div class="syncmanager-path-node"><small>PDO Assignment</small><strong><code>0x1C12</code></strong><span>Entry 01 = <code>0x1600</code></span></div>
-										<div class="syncmanager-path-arrow">↓</div>
-										<div class="syncmanager-path-node syncmanager-path-emphasis"><small>SyncManager 2</small><strong>SM2</strong><span><code>0x1180 ~ 0x1181</code></span></div>
-									</div>
-									<div class="syncmanager-path-details">
-										<table class="syncmanager-entry-table"><thead><tr><th colspan="3"><code>0x1600</code> Active Entries: 1</th></tr></thead><tbody><tr><th>Entry 01</th><td><code>0x6042:00</code></td><td>16 bits</td></tr><tr><th>Total</th><td colspan="2">16 bits / 2 bytes</td></tr></tbody></table>
-										<div class="syncmanager-sm-summary"><strong>SM2</strong><span>Physical Start Address: <code>0x1180</code></span><span>Length: 2 bytes</span><span>Direction: ECAT Write / PDI Read</span><span>Enabled: Yes</span></div>
-										<div class="syncmanager-direction"><span>EtherCAT Master</span><b>↓ Write</b><span>SM2 Managed Local RAM</span><b>↓ Read</b><span>Slave Application / PDI</span></div>
-									</div>
+								<div class="syncmanager-copy syncmanager-path-copy">
+									<p><strong><code>0x1C12</code></strong> 是 RxPDO Assignment Object。它的作用是指定目前哪些 RxPDO Mapping Object 被分配使用。</p>
+									<p>本次 Capture 中：<br><code>0x1C12:01 = 0x1600</code><br>因此目前有效的 RxPDO Mapping 為 <strong><code>0x1600</code></strong>。</p>
+									<p><code>0x1600</code> 的有效 Mapping 內容總長度為 16 bits，也就是 2 bytes。Analyzer 同時重建到 SM2 的 Length 為 2 bytes，Physical Start Address 為 <code>0x1180</code>，因此可以看到 RxPDO Process Data 與 SM2 管理的 Local RAM Buffer 長度一致。</p>
 								</div>
-								<p class="syncmanager-capture-note">本次 Capture 中，<code>0x1C12</code> 指定 <code>0x1600</code> 作為有效 RxPDO Mapping；其 2-byte Process Data 對應至 SM2 管理的 Local RAM 區域。</p>
-								<p class="syncmanager-quiet-note"><code>0x1C12</code> → Object Dictionary&nbsp;&nbsp;&nbsp;&nbsp;SM2 → ESC SyncManager Channel</p>
+								<table class="syncmanager-capture-table"><thead><tr><th>項目</th><th>本次 Capture</th></tr></thead><tbody>
+									<tr><th>PDO Mapping</th><td><code>0x1600</code></td></tr><tr><th>Assignment Object</th><td><code>0x1C12</code></td></tr><tr><th>Assignment Entry</th><td><code>0x1600</code></td></tr><tr><th>PDO Length</th><td>2 bytes</td></tr><tr><th>SyncManager Channel</th><td><strong>SM2</strong></td></tr><tr><th>Local RAM Start</th><td><code>0x1180</code></td></tr><tr><th>Local RAM Range</th><td><code>0x1180~0x1181</code></td></tr><tr><th>SM Length</th><td>2 bytes</td></tr><tr><th>Direction</th><td>ECAT Write / PDI Read</td></tr><tr><th>Enabled</th><td>Yes</td></tr>
+								</tbody></table>
+								<div class="syncmanager-relation-line"><span><code>0x1600</code><small>RxPDO Mapping</small></span><b>│<br>▼</b><span><code>0x1C12</code><small>指定使用 0x1600</small></span><b>│<br>▼</b><span><strong>SM2</strong><small>管理 0x1180~0x1181 Local RAM</small></span></div>
+								<div class="syncmanager-explanation"><p>這裡不是「<code>0x1C12 = SM2</code>」。</p><p><code>0x1C12</code> 是 Object Dictionary 中的 PDO Assignment Object；SM2 是 ESC 內的 SyncManager hardware channel。</p><p>兩者的關係是：<code>0x1C12</code> 指定哪些 RxPDO Mapping 被使用，而 SM2 管理這批 RxPDO Process Data 實際交換所使用的 Local RAM Buffer。</p><p>SM2 的 Direction 為 ECAT Write / PDI Read，表示 EtherCAT Master 從 ECAT Side 寫入資料，Slave Application 再從 PDI Side 讀取，因此符合本次 RxPDO 的 Master → Slave 資料方向。</p></div>
 							</article>
 
 							<article class="syncmanager-state" data-syncmanager-panel="3">
-								<div class="syncmanager-path-layout">
-									<div class="syncmanager-path-flow">
-										<div class="syncmanager-path-node"><small>TxPDO Mapping</small><strong><code>0x1A00</code></strong><span>TxPDO Mapping Object</span></div>
-										<div class="syncmanager-path-arrow">↓</div>
-										<div class="syncmanager-path-node"><small>PDO Assignment</small><strong><code>0x1C13</code></strong><span>Entry 01 = <code>0x1A00</code></span></div>
-										<div class="syncmanager-path-arrow">↓</div>
-										<div class="syncmanager-path-node syncmanager-path-emphasis"><small>SyncManager 3</small><strong>SM3</strong><span><code>0x1480 ~ 0x1489</code></span></div>
-									</div>
-									<div class="syncmanager-path-details">
-										<table class="syncmanager-entry-table"><thead><tr><th colspan="3"><code>0x1A00</code> Mapping Entries: 5</th></tr></thead><tbody><tr><th>01</th><td><code>0x6041:00</code></td><td>16 bits</td></tr><tr><th>02</th><td><code>0x6043:00</code></td><td>16 bits</td></tr><tr><th>03</th><td><code>0x3022:11</code></td><td>16 bits</td></tr><tr><th>04</th><td><code>0x3021:0C</code></td><td>16 bits</td></tr><tr><th>05</th><td><code>0x3021:02</code></td><td>16 bits</td></tr><tr><th>Total</th><td colspan="2">80 bits / 10 bytes</td></tr></tbody></table>
-										<div class="syncmanager-sm-summary"><strong>SM3</strong><span>Physical Start Address: <code>0x1480</code></span><span>Length: 10 bytes</span><span>Direction: ECAT Read / PDI Write</span><span>Enabled: Yes</span></div>
-										<div class="syncmanager-direction"><span>Slave Application / PDI</span><b>↓ Write</b><span>SM3 Managed Local RAM</span><b>↓ Read</b><span>EtherCAT Master</span></div>
-									</div>
+								<div class="syncmanager-copy syncmanager-path-copy">
+									<p><strong><code>0x1C13</code></strong> 是 TxPDO Assignment Object。它指定目前哪些 TxPDO Mapping Object 被分配使用。</p>
+									<p>本次 Capture 中：<br><code>0x1C13:01 = 0x1A00</code><br>因此目前有效的 TxPDO Mapping 為 <strong><code>0x1A00</code></strong>。</p>
+									<p><code>0x1A00</code> 共有 5 個有效 Mapping Entry，每個 Entry 為 16 bits，總長度為 80 bits，也就是 10 bytes。Analyzer 同時重建到 SM3 的 Length 為 10 bytes，Physical Start Address 為 <code>0x1480</code>，因此 TxPDO Process Data 長度與 SM3 管理的 Local RAM Buffer 長度一致。</p>
 								</div>
-								<p class="syncmanager-capture-note">本次 Capture 中，<code>0x1C13</code> 指定 <code>0x1A00</code> 作為有效 TxPDO Mapping；其 10-byte Process Data 對應至 SM3 管理的 Local RAM 區域。</p>
-								<p class="syncmanager-quiet-note"><code>0x1C13</code> → Object Dictionary&nbsp;&nbsp;&nbsp;&nbsp;SM3 → ESC SyncManager Channel</p>
+								<div class="syncmanager-path-tx-grid"><table class="syncmanager-capture-table"><thead><tr><th>項目</th><th>本次 Capture</th></tr></thead><tbody>
+									<tr><th>PDO Mapping</th><td><code>0x1A00</code></td></tr><tr><th>Assignment Object</th><td><code>0x1C13</code></td></tr><tr><th>Assignment Entry</th><td><code>0x1A00</code></td></tr><tr><th>Active Entries</th><td>5</td></tr><tr><th>PDO Length</th><td>10 bytes</td></tr><tr><th>SyncManager Channel</th><td><strong>SM3</strong></td></tr><tr><th>Local RAM Start</th><td><code>0x1480</code></td></tr><tr><th>Local RAM Range</th><td><code>0x1480~0x1489</code></td></tr><tr><th>SM Length</th><td>10 bytes</td></tr><tr><th>Direction</th><td>ECAT Read / PDI Write</td></tr><tr><th>Enabled</th><td>Yes</td></tr>
+								</tbody></table></div>
+								<div class="syncmanager-relation-line"><span><code>0x1A00</code><small>TxPDO Mapping</small></span><b>│<br>▼</b><span><code>0x1C13</code><small>指定使用 0x1A00</small></span><b>│<br>▼</b><span><strong>SM3</strong><small>管理 0x1480~0x1489 Local RAM</small></span></div>
+								<div class="syncmanager-explanation"><p>這裡同樣不是「<code>0x1C13 = SM3</code>」。</p><p><code>0x1C13</code> 負責指定 TxPDO Mapping；SM3 負責管理這批 TxPDO Process Data 實際使用的 ESC Local RAM Buffer。</p><p>SM3 的 Direction 為 ECAT Read / PDI Write，表示 Slave Application 從 PDI Side 寫入資料，EtherCAT Master 再從 ECAT Side 讀取，因此符合本次 TxPDO 的 Slave → Master 資料方向。</p></div>
 							</article>
 						</main>
 
