@@ -247,122 +247,106 @@
 					</section>
 					<section class="command-addressing-slide" data-transition="none">
 						<header class="command-addressing-header">
-							<h1 class="command-addressing-title">Master → Slave Operations</h1>
+							<h1 class="command-addressing-title">上電封包操作流程</h1>
 						</header>
 
-						<main class="command-addressing-layout" aria-label="Master to Slave Operations layout">
-							<nav class="command-addressing-nav" aria-label="Master to Slave operation selectors">
-								<article class="command-addressing-item">
+						<main class="command-addressing-layout" aria-label="上電封包操作流程">
+							<nav class="command-addressing-nav" aria-label="上電封包操作階段">
+								<article class="command-addressing-item" data-command-state="2" tabindex="0" role="button" aria-label="Broadcast Initialization">
 									<span class="command-addressing-index">01</span>
 									<div>
-										<span class="command-addressing-family-label">STARTUP / DISCOVERY</span>
-										<span class="command-addressing-command">APWR / APRD</span>
-										<h2>Station Address</h2>
-										<p>Slave Identity</p>
+										<h2>Broadcast Initialization</h2>
+										<span class="command-addressing-command">BRD / BWR / BRW</span>
+										<p>All Slaves</p>
 									</div>
 								</article>
-								<article class="command-addressing-item">
+								<article class="command-addressing-item" data-command-state="3" tabindex="0" role="button" aria-label="Auto Increment Addressing">
 									<span class="command-addressing-index">02</span>
 									<div>
-										<span class="command-addressing-family-label">PDO CONFIGURATION</span>
-										<span class="command-addressing-command">SDO Download</span>
-										<h2>PDO Mapping</h2>
-										<p>SM Assignment</p>
+										<h2>Auto Increment Addressing</h2>
+										<span class="command-addressing-command">APRD / APWR / APRW</span>
+										<p>Topology Position</p>
 									</div>
 								</article>
-								<article class="command-addressing-item">
+								<article class="command-addressing-item" data-command-state="4" tabindex="0" role="button" aria-label="Configured Station Address">
 									<span class="command-addressing-index">03</span>
 									<div>
-										<span class="command-addressing-family-label">PROCESS DATA PATH</span>
-										<span class="command-addressing-command">FPWR</span>
-										<h2>SyncManager</h2>
-										<p>FMMU</p>
+										<h2>Configured Station Address</h2>
+										<span class="command-addressing-command">APWR / ADO 0x0010</span>
+										<p>Fixed Address</p>
 									</div>
 								</article>
-								<article class="command-addressing-item">
+								<article class="command-addressing-item" data-command-state="5" tabindex="0" role="button" aria-label="Fixed Position ESC Access">
 									<span class="command-addressing-index">04</span>
 									<div>
-										<span class="command-addressing-family-label">CYCLIC DATA</span>
-										<span class="command-addressing-command">LWR / LRD / LRW</span>
-										<h2>Process Data Exchange</h2>
+										<h2>Fixed Position ESC Access</h2>
+										<span class="command-addressing-command">FPRD / FPWR / FPRW</span>
+										<p>Configured Address + ADO</p>
 									</div>
 								</article>
 							</nav>
 
 							<div class="command-addressing-detail">
-								<article class="command-addressing-detail-state" data-detail-state="1">
-									<div class="command-operation-chain">
-										<div class="command-operation-chain-node"><strong>Startup / Discovery</strong><span>Broadcast / APWR / APRD</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true"></span>
-										<div class="command-operation-chain-node"><strong>PDO Configuration</strong><span>SDO Download</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true"></span>
-										<div class="command-operation-chain-node"><strong>Process Data Path</strong><span>FPWR</span></div>
-										<span class="command-operation-chain-connector" aria-hidden="true"></span>
-										<div class="command-operation-chain-node"><strong>Cyclic Process Data</strong><span>SAFEOP / OP</span><span>LWR / LRD / LRW</span></div>
+								<article class="command-addressing-detail-state command-detail-overview" data-detail-state="1">
+									<div class="command-overview-flow" aria-label="四階段主線">
+										<div class="command-overview-stage"><strong>Broadcast Initialization</strong><code>BRD / BWR / BRW</code></div>
+										<span class="command-overview-connector" aria-hidden="true"></span>
+										<div class="command-overview-stage"><strong>Auto Increment Addressing</strong><code>APRD / APWR / APRW</code></div>
+										<span class="command-overview-connector" aria-hidden="true"></span>
+										<div class="command-overview-stage"><strong>Configured Station Address</strong><code>APWR / 0x0010</code></div>
+										<span class="command-overview-connector" aria-hidden="true"></span>
+										<div class="command-overview-stage"><strong>Fixed Position ESC Access</strong><code>FPRD / FPWR / FPRW</code></div>
 									</div>
-									<p class="command-operation-chain-summary">上電後，Master 先以 Broadcast 對所有 slave 進行初始化與共通設定，再透過 Auto Increment / Configured Address 完成站點識別與位址建立。接著以 SDO Download 設定 PDO Mapping 與 SyncManager Assignment，再以 FPWR 寫入 SyncManager / FMMU 相關暫存器建立 process data path。當 slave 切換至 SAFEOP / OP 後，即以 LWR、LRD 或 LRW 進行週期性 process data 交換。</p>
+									<p class="command-overview-summary">上電後，Master 先透過 Broadcast Command 對所有 Slave 執行共通操作，再利用 Auto Increment Addressing 依鏈路位置逐站存取 Slave。完成 Configured Station Address 配置後，Master 即可使用 Fixed Position Command，透過固定站址指定 Slave，再利用 ADO 存取該 Slave 的 ESC Register。</p>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="2">
-									<table class="command-startup-table">
-										<caption class="sr-only">Startup / Discovery register and packet operations</caption>
-										<thead>
-											<tr><th scope="col">Command</th><th scope="col">Address / Register</th><th scope="col">Data / Meaning</th><th scope="col">Analyzer View</th></tr>
-										</thead>
-										<tbody>
-											<tr><td>Broadcast</td><td><code>common init registers</code></td><td>全體初始化 / 共通狀態設定</td><td>觀察上電初期對所有 slave 的共通操作</td></tr>
-											<tr><td><code>APWR</code></td><td><code>ADO 0x0010</code></td><td>Configured Station Address</td><td>依 outgoing ADP 推得 topology position，將 station address 綁到該 slave</td></tr>
-											<tr><td><code>APWR</code></td><td><code>ADO 0x0502</code></td><td>EEPROM Control / Status + Read Command</td><td>啟動 EEPROM read</td></tr>
-											<tr><td>同一筆 APWR payload</td><td><code>0x0504:0x0505</code></td><td>EEPROM Address Low</td><td>指定 EEPROM Word Address 低 16-bit</td></tr>
-											<tr><td>同一筆 APWR payload</td><td><code>0x0506:0x0507</code></td><td>EEPROM Address High</td><td>指定 EEPROM Word Address 高 16-bit</td></tr>
-											<tr><td><code>APRD</code></td><td><code>ADO 0x0508</code></td><td>EEPROM Data</td><td>讀回指定 EEPROM Word 的資料</td></tr>
-											<tr><td>EEPROM Word</td><td><code>0x0008</code></td><td>Vendor ID</td><td>Slave identity</td></tr>
-											<tr><td>EEPROM Word</td><td><code>0x000A</code></td><td>Product Code</td><td>Slave identity</td></tr>
-										</tbody>
-									</table>
-									<div class="command-startup-explanation">
-										<span>封包觀察</span>
-										<p>上電初期先會看到 Broadcast 對所有 slave 做全體初始化。接著 APWR 寫入 ADO 0x0010，建立 Configured Station Address；Analyzer 依 outgoing ADP 推得 topology position，將 station address 綁到該 slave。</p>
-										<p>讀取 slave identity 時，Master 先用 APWR 寫入 ADO 0x0502，並同時帶入 0x0504:0x0507 的 EEPROM Word Address，再用 APRD 讀取 ADO 0x0508。Analyzer 依先前指定的 EEPROM Word 判斷資料是 Vendor ID（0x0008）或 Product Code（0x000A）。</p>
+								<article class="command-addressing-detail-state command-detail-broadcast" data-detail-state="2">
+									<div class="command-broadcast-visual">
+										<div class="command-broadcast-master">Master</div>
+										<div class="command-broadcast-command"><code>BRD / BWR / BRW</code><span>All Slaves</span></div>
+										<div class="command-broadcast-slaves"><span>Slave 1</span><span>Slave 2</span><span>Slave 3</span></div>
 									</div>
+									<table class="command-flow-table">
+										<caption class="sr-only">Broadcast command operations</caption>
+										<thead><tr><th>Command</th><th>Target</th><th>Operation</th></tr></thead>
+										<tbody><tr><td><code>BRD</code></td><td>All Slaves</td><td>Read the same ESC register from all slaves</td></tr><tr><td><code>BWR</code></td><td>All Slaves</td><td>Write the same ESC register to all slaves</td></tr><tr><td><code>BRW</code></td><td>All Slaves</td><td>Read / Write the same ESC register across all slaves</td></tr></tbody>
+									</table>
+									<p class="command-flow-explanation">上電初期可觀察到 Master 使用 Broadcast Command 對所有 Slave 進行共通的 ESC Register 操作。此階段尚未依拓樸位置或固定站址指定單一 Slave，而是以整個 EtherCAT segment 為操作對象。</p>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="3">
-									<header class="command-simple-detail-header"><h2>PDO Configuration</h2></header>
-									<table class="command-operation-summary-table">
-										<thead><tr><th scope="col">Address / Object</th><th scope="col">Configuration</th><th scope="col">Meaning</th></tr></thead>
-										<tbody>
-											<tr><td><code>0x1600 / 0x1A00</code></td><td>PDO Mapping</td><td>定義 PDO 內包含哪些 OD Index / SubIndex，以及每個 entry 的 bit length</td></tr>
-											<tr><td><code>0x1C12 / 0x1C13</code></td><td>SM Assignment</td><td>指定 RxPDO / TxPDO Mapping Object 所屬的 SyncManager</td></tr>
-										</tbody>
+								<article class="command-addressing-detail-state command-detail-auto" data-detail-state="3">
+									<div class="command-auto-visual">
+										<div class="command-auto-master">Master</div>
+										<code class="command-auto-command">APRD / APWR / APRW</code>
+										<div class="command-auto-route"><span class="command-auto-route-line"></span><span class="command-auto-route-highlight" aria-hidden="true"></span><span>Slave 1</span><span>Slave 2</span><span>Slave 3</span></div>
+									</div>
+									<table class="command-flow-table command-auto-table">
+										<caption class="sr-only">Auto Increment addressing fields</caption>
+										<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+										<tbody><tr><td><code>ADP</code></td><td>Auto Increment Address，用來依鏈路位置指定 Slave</td></tr><tr><td><code>ADO</code></td><td>ESC Register Offset，用來指定 Slave 內要操作的 ESC 位址</td></tr></tbody>
 									</table>
-									<p class="command-detail-explanation">這一步不是立刻做 cyclic exchange，而是先決定哪些 object 會進 PDO，以及這些 PDO 由哪個 SyncManager 承接，讓後續 Process Data Path 可以建立。</p>
+									<p class="command-flow-explanation">Auto Increment Command 用於依實體鏈路位置逐站存取 Slave。封包經過各 Slave 時，Auto Increment Address 會依協定規則更新；當 Slave 判定目前 Address 命中自身時，才執行該 Datagram 操作。Analyzer 因此可以利用 outgoing ADP 重建 Slave 的 topology position。</p>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="4">
-									<header class="command-simple-detail-header"><h2>Process Data Path</h2></header>
-									<table class="command-operation-summary-table">
-										<thead><tr><th scope="col">Command</th><th scope="col">Address / Register</th><th scope="col">Meaning</th></tr></thead>
-										<tbody>
-											<tr><td><code>FPWR</code></td><td><code>0x0800~0x087F</code><br>SyncManager Registers</td><td>設定 process RAM 區段、長度、方向</td></tr>
-											<tr><td><code>FPWR</code></td><td><code>0x0600~0x06FF</code><br>FMMU Registers</td><td>建立 Logical Address 到 slave process RAM 的映射</td></tr>
-											<tr><td>Result</td><td><code>Logical Path</code><br>process data path ready</td><td>cyclic datagram 可依 logical address 落到對應 slave / local memory</td></tr>
-										</tbody>
+								<article class="command-addressing-detail-state command-detail-configured" data-detail-state="4">
+									<div class="command-configured-visual"><span>APWR</span><i aria-hidden="true"></i><span>ADO 0x0010</span><i aria-hidden="true"></i><span>Configured Station Address</span></div>
+									<table class="command-flow-table command-configured-table">
+										<caption class="sr-only">Configured Station Address operation</caption>
+										<thead><tr><th>Field</th><th>Value / Meaning</th></tr></thead>
+										<tbody><tr><td>Command</td><td><code>APWR</code></td></tr><tr><td>ADP</td><td>Auto Increment Address，用於命中目前 Slave</td></tr><tr><td>ADO</td><td><code>0x0010</code></td></tr><tr><td>Register</td><td>Configured Station Address</td></tr><tr><td>Data</td><td>Master 要配置給該 Slave 的固定站址</td></tr></tbody>
 									</table>
-									<p class="command-detail-explanation">這一步是把 PDO 組態結果落到實際傳輸路徑：SyncManager 決定 process RAM 的區段、長度與方向，FMMU 決定 logical address 對應到哪個 slave 的哪段 local memory。完成後，cyclic datagram 才知道資料路徑。</p>
+									<p class="command-flow-explanation">Master 先利用 Auto Increment Addressing 命中指定拓樸位置的 Slave，再以 APWR 寫入 ADO 0x0010，將新的 Configured Station Address 配置到該 Slave。完成後，後續封包即可使用這個固定站址進行 Fixed Position Access。</p>
 								</article>
 
-								<article class="command-addressing-detail-state" data-detail-state="5">
-									<header class="command-simple-detail-header"><h2>Cyclic Data</h2></header>
-									<table class="command-operation-summary-table">
-										<thead><tr><th scope="col">Command</th><th scope="col">Data Path</th><th scope="col">Operation</th><th scope="col">Typical Use</th></tr></thead>
-										<tbody>
-											<tr><td><code>LWR</code></td><td>Master → Slave Output Process Image</td><td>寫入輸出資料</td><td>常見於控制輸出更新</td></tr>
-											<tr><td><code>LRD</code></td><td>Slave Input Process Image → Master</td><td>讀回輸入資料</td><td>常見於狀態 / 感測資料回讀</td></tr>
-											<tr><td><code>LRW</code></td><td>Read + Write in one datagram</td><td>同時讀寫</td><td>雙向 cyclic exchange</td></tr>
-										</tbody>
+								<article class="command-addressing-detail-state command-detail-fixed" data-detail-state="5">
+									<div class="command-fixed-command"><code>FPRD / FPWR / FPRW</code></div>
+									<div class="command-fixed-address"><span>ADP = Configured Station Address</span><span>ADO = ESC Register Offset</span></div>
+									<table class="command-flow-table command-fixed-table">
+										<caption class="sr-only">Fixed Position ESC Register access</caption>
+										<thead><tr><th>Address</th><th>Register</th><th>Meaning</th></tr></thead>
+										<tbody><tr><td><code>0x0120</code></td><td>AL Control</td><td>Master 要求 Slave 切換 EtherCAT state</td></tr><tr><td><code>0x0130</code></td><td>AL Status</td><td>Slave 回報目前 EtherCAT state</td></tr></tbody>
 									</table>
-									<p class="command-detail-explanation">「Master 寫入 Slave Output」是指主站把控制資料寫進 slave 的 output process image；「Master 讀取 Slave Input」是指主站從 slave 的 input process image 取回狀態 / 感測資料。slave 進入 SAFEOP / OP 後，才進入這種週期性 process data 交換。</p>
+									<p class="command-flow-explanation">取得 Configured Station Address 後，Master 可使用 Fixed Position Command 直接指定特定 Slave。此時 ADP 表示 Configured Station Address，ADO 則表示該 Slave ESC 內要讀寫的 Register Offset，因此同一套 FPRD / FPWR / FPRW 操作可以用來存取指定 Slave 的不同 ESC Register。</p>
 								</article>
 							</div>
 							<span class="command-addressing-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
@@ -1076,8 +1060,11 @@
 				const applyCommandAddressingState = (slide, state) => {
 					if (!isCommandAddressingSlide(slide)) return;
 
-					const commandAddressingState = isPrintMode() ? 5 : Math.max(1, Math.min(5, state));
+					const commandAddressingState = isPrintMode() ? 1 : Math.max(1, Math.min(5, state));
 					slide.dataset.commandAddressingState = commandAddressingState;
+					slide.querySelectorAll('.command-addressing-item').forEach(item => {
+						item.setAttribute('aria-pressed', String(commandAddressingState !== 1 && Number(item.dataset.commandState) === commandAddressingState));
+					});
 				};
 
 				const applyRegisterAccessState = (slide, state) => {
@@ -1117,7 +1104,7 @@
 						applyProblemGoalState(slide, 3);
 					});
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
-						applyCommandAddressingState(slide, 5);
+						applyCommandAddressingState(slide, 1);
 					});
 					document.querySelectorAll(registerAccessSelector).forEach(slide => {
 						applyRegisterAccessState(slide, 4);
@@ -1129,6 +1116,18 @@
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
 					if (isRegisterAccessSlide(currentSlide)) applyRegisterAccessState(currentSlide, 1);
 				}
+
+				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
+					slide.querySelectorAll('.command-addressing-item').forEach(item => {
+						const selectState = () => applyCommandAddressingState(slide, Number(item.dataset.commandState));
+						item.addEventListener('click', selectState);
+						item.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							selectState();
+						});
+					});
+				});
 
 				Reveal.on('slidechanged', event => {
 					if (isTechnicalFlowSlide(event.currentSlide)) {
