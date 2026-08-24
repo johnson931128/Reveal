@@ -5219,7 +5219,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	grid-template-columns: minmax(0, 24fr) minmax(0, 76fr);
 	column-gap: 36px;
 	width: 1416px;
-	height: 584px;
+	height: 600px;
 }
 
 .slave-discovery-selectors {
@@ -5290,6 +5290,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	border: 1px solid rgba(103, 147, 192, 0.38);
 	background: rgba(255, 255, 255, 0.22);
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .slave-discovery-state {
@@ -5339,7 +5340,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 360px;
+	height: 440px;
 	margin-top: 28px;
 	border: 1px dashed rgba(103, 147, 192, 0.5);
 	color: var(--text-secondary);
@@ -5347,6 +5348,48 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	font-size: 19px;
 	line-height: 1.35;
 	text-align: center;
+}
+
+.slave-discovery-summary {
+	margin-top: 14px;
+}
+
+.slave-discovery-summary-item {
+	padding: 0 0 8px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.2);
+}
+
+.slave-discovery-summary-item + .slave-discovery-summary-item {
+	margin-top: 9px;
+}
+
+.slave-discovery-summary h3 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 23px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.slave-discovery-summary p {
+	margin: 4px 0 0;
+	color: var(--text-secondary);
+	font-size: 19px;
+	font-weight: 400;
+	line-height: 1.3;
+}
+
+.slave-discovery-summary code {
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 18px;
+	font-weight: 650;
+}
+
+.slave-discovery-summary-code {
+	margin-top: 6px !important;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	line-height: 1.2 !important;
 }
 
 .discovery-flow-slide[data-slave-discovery-state="0"] .slave-discovery-state[data-slave-discovery-panel="0"],

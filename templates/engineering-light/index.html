@@ -487,7 +487,25 @@
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="1">
 									<h2>重點統整</h2>
-									<div class="slave-discovery-placeholder">[AP related summary content]</div>
+									<div class="slave-discovery-summary">
+										<div class="slave-discovery-summary-item">
+											<h3>AP Addressing</h3>
+											<p>AP Command 使用 <code>ADP</code> 作為 Auto Increment Address，依實體鏈路位置指定 Slave；<code>ADO</code> 則表示該 Slave 內要操作的 ESC Register Offset。</p>
+										</div>
+										<div class="slave-discovery-summary-item">
+											<h3>Topology Position</h3>
+											<p>Master outgoing Datagram 中可觀察到 <code>0x0000</code>、<code>0xFFFF</code>、<code>0xFFFE</code> 等 ADP，分別對應 signed 0、-1、-2，因此可重建第 1、2、3 個 Slave 的拓樸位置。</p>
+											<p class="slave-discovery-summary-code"><code>0x0000 → Slave 1<br>0xFFFF → Slave 2<br>0xFFFE → Slave 3</code></p>
+										</div>
+										<div class="slave-discovery-summary-item">
+											<h3>Configured Station Address</h3>
+											<p>Master 透過 <code>APWR</code> 命中指定拓樸位置後，以 <code>ADO = 0x0010</code> 寫入 Configured Station Address，因此 Analyzer 可以將固定站址綁定到對應的 Slave。</p>
+										</div>
+										<div class="slave-discovery-summary-item">
+											<h3>Slave Identity</h3>
+											<p>Master 透過 ESC EEPROM Interface 讀取 SII EEPROM，Analyzer 再將取得的 <code>Vendor ID</code> 與 <code>Product Code</code> 補入同一個 Slave record。</p>
+										</div>
+									</div>
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="2">
 									<h2>AP-Analyzer 重建流程</h2>
