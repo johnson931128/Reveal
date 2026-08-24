@@ -1150,6 +1150,39 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 									</div>
 								</footer>
 							</section>
+							<section class="syncmanager-result-slide" data-transition="none">
+								<header class="syncmanager-result-header">
+									<h1 class="syncmanager-result-title">SyncManager Analyzer 重建成果</h1>
+								</header>
+
+								<main class="syncmanager-result-layout" aria-label="SyncManager Analyzer reconstruction result">
+									<div class="syncmanager-result-terminal" tabindex="0" role="region" aria-label="SyncManager Analyzer result terminal">
+										<pre class="syncmanager-result-terminal-body" data-terminal-source="assets/sm/syncmanager-result.txt">Waiting for SyncManager Analyzer result...</pre>
+									</div>
+								</main>
+
+								<div class="logo-area" aria-label="Company logo placeholder">
+									<span class="logo-mark" aria-hidden="true">△</span>
+									<span class="logo-placeholder">DELTA LOGO</span>
+								</div>
+
+								<footer class="slide-footer">
+									<span class="footer-corner" aria-hidden="true"></span>
+									<div class="footer-meta">
+										<span class="footer-arrow" aria-hidden="true"></span>
+										<span>范舜傑</span>
+										<span class="meta-divider">|</span>
+										<span>MDSBU 通訊工程課</span>
+										<span class="meta-divider">|</span>
+										<time datetime="2026-08-25">08/25/2026</time>
+									</div>
+									<div class="page-number" aria-label="Page 12">
+										<span class="page-rule"></span>
+										<span>12</span>
+										<span class="page-rule"></span>
+									</div>
+								</footer>
+							</section>
 							<section class="diagram-slide" data-transition="none">
 						<div class="diagram-background-grid" aria-hidden="true"></div>
 						<div class="diagram-corner-rule" aria-hidden="true"></div>
@@ -1230,9 +1263,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 12">
+							<div class="page-number" aria-label="Page 13">
 								<span class="page-rule"></span>
-								<span>12</span>
+								<span>13</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1308,9 +1341,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 13">
+							<div class="page-number" aria-label="Page 14">
 								<span class="page-rule"></span>
-								<span>13</span>
+								<span>14</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1343,6 +1376,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const sdoDesignSelector = 'section.sdo-design-slide';
 				const syncManagerSelector = 'section.syncmanager-slide';
 				const syncManagerAnalyzerSelector = 'section.syncmanager-analyzer-slide';
+				const syncManagerResultSelector = 'section.syncmanager-result-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1379,6 +1413,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isSyncManagerAnalyzerSlide = slide => (
 					slide && slide.matches(syncManagerAnalyzerSelector)
+				);
+
+				const isSyncManagerResultSlide = slide => (
+					slide && slide.matches(syncManagerResultSelector)
 				);
 
 				const setupPanZoomViewer = slide => {
@@ -1574,6 +1612,61 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					} catch (error) {
 						console.error('Unable to load SDO analysis terminal output', error);
 					}
+				};
+
+				const loadSyncManagerResultTerminal = async slide => {
+					if (!isSyncManagerResultSlide(slide)) return;
+
+					const terminal = slide.querySelector('.syncmanager-result-terminal');
+					const output = terminal?.querySelector('.syncmanager-result-terminal-body');
+					if (!terminal || !output || output.dataset.loaded === 'true') return;
+
+					try {
+						const response = await fetch(output.dataset.terminalSource);
+						if (!response.ok) throw new Error(`HTTP ${response.status}`);
+						output.textContent = await response.text();
+					} catch {
+						output.textContent = 'Waiting for SyncManager Analyzer result...';
+					}
+					output.dataset.loaded = 'true';
+					output.scrollTop = 0;
+				};
+
+				const resetSyncManagerResultTerminal = slide => {
+					if (!isSyncManagerResultSlide(slide)) return;
+
+					const output = slide.querySelector('.syncmanager-result-terminal-body');
+					if (output) output.scrollTop = 0;
+				};
+
+				const bindSyncManagerResultTerminalKeys = slide => {
+					if (!isSyncManagerResultSlide(slide)) return;
+
+					const terminal = slide.querySelector('.syncmanager-result-terminal');
+					const output = slide.querySelector('.syncmanager-result-terminal-body');
+					if (!terminal || !output || terminal.dataset.keysBound === 'true') return;
+
+					terminal.addEventListener('wheel', event => {
+						event.stopPropagation();
+					}, { passive: true });
+					terminal.addEventListener('keydown', event => {
+						const scrollKeys = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End']);
+						if (!scrollKeys.has(event.key)) return;
+
+						event.preventDefault();
+						event.stopPropagation();
+						const pageStep = output.clientHeight * 0.86;
+						const lineStep = parseFloat(getComputedStyle(output).lineHeight) || 24;
+						switch (event.key) {
+							case 'ArrowUp': output.scrollBy({ top: -lineStep }); break;
+							case 'ArrowDown': output.scrollBy({ top: lineStep }); break;
+							case 'PageUp': output.scrollBy({ top: -pageStep }); break;
+							case 'PageDown': output.scrollBy({ top: pageStep }); break;
+							case 'Home': output.scrollTop = 0; break;
+							case 'End': output.scrollTop = output.scrollHeight; break;
+						}
+					});
+					terminal.dataset.keysBound = 'true';
 				};
 
 				const resetSdoAnalysisTerminal = slide => {
@@ -1798,6 +1891,11 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					loadSdoAnalysisTerminal(slide);
 				});
 
+				document.querySelectorAll(syncManagerResultSelector).forEach(slide => {
+					bindSyncManagerResultTerminalKeys(slide);
+					loadSyncManagerResultTerminal(slide);
+				});
+
 				document.querySelectorAll(sdoDesignSelector).forEach(slide => {
 					setupPanZoomViewer(slide);
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
@@ -1969,6 +2067,11 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							if (lastState > 0) Reveal.navigateFragment(lastState - 1);
 							setSyncManagerAnalyzerState(event.currentSlide, lastState);
 						}
+					}
+					if (isSyncManagerResultSlide(event.currentSlide)) {
+						resetSyncManagerResultTerminal(event.currentSlide);
+						bindSyncManagerResultTerminalKeys(event.currentSlide);
+						loadSyncManagerResultTerminal(event.currentSlide);
 					}
 				});
 
