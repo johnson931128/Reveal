@@ -5200,6 +5200,191 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	transform: none !important;
 }
 
+/* Page 06: static discovery shell with isolated selector and fragment state. */
+.reveal .slides section.discovery-flow-slide .discovery-flow-header {
+	top: 64px;
+	left: 92px;
+	width: 1416px;
+	text-align: left;
+}
+
+.reveal .slides section.discovery-flow-slide .discovery-flow-header::after {
+	margin-left: 0;
+}
+
+.reveal .slides section.discovery-flow-slide .discovery-flow-layout {
+	top: 178px;
+	left: 92px;
+	display: grid;
+	grid-template-columns: minmax(0, 24fr) minmax(0, 76fr);
+	column-gap: 36px;
+	width: 1416px;
+	height: 584px;
+}
+
+.slave-discovery-selectors {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	border-top: 1px solid rgba(103, 147, 192, 0.38);
+}
+
+.slave-discovery-selector {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr);
+	column-gap: 14px;
+	align-items: start;
+	flex: 1;
+	min-height: 0;
+	padding: 18px 16px 16px 14px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.22);
+	border-left: 3px solid transparent;
+	background: rgba(255, 255, 255, 0.1);
+	opacity: 0.36;
+	transition: opacity 220ms ease, background-color 220ms ease, border-color 220ms ease;
+	cursor: pointer;
+}
+
+.slave-discovery-selector[aria-pressed="true"] {
+	border-left-color: var(--accent);
+	background: rgba(103, 147, 192, 0.1);
+	opacity: 1;
+}
+
+.slave-discovery-selector:focus-visible {
+	outline: 2px solid rgba(77, 134, 218, 0.62);
+	outline-offset: -2px;
+}
+
+.slave-discovery-index {
+	padding-top: 2px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.slave-discovery-selector h2 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 21px;
+	font-weight: 650;
+	line-height: 1.2;
+}
+
+.slave-discovery-selector div > span {
+	display: block;
+	margin-top: 9px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.slave-discovery-display {
+	position: relative;
+	min-width: 0;
+	height: 100%;
+	border: 1px solid rgba(103, 147, 192, 0.38);
+	background: rgba(255, 255, 255, 0.22);
+	box-sizing: border-box;
+}
+
+.slave-discovery-state {
+	position: absolute;
+	inset: 0;
+	box-sizing: border-box;
+	padding: 36px 40px;
+	opacity: 0;
+	transform: translateY(8px);
+	visibility: hidden;
+	transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+}
+
+.slave-discovery-state h2 {
+	margin: 0;
+	padding-bottom: 12px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.34);
+	color: var(--text-primary);
+	font-size: 30px;
+	font-weight: 650;
+	line-height: 1.2;
+}
+
+.slave-discovery-state[data-slave-discovery-panel="0"] h2 {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.slave-discovery-overview-list {
+	display: flex;
+	flex-direction: column;
+	gap: 17px;
+	margin: 28px 0 0;
+	padding: 0;
+	color: var(--text-secondary);
+	font-size: 23px;
+	line-height: 1.25;
+	list-style: none;
+}
+
+.slave-discovery-overview-list li {
+	padding-left: 18px;
+	border-left: 2px solid rgba(77, 134, 218, 0.52);
+}
+
+.slave-discovery-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 360px;
+	margin-top: 28px;
+	border: 1px dashed rgba(103, 147, 192, 0.5);
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 19px;
+	line-height: 1.35;
+	text-align: center;
+}
+
+.discovery-flow-slide[data-slave-discovery-state="0"] .slave-discovery-state[data-slave-discovery-panel="0"],
+.discovery-flow-slide[data-slave-discovery-state="1"] .slave-discovery-state[data-slave-discovery-panel="1"],
+.discovery-flow-slide[data-slave-discovery-state="2"] .slave-discovery-state[data-slave-discovery-panel="2"],
+.discovery-flow-slide[data-slave-discovery-state="3"] .slave-discovery-state[data-slave-discovery-panel="3"],
+.discovery-flow-slide[data-slave-discovery-state="4"] .slave-discovery-state[data-slave-discovery-panel="4"] {
+	opacity: 1;
+	transform: translateY(0);
+	visibility: visible;
+	transition-delay: 0s;
+}
+
+.slave-discovery-state-fragment {
+	position: absolute;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+html.print-pdf .discovery-flow-slide .slave-discovery-selector {
+	opacity: 0.36;
+	border-left-color: transparent;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+html.print-pdf .discovery-flow-slide .slave-discovery-state {
+	opacity: 0;
+	transform: none;
+	visibility: hidden;
+	transition: none;
+}
+
+html.print-pdf .discovery-flow-slide .slave-discovery-state[data-slave-discovery-panel="0"] {
+	opacity: 1;
+	visibility: visible;
+}
+
 /* Page 04 Auto Increment: concise topology mapping. */
 .command-detail-auto .command-auto-visual {
 	display: grid;

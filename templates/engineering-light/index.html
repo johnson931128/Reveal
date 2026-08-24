@@ -450,51 +450,64 @@
 						</footer>
 					</section>
 
-					<section class="discovery-flow-slide" data-transition="none">
+					<section class="discovery-flow-slide" data-transition="none" data-slave-discovery-state="0">
 						<header class="discovery-flow-header">
-							<h1 class="discovery-flow-title">Auto Increment → Slave Discovery</h1>
+							<h1 class="discovery-flow-title">Slave Discovery 重建成果</h1>
 						</header>
 
-						<main class="discovery-flow-layout" aria-label="Auto Increment to Slave Discovery layout">
-							<div class="discovery-flow-steps" aria-label="Five-step reconstruction flow placeholder">
-								<article class="discovery-flow-step">
-									<span class="discovery-flow-index">[STEP 01]</span>
-									<h2>[STEP TITLE]</h2>
-									<p>[STEP BODY]</p>
+						<main class="discovery-flow-layout" aria-label="Slave Discovery 重建成果">
+							<nav class="slave-discovery-selectors" aria-label="Slave Discovery sections">
+								<article class="slave-discovery-selector" data-slave-discovery-selector="1" tabindex="0" role="button" aria-pressed="false">
+									<span class="slave-discovery-index">01</span>
+									<div><h2>重點統整</h2><span>AP Commands</span></div>
 								</article>
-								<article class="discovery-flow-step">
-									<span class="discovery-flow-index">[STEP 02]</span>
-									<h2>[STEP TITLE]</h2>
-									<p>[STEP BODY]</p>
+								<article class="slave-discovery-selector" data-slave-discovery-selector="2" tabindex="0" role="button" aria-pressed="false">
+									<span class="slave-discovery-index">02</span>
+									<div><h2>AP-Analyzer 重建流程</h2><span>Slave Discovery</span></div>
 								</article>
-								<article class="discovery-flow-step">
-									<span class="discovery-flow-index">[STEP 03]</span>
-									<h2>[STEP TITLE]</h2>
-									<p>[STEP BODY]</p>
+								<article class="slave-discovery-selector" data-slave-discovery-selector="3" tabindex="0" role="button" aria-pressed="false">
+									<span class="slave-discovery-index">03</span>
+									<div><h2>程式碼實作</h2><span>Class Relationship</span></div>
 								</article>
-								<article class="discovery-flow-step">
-									<span class="discovery-flow-index">[STEP 04]</span>
-									<h2>[STEP TITLE]</h2>
-									<p>[STEP BODY]</p>
+								<article class="slave-discovery-selector" data-slave-discovery-selector="4" tabindex="0" role="button" aria-pressed="false">
+									<span class="slave-discovery-index">04</span>
+									<div><h2>實際成果</h2><span>Stage 3 Result</span></div>
 								</article>
-								<article class="discovery-flow-step">
-									<span class="discovery-flow-index">[STEP 05]</span>
-									<h2>[STEP TITLE]</h2>
-									<p>[STEP BODY]</p>
-								</article>
-							</div>
+							</nav>
 
-							<div class="discovery-flow-results" aria-label="Reconstruction result placeholder">
-								<header><span>[RESULT TITLE]</span></header>
-								<ul>
-									<li>[RESULT ITEM]</li>
-									<li>[RESULT ITEM]</li>
-									<li>[RESULT ITEM]</li>
-									<li>[RESULT ITEM]</li>
-									<li>[RESULT ITEM]</li>
-								</ul>
+							<div class="slave-discovery-display" aria-live="polite">
+								<article class="slave-discovery-state" data-slave-discovery-panel="0">
+									<h2>Slave Discovery</h2>
+									<ul class="slave-discovery-overview-list">
+										<li>AP Datagram</li>
+										<li>Topology Position</li>
+										<li>Configured Address</li>
+										<li>Slave Identity</li>
+									</ul>
+								</article>
+								<article class="slave-discovery-state" data-slave-discovery-panel="1">
+									<h2>重點統整</h2>
+									<div class="slave-discovery-placeholder">[AP related summary content]</div>
+								</article>
+								<article class="slave-discovery-state" data-slave-discovery-panel="2">
+									<h2>AP-Analyzer 重建流程</h2>
+									<div class="slave-discovery-placeholder">[Slave Discovery reconstruction steps]</div>
+								</article>
+								<article class="slave-discovery-state" data-slave-discovery-panel="3">
+									<h2>程式碼實作</h2>
+									<div class="slave-discovery-placeholder">[Mermaid class diagram area]</div>
+								</article>
+								<article class="slave-discovery-state" data-slave-discovery-panel="4">
+									<h2>實際成果</h2>
+									<div class="slave-discovery-placeholder">[Terminal result area]</div>
+								</article>
 							</div>
 						</main>
+
+						<span class="slave-discovery-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+						<span class="slave-discovery-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+						<span class="slave-discovery-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
+						<span class="slave-discovery-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -939,6 +952,7 @@
 				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
+				const slaveDiscoverySelector = 'section.discovery-flow-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -955,6 +969,10 @@
 
 				const isCommandAddressingSlide = slide => (
 					slide && slide.matches(commandAddressingSelector)
+				);
+
+				const isSlaveDiscoverySlide = slide => (
+					slide && slide.matches(slaveDiscoverySelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -992,6 +1010,16 @@
 					});
 				};
 
+				const setSlaveDiscoveryState = (slide, state) => {
+					if (!isSlaveDiscoverySlide(slide)) return;
+
+					const discoveryState = isPrintMode() ? 0 : Math.max(0, Math.min(4, state));
+					slide.dataset.slaveDiscoveryState = discoveryState;
+					slide.querySelectorAll('.slave-discovery-selector').forEach(selector => {
+						selector.setAttribute('aria-pressed', String(discoveryState !== 0 && Number(selector.dataset.slaveDiscoverySelector) === discoveryState));
+					});
+				};
+
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
@@ -1002,6 +1030,10 @@
 
 				const isCommandAddressingFragment = fragment => (
 					fragment && fragment.classList.contains('command-addressing-state-fragment')
+				);
+
+				const isSlaveDiscoveryFragment = fragment => (
+					fragment && fragment.classList.contains('slave-discovery-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -1020,11 +1052,15 @@
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
 						applyCommandAddressingState(slide, 3);
 					});
+					document.querySelectorAll(slaveDiscoverySelector).forEach(slide => {
+						setSlaveDiscoveryState(slide, 0);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 3);
+					if (isSlaveDiscoverySlide(currentSlide)) setSlaveDiscoveryState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1034,6 +1070,23 @@
 						item.addEventListener('keydown', event => {
 							if (event.key !== 'Enter' && event.key !== ' ') return;
 							event.preventDefault();
+							selectState();
+						});
+					});
+				});
+
+				document.querySelectorAll(slaveDiscoverySelector).forEach(slide => {
+					slide.querySelectorAll('.slave-discovery-selector').forEach(selector => {
+						const selectState = () => {
+							const state = Number(selector.dataset.slaveDiscoverySelector);
+							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
+							setSlaveDiscoveryState(slide, state);
+						};
+						selector.addEventListener('click', selectState);
+						selector.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							event.stopPropagation();
 							selectState();
 						});
 					});
@@ -1052,6 +1105,10 @@
 						resetInteractiveSlide(event.currentSlide);
 						applyCommandAddressingState(event.currentSlide, 3);
 					}
+					if (isSlaveDiscoverySlide(event.currentSlide)) {
+						if (!isPrintMode()) Reveal.navigateFragment(-1);
+						setSlaveDiscoveryState(event.currentSlide, 0);
+					}
 				});
 
 				Reveal.on('fragmentshown', event => {
@@ -1066,6 +1123,9 @@
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 2);
 					}
+					if (isSlaveDiscoveryFragment(event.fragment)) {
+						setSlaveDiscoveryState(slide, fragmentIndex + 1);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1079,6 +1139,9 @@
 					}
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 1);
+					}
+					if (isSlaveDiscoveryFragment(event.fragment)) {
+						setSlaveDiscoveryState(slide, fragmentIndex);
 					}
 				});
 			});
