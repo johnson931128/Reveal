@@ -6471,75 +6471,30 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 	margin-top: 10px;
 }
 
+.coe-knowledge-txpdo-step {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin-top: 0;
+}
+
 .coe-knowledge-txpdo-capture {
-	display: grid;
-	grid-template-rows: minmax(0, 1fr) auto;
-	width: 92%;
-	height: 245px;
-	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 94%;
+	height: 100%;
+	margin: 0;
 }
 
 .coe-knowledge-txpdo-capture img {
 	display: block;
 	width: 100%;
-	height: 215px;
+	height: 100%;
 	border: 1px solid rgba(103, 147, 192, 0.32);
 	box-sizing: border-box;
 	object-fit: contain;
-}
-
-.coe-knowledge-txpdo-capture figcaption {
-	margin-top: 5px;
-	color: var(--text-secondary);
-	font-size: 19px;
-	line-height: 1.2;
-	text-align: center;
-}
-
-.coe-knowledge-txpdo-step > p,
-.coe-knowledge-txpdo-result-notes p {
-	margin: 12px 0 0;
-	color: var(--text-secondary);
-	font-size: 19px;
-	line-height: 1.32;
-}
-
-.coe-knowledge-txpdo-step code,
-.coe-knowledge-txpdo-result code,
-.coe-knowledge-txpdo-breakdown code,
-.coe-knowledge-txpdo-emphasis code {
-	color: var(--accent);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 19px;
-	font-weight: 650;
-}
-
-.coe-knowledge-txpdo-emphasis {
-	display: flex;
-	align-items: baseline;
-	gap: 12px;
-	margin-top: 10px !important;
-	color: var(--text-primary) !important;
-}
-
-.coe-knowledge-txpdo-emphasis span {
-	color: var(--text-secondary);
-	font-size: 21px;
-}
-
-.coe-knowledge-txpdo-breakdown {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	margin-top: 10px;
-	color: var(--text-secondary);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 19px;
-	line-height: 1.35;
-}
-
-.coe-knowledge-txpdo-breakdown code {
-	margin-bottom: 2px;
 }
 
 .coe-knowledge-txpdo-heading {
@@ -6609,6 +6564,13 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 
 .coe-knowledge-txpdo-result-notes {
 	margin-top: 10px;
+}
+
+.coe-knowledge-txpdo-result-notes p {
+	margin: 12px 0 0;
+	color: var(--text-secondary);
+	font-size: 19px;
+	line-height: 1.32;
 }
 
 .coe-knowledge-txpdo-result-notes p + p {
