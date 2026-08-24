@@ -891,7 +891,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 							<article class="sdo-design-state" data-sdo-design-panel="1">
 								<div class="sdo-design-flow" aria-label="SDO and PDO reconstruction pipeline">
-									<div class="sdo-design-flow-core">
+									<div class="sdo-design-flow-mainline">
 										<div class="sdo-design-flow-node">EtherCAT Datagram</div>
 										<div class="sdo-design-flow-connector"><span>CoE / SDO fields</span></div>
 										<div class="sdo-design-flow-node">CoeSdoInfo</div>
@@ -899,12 +899,12 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 										<div class="sdo-design-flow-node">SdoTransactionAnalyzer</div>
 										<div class="sdo-design-flow-connector"><span>Request + Response 配對</span></div>
 										<div class="sdo-design-flow-node">SdoTransaction</div>
+										<div class="sdo-design-flow-connector"></div>
+										<div class="sdo-design-flow-node">ObjectDictionaryClassifier</div>
 									</div>
 									<div class="sdo-design-flow-branches">
 										<div class="sdo-design-flow-branch">
 											<div class="sdo-design-flow-branch-connector" aria-hidden="true"></div>
-											<div class="sdo-design-flow-node">ObjectDictionaryClassifier</div>
-											<div class="sdo-design-flow-connector"></div>
 											<div class="sdo-design-flow-node">0x1600~0x17FF / 0x1A00~0x1BFF</div>
 											<div class="sdo-design-flow-connector"></div>
 											<div class="sdo-design-flow-node">PdoMappingAnalyzer</div>
@@ -913,8 +913,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 										</div>
 										<div class="sdo-design-flow-branch">
 											<div class="sdo-design-flow-branch-connector" aria-hidden="true"></div>
-											<div class="sdo-design-flow-node">ObjectDictionaryClassifier</div>
-											<div class="sdo-design-flow-connector"></div>
 											<div class="sdo-design-flow-node">0x1C12 / 0x1C13</div>
 											<div class="sdo-design-flow-connector"></div>
 											<div class="sdo-design-flow-node">PdoAssignmentAnalyzer</div>
@@ -926,129 +924,8 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="sdo-design-state" data-sdo-design-panel="2">
-								<div class="sdo-design-mermaid mermaid">
-classDiagram
-    direction LR
-
-    class EtherCatDatagramRecord {
-        +long FrameNumber
-        +int DatagramSequence
-        +ushort? Adp
-        +ushort WorkingCounter
-        +CoeSdoInfo CoeSdo
-    }
-
-    class CoeSdoInfo {
-        +byte? MailboxType
-        +byte? MailboxCounter
-        +byte? CoeType
-        +byte? SdoRequestSpecifier
-        +byte? SdoResponseSpecifier
-        +bool CompleteAccess
-        +ushort? Index
-        +byte? SubIndex
-        +string SdoData
-        +uint? AbortCode
-    }
-
-    class SdoTransactionAnalyzer {
-        +Analyze(records) List~SdoTransaction~
-        -IsInitiateDownloadRequest(record) bool
-        -IsInitiateDownloadResponse(record) bool
-        -IsMatchingRequest(request, response) bool
-    }
-
-    class SdoTransaction {
-        +ushort StationAddress
-        +ushort Index
-        +byte SubIndex
-        +bool CompleteAccess
-        +string Data
-        +long RequestFrameNumber
-        +long ResponseFrameNumber
-        +bool Success
-        +uint? AbortCode
-    }
-
-    class ObjectDictionaryClassifier {
-        +Classify(index) OdObjectKind
-    }
-
-    class OdObjectKind {
-        &lt;&lt;enumeration&gt;&gt;
-        RxPdoMapping
-        TxPdoMapping
-        RxPdoAssignment
-        TxPdoAssignment
-        Unknown
-    }
-
-    class PdoMappingAnalyzer {
-        +Analyze(transactions) List~PdoMappingConfiguration~
-        -GetOrCreateMapping()
-        -ReplaceEntry()
-    }
-
-    class PdoMappingDescriptorParser {
-        +TryParse(entryNumber, data, entry) bool
-    }
-
-    class PdoMappingConfiguration {
-        +ushort StationAddress
-        +ushort MappingObjectIndex
-        +OdObjectKind Kind
-        +byte ActiveEntryCount
-        +List~PdoMappingEntry~ Entries
-    }
-
-    class PdoMappingEntry {
-        +byte EntryNumber
-        +string ObjectName
-        +ushort ObjectIndex
-        +byte ObjectSubIndex
-        +byte BitLength
-    }
-
-    class PdoAssignmentAnalyzer {
-        +Analyze(transactions) List~PdoAssignmentConfiguration~
-        -GetOrCreateAssignment()
-        -ReplaceEntry()
-        -ApplyCompleteAccessAssignment()
-    }
-
-    class PdoAssignmentConfiguration {
-        +ushort StationAddress
-        +ushort AssignmentObjectIndex
-        +OdObjectKind Kind
-        +byte ActiveEntryCount
-        +List~PdoAssignmentEntry~ Entries
-    }
-
-    class PdoAssignmentEntry {
-        +byte EntryNumber
-        +ushort MappingObjectIndex
-    }
-
-    EtherCatDatagramRecord *-- CoeSdoInfo : CoE / SDO fields
-
-    SdoTransactionAnalyzer ..&gt; EtherCatDatagramRecord : reads request / response
-    SdoTransactionAnalyzer --&gt; SdoTransaction : reconstructs
-
-    PdoMappingAnalyzer ..&gt; SdoTransaction : reads SDO writes
-    PdoMappingAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
-    ObjectDictionaryClassifier --&gt; OdObjectKind
-
-    PdoMappingAnalyzer ..&gt; PdoMappingDescriptorParser : parse 32-bit descriptor
-    PdoMappingAnalyzer --&gt; PdoMappingConfiguration : creates
-    PdoMappingConfiguration *-- "0..*" PdoMappingEntry : Entries
-    PdoMappingDescriptorParser --&gt; PdoMappingEntry : creates
-
-    PdoAssignmentAnalyzer ..&gt; SdoTransaction : reads SDO writes
-    PdoAssignmentAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
-    PdoAssignmentAnalyzer --&gt; PdoAssignmentConfiguration : creates
-    PdoAssignmentConfiguration *-- "0..*" PdoAssignmentEntry : Entries
-
-    PdoAssignmentEntry ..&gt; PdoMappingConfiguration : MappingObjectIndex
+								<div class="sdo-design-static-diagram">
+									<img src="assets/sdo/sdo-pdo-class-relationship.svg" alt="SDO / PDO analyzer class relationship diagram">
 								</div>
 							</article>
 						</main>
@@ -1391,52 +1268,6 @@ classDiagram
 					}
 				};
 
-				let sdoDesignMermaidReady = false;
-				const renderSdoDesignMermaid = async slide => {
-					if (!isSdoDesignSlide(slide) || !window.mermaid || isPrintMode()) return;
-
-					const diagram = slide.querySelector('.sdo-design-mermaid');
-					if (!diagram || diagram.dataset.mermaidRendered === 'true' || diagram.dataset.mermaidRendering === 'true') return;
-
-					diagram.dataset.mermaidRendering = 'true';
-					try {
-						if (!sdoDesignMermaidReady) {
-							window.mermaid.initialize({
-								startOnLoad: false,
-								securityLevel: 'loose',
-								theme: 'base',
-								themeVariables: {
-									fontFamily: 'Consolas, Cascadia Mono, Microsoft JhengHei, sans-serif',
-									fontSize: '15px',
-									primaryColor: '#eef4fa',
-									primaryTextColor: '#163b5c',
-									primaryBorderColor: '#6f95b8',
-									lineColor: '#5e83a8',
-									secondaryColor: '#f7fafc',
-									tertiaryColor: '#ffffff',
-													edgeLabelBackground: '#f7fafc'
-												},
-												class: {
-													padding: 2,
-													nodeSpacing: 4,
-													rankSpacing: 6
-												}
-							});
-							sdoDesignMermaidReady = true;
-						}
-						await window.mermaid.run({ nodes: [diagram] });
-						const svg = diagram.querySelector('svg');
-						if (svg) {
-							svg.style.maxWidth = '100%';
-							svg.style.maxHeight = '100%';
-						}
-						diagram.dataset.mermaidRendered = 'true';
-					} catch (error) {
-						delete diagram.dataset.mermaidRendering;
-						console.error('Unable to render SDO / PDO design Mermaid diagram', error);
-					}
-				};
-
 				const applyProblemGoalState = (slide, state) => {
 					if (!isProblemGoalSlide(slide)) return;
 
@@ -1483,7 +1314,6 @@ classDiagram
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
 						selector.setAttribute('aria-pressed', String(designState !== 0 && Number(selector.dataset.sdoDesignSelector) === designState));
 					});
-					if (designState === 2) renderSdoDesignMermaid(slide);
 				};
 
 				const isProblemGoalFragment = fragment => (

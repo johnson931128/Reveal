@@ -3574,25 +3574,30 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
 	height: 100%;
+	box-sizing: border-box;
+	padding: 24px 36px 18px;
 }
 
-.sdo-design-flow-core {
-	display: flex;
-	flex-direction: column;
+.sdo-design-flow-mainline {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(38px, .22fr) minmax(0, 1.05fr) minmax(38px, .22fr) minmax(0, 1.35fr) minmax(38px, .22fr) minmax(0, 1.05fr) minmax(38px, .22fr) minmax(0, 1.35fr);
 	align-items: center;
+	width: 100%;
+	max-width: 1340px;
 }
 
 .sdo-design-flow-node {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 300px;
-	min-height: 34px;
-	padding: 5px 14px;
+	min-width: 0;
+	min-height: 44px;
+	padding: 8px 12px;
 	border: 1px solid rgba(77, 134, 218, 0.62);
-	background: rgba(245, 249, 253, 0.9);
+	background: rgba(245, 249, 253, 0.92);
 	box-sizing: border-box;
 	color: var(--text-primary);
 	font-family: Consolas, "Cascadia Mono", Microsoft JhengHei, sans-serif;
@@ -3604,33 +3609,33 @@ body {
 
 .sdo-design-flow-connector {
 	position: relative;
-	width: 1px;
-	height: 22px;
-	background: rgba(103, 147, 192, 0.68);
+	width: 100%;
+	height: 1px;
+	background: rgba(103, 147, 192, 0.72);
 }
 
-.sdo-design-flow-connector::after,
-.sdo-design-flow-branch-connector::after {
+.sdo-design-flow-connector::after {
 	content: "";
 	position: absolute;
-	left: 50%;
-	bottom: -1px;
+	right: -1px;
+	top: 50%;
 	width: 7px;
 	height: 7px;
-	border-right: 1px solid rgba(103, 147, 192, 0.82);
-	border-bottom: 1px solid rgba(103, 147, 192, 0.82);
-	transform: translateX(-50%) rotate(45deg);
+	border-right: 1px solid rgba(103, 147, 192, 0.84);
+	border-top: 1px solid rgba(103, 147, 192, 0.84);
+	transform: translateY(-50%) rotate(45deg);
 }
 
 .sdo-design-flow-connector span {
 	position: absolute;
-	left: 16px;
-	top: 50%;
-	width: 210px;
+	left: 50%;
+	top: -25px;
+	width: max-content;
+	max-width: 230px;
 	color: var(--text-secondary);
-	font-size: 16px;
+	font-size: 15px;
 	line-height: 1.2;
-	transform: translateY(-50%);
+	transform: translateX(-50%);
 	white-space: nowrap;
 }
 
@@ -3638,9 +3643,12 @@ body {
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	column-gap: 128px;
+	column-gap: 92px;
 	width: 100%;
-	margin-top: 0;
+	max-width: 1220px;
+	margin-top: 66px;
+	padding: 0 72px;
+	box-sizing: border-box;
 }
 
 .sdo-design-flow-branches::before {
@@ -3650,46 +3658,85 @@ body {
 	left: 25%;
 	right: 25%;
 	height: 1px;
-	background: rgba(103, 147, 192, 0.68);
+	background: rgba(103, 147, 192, 0.72);
+}
+
+.sdo-design-flow-branches::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: -66px;
+	width: 1px;
+	height: 66px;
+	background: rgba(103, 147, 192, 0.72);
 }
 
 .sdo-design-flow-branch {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	min-width: 0;
 }
 
 .sdo-design-flow-branch-connector {
 	position: relative;
 	width: 1px;
-	height: 18px;
-	background: rgba(103, 147, 192, 0.68);
+	height: 28px;
+	background: rgba(103, 147, 192, 0.72);
+}
+
+.sdo-design-flow-branch-connector::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: -1px;
+	width: 7px;
+	height: 7px;
+	border-right: 1px solid rgba(103, 147, 192, 0.84);
+	border-bottom: 1px solid rgba(103, 147, 192, 0.84);
+	transform: translateX(-50%) rotate(45deg);
 }
 
 .sdo-design-flow-branch .sdo-design-flow-node {
-	min-width: 0;
 	width: 100%;
 	font-size: 17px;
 }
 
-.sdo-design-mermaid {
+.sdo-design-flow-branch > .sdo-design-flow-connector {
+	width: 1px;
+	height: 22px;
+}
+
+.sdo-design-flow-branch > .sdo-design-flow-connector::after {
+	right: auto;
+	left: 50%;
+	top: auto;
+	bottom: -1px;
+	border-right: 1px solid rgba(103, 147, 192, 0.84);
+	border-top: 0;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.84);
+	transform: translateX(-50%) rotate(45deg);
+}
+
+.sdo-design-static-diagram {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	height: 100%;
+	padding: 12px;
 	border: 1px solid rgba(103, 147, 192, 0.28);
 	background: rgba(247, 250, 252, 0.78);
 	box-sizing: border-box;
 	overflow: hidden;
 }
 
-.sdo-design-mermaid svg {
+.sdo-design-static-diagram img {
 	display: block;
-	max-width: 100%;
-	max-height: 100%;
-	width: auto;
-	height: auto;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center;
 }
 
 .sdo-design-slide[data-sdo-design-state="1"] .sdo-design-selector[data-sdo-design-selector="1"],
