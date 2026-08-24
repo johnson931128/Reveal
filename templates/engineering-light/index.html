@@ -644,64 +644,104 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						</footer>
 					</section>
 
-					<section class="problem-goal-slide" data-transition="none">
-						<div class="problem-goal-grid" aria-hidden="true"></div>
-
-						<header class="problem-goal-header">
-							<h1 class="problem-goal-title">分析問題與目標</h1>
+					<section class="coe-knowledge-slide" data-transition="none" data-coe-knowledge-state="0">
+						<header class="coe-knowledge-header">
+							<h1 class="coe-knowledge-title">CoE / SDO 知識整理</h1>
 						</header>
 
-						<main class="problem-goal-content">
-							<div class="problem-goal-columns">
-								<article class="problem-goal-panel">
-									<header class="problem-goal-panel-header">
-										<span class="problem-goal-index">01</span>
-										<span class="problem-goal-label">PROBLEM</span>
-									</header>
-									<span class="problem-goal-panel-rule" aria-hidden="true"></span>
-									<h2>封包解析提供的是獨立的 CoE / SDO Record</h2>
-									<p class="problem-goal-description">單一 Datagram 無法直接表示一次完整的 SDO object access，<br>Request 與 Response 必須跨封包建立關聯。</p>
-									<ul class="problem-goal-list">
-										<li>Request / Response 分散</li>
-										<li>Index / SubIndex 資訊分散</li>
-										<li>Result / Abort 狀態需要整合</li>
-									</ul>
+						<main class="coe-knowledge-layout" aria-label="CoE / SDO 知識整理">
+							<nav class="coe-knowledge-selectors" aria-label="CoE / SDO knowledge sections">
+								<article class="coe-knowledge-selector" data-coe-knowledge-selector="1" tabindex="0" role="button" aria-pressed="false">
+									<span class="coe-knowledge-index">01</span>
+									<div><h2>Mailbox / CoE / SDO</h2><span>Protocol Layers</span></div>
+								</article>
+								<article class="coe-knowledge-selector" data-coe-knowledge-selector="2" tabindex="0" role="button" aria-pressed="false">
+									<span class="coe-knowledge-index">02</span>
+									<div><h2>Object Dictionary</h2><span>Index / SubIndex</span></div>
+								</article>
+								<article class="coe-knowledge-selector" data-coe-knowledge-selector="3" tabindex="0" role="button" aria-pressed="false">
+									<span class="coe-knowledge-index">03</span>
+									<div><h2>SDO Download / Upload</h2><span>Client / Server</span></div>
+								</article>
+								<article class="coe-knowledge-selector" data-coe-knowledge-selector="4" tabindex="0" role="button" aria-pressed="false">
+									<span class="coe-knowledge-index">04</span>
+									<div><h2>SDO → PDO Configuration</h2><span>PDO Mapping</span></div>
+								</article>
+							</nav>
+
+							<div class="coe-knowledge-display" aria-live="polite">
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="0">
+									<h2>CoE / SDO 知識主線</h2>
+									<div class="coe-knowledge-overview-line">
+										<span>EtherCAT Datagram</span><span>Mailbox</span><span>CoE</span><span>SDO</span><span>Object Dictionary</span><span>PDO Configuration</span>
+									</div>
+									<p class="coe-knowledge-overview-note">CoE / SDO 的作用是透過 EtherCAT Mailbox 存取 CANopen Object Dictionary，並可進一步用來設定 PDO Mapping / Assignment。</p>
 								</article>
 
-								<article class="problem-goal-panel">
-									<header class="problem-goal-panel-header">
-										<span class="problem-goal-index">02</span>
-										<span class="problem-goal-label">GOAL</span>
-									</header>
-									<span class="problem-goal-panel-rule" aria-hidden="true"></span>
-									<h2>重建完整的 SDO Transaction</h2>
-									<p class="problem-goal-description">將 Mailbox / CoE / SDO 欄位重新組合，<br>建立可供後續 PDO Mapping 分析使用的 transaction-level model。</p>
-									<ul class="problem-goal-list">
-										<li>Request ↔ Response</li>
-										<li>Index / SubIndex</li>
-										<li>Access Direction</li>
-										<li>Result / Abort</li>
-									</ul>
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="1">
+									<h2>Mailbox / CoE / SDO</h2>
+									<div class="coe-knowledge-layer-list">
+										<div><h3>EtherCAT Datagram</h3><p><code>FPWR / FPRD</code> 等 EtherCAT Command</p></div>
+										<div><h3>ESC Mailbox Buffer</h3><p>承載 EtherCAT Mailbox Protocol</p></div>
+										<div><h3>EtherCAT Mailbox</h3><p><code>Type = 3</code> → CoE</p></div>
+										<div><h3>CoE</h3><p><code>CANopen over EtherCAT</code></p></div>
+										<div><h3>SDO</h3><p>Request / Response 方式存取 Object Dictionary</p></div>
+									</div>
+									<p class="coe-knowledge-state-note">CoE 不是 EtherCAT Command，而是 EtherCAT Mailbox Protocol 之一。SDO 則是 CoE 中用來存取 Object Dictionary 的服務，因此同一個 EtherCAT Datagram 內可以同時看到 EtherCAT Command、Mailbox、CoE 與 SDO 等不同層級的資訊。</p>
+								</article>
+
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="2">
+									<h2>Object Dictionary</h2>
+									<div class="coe-knowledge-od">
+										<h3>Object Dictionary Entry</h3>
+										<p class="coe-knowledge-od-format"><code>16-bit Index</code><span>+</span><code>8-bit SubIndex</code></p>
+										<div class="coe-knowledge-od-examples">
+											<div><code>0x6041:00</code><span>Statusword</span></div>
+											<div><code>0x1A00:01</code><span>TxPDO Mapping Entry 1</span></div>
+										</div>
+										<div class="coe-knowledge-address-contrast">
+											<p><strong>EtherCAT ADO</strong><span>= ESC Local Register Address</span></p>
+											<p><strong>Object Dictionary Index / SubIndex</strong><span>= CANopen Object Address</span></p>
+										</div>
+										<div class="coe-knowledge-not-equal">ADO ≠ OD Index</div>
+										<p class="coe-knowledge-state-note">例如 ADO = 0x0508 表示 ESC EEPROM Data Register；0x1A00:01 則表示 Object Dictionary 中的 TxPDO Mapping Entry。兩者屬於完全不同的 Address Space。</p>
+									</div>
+								</article>
+
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="3">
+									<h2>SDO Download / Upload</h2>
+									<div class="coe-knowledge-client-server">
+										<div><h3>Master</h3><p>SDO Client</p></div>
+										<div><h3>Slave</h3><p>SDO Server</p></div>
+									</div>
+									<div class="coe-knowledge-transfer-list">
+										<div><h3>SDO Download</h3><p>Master → Slave<br>寫入 Object Dictionary</p></div>
+										<div><h3>SDO Upload</h3><p>Slave → Master<br>讀取 Object Dictionary</p></div>
+									</div>
+									<div class="coe-knowledge-transfer-type"><span>Transfer Type</span><code>Expedited</code><code>Segmented</code><code>Block</code></div>
+									<p class="coe-knowledge-analyzer-note">目前 Analyzer 實作重點：<code>Initiate Download Request / Response</code></p>
+									<p class="coe-knowledge-state-note">SDO 採 Client / Server Request-Response 模型。Download 表示 Client 將資料寫入 Server 的 Object Dictionary；Upload 則表示 Client 從 Server 的 Object Dictionary 讀取資料。</p>
+								</article>
+
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="4">
+									<h2>SDO → PDO Configuration</h2>
+									<div class="coe-knowledge-pdo">
+										<div class="coe-knowledge-pdo-core"><code>0x1A00:01</code><span>=</span><code>0x60410010</code></div>
+										<div class="coe-knowledge-pdo-fields"><div><code>0x6041</code><span>Object Index</span></div><div><code>0x00</code><span>SubIndex</span></div><div><code>0x10</code><span>16 bits</span></div></div>
+										<div class="coe-knowledge-pdo-result"><code>0x1A00:01</code><span>→</span><code>0x6041:00 / 16 bit</code></div>
+										<p class="coe-knowledge-pdo-warning"><code>0x1A00</code> 是 Object Dictionary Index，不是 EtherCAT ADO</p>
+										<div class="coe-knowledge-pdo-definitions"><div><strong>PDO Mapping</strong><span>決定 PDO 裡放哪些 Object</span></div><div><strong>PDO Assignment</strong><span>決定目前使用哪些 PDO Mapping</span></div></div>
+										<div class="coe-knowledge-pdo-ranges"><div><code>0x1600~0x17FF</code><span>RxPDO Mapping</span></div><div><code>0x1A00~0x1BFF</code><span>TxPDO Mapping</span></div><div><code>0x1C12</code><span>RxPDO Assignment</span></div><div><code>0x1C13</code><span>TxPDO Assignment</span></div></div>
+										<p class="coe-knowledge-state-note">SDO 可以透過 Object Dictionary 修改 PDO Mapping / Assignment；完成組態後，週期性的 Process Data 傳輸不會再為每個 PDO value 攜帶 Index / SubIndex。</p>
+									</div>
 								</article>
 							</div>
-
-							<div class="problem-goal-trace" aria-label="Input process and output trace">
-								<div class="problem-goal-trace-stage">
-									<span>INPUT</span>
-									<strong>Mailbox / CoE Datagram</strong>
-								</div>
-								<div class="problem-goal-trace-stage">
-									<span>PROCESS</span>
-									<strong>Transaction Reconstruction</strong>
-								</div>
-								<div class="problem-goal-trace-stage">
-									<span>OUTPUT</span>
-									<strong>SDO Transaction Model</strong>
-								</div>
-							</div>
-							<span class="problem-goal-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
-							<span class="problem-goal-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
 						</main>
+
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1068,6 +1108,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
 				const slaveDiscoverySelector = 'section.discovery-flow-slide';
+				const coeKnowledgeSelector = 'section.coe-knowledge-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1088,6 +1129,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isSlaveDiscoverySlide = slide => (
 					slide && slide.matches(slaveDiscoverySelector)
+				);
+
+				const isCoeKnowledgeSlide = slide => (
+					slide && slide.matches(coeKnowledgeSelector)
 				);
 
 				let slaveDiscoveryMermaidReady = false;
@@ -1175,6 +1220,16 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					});
 				};
 
+				const setCoeKnowledgeState = (slide, state) => {
+					if (!isCoeKnowledgeSlide(slide)) return;
+
+					const knowledgeState = isPrintMode() ? 0 : Math.max(0, Math.min(4, state));
+					slide.dataset.coeKnowledgeState = knowledgeState;
+					slide.querySelectorAll('.coe-knowledge-selector').forEach(selector => {
+						selector.setAttribute('aria-pressed', String(knowledgeState !== 0 && Number(selector.dataset.coeKnowledgeSelector) === knowledgeState));
+					});
+				};
+
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
@@ -1189,6 +1244,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isSlaveDiscoveryFragment = fragment => (
 					fragment && fragment.classList.contains('slave-discovery-state-fragment')
+				);
+
+				const isCoeKnowledgeFragment = fragment => (
+					fragment && fragment.classList.contains('coe-knowledge-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -1210,12 +1269,16 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					document.querySelectorAll(slaveDiscoverySelector).forEach(slide => {
 						setSlaveDiscoveryState(slide, 0);
 					});
+					document.querySelectorAll(coeKnowledgeSelector).forEach(slide => {
+						setCoeKnowledgeState(slide, 0);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 3);
 					if (isSlaveDiscoverySlide(currentSlide)) setSlaveDiscoveryState(currentSlide, 0);
+					if (isCoeKnowledgeSlide(currentSlide)) setCoeKnowledgeState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1248,6 +1311,23 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					});
 				});
 
+				document.querySelectorAll(coeKnowledgeSelector).forEach(slide => {
+					slide.querySelectorAll('.coe-knowledge-selector').forEach(selector => {
+						const selectState = () => {
+							const state = Number(selector.dataset.coeKnowledgeSelector);
+							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
+							setCoeKnowledgeState(slide, state);
+						};
+						selector.addEventListener('click', selectState);
+						selector.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							event.stopPropagation();
+							selectState();
+						});
+					});
+				});
+
 				Reveal.on('slidechanged', event => {
 					if (isTechnicalFlowSlide(event.currentSlide)) {
 						resetInteractiveSlide(event.currentSlide);
@@ -1264,6 +1344,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (isSlaveDiscoverySlide(event.currentSlide)) {
 						if (!isPrintMode()) Reveal.navigateFragment(-1);
 						setSlaveDiscoveryState(event.currentSlide, 0);
+					}
+					if (isCoeKnowledgeSlide(event.currentSlide)) {
+						if (!isPrintMode()) Reveal.navigateFragment(-1);
+						setCoeKnowledgeState(event.currentSlide, 0);
 					}
 				});
 
@@ -1283,6 +1367,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						setSlaveDiscoveryState(slide, fragmentIndex + 1);
 						if (fragmentIndex + 1 === 3) renderSlaveDiscoveryMermaid(slide);
 					}
+					if (isCoeKnowledgeFragment(event.fragment)) {
+						setCoeKnowledgeState(slide, fragmentIndex + 1);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1299,6 +1386,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					}
 					if (isSlaveDiscoveryFragment(event.fragment)) {
 						setSlaveDiscoveryState(slide, fragmentIndex);
+					}
+					if (isCoeKnowledgeFragment(event.fragment)) {
+						setCoeKnowledgeState(slide, fragmentIndex);
 					}
 				});
 			});
