@@ -219,23 +219,21 @@ body {
 	gap: 12px;
 	width: 188px;
 	height: 78px;
-	border: 1px solid rgba(103, 147, 192, 0.44);
-	background: rgba(255, 255, 255, 0.45);
+	border: 0;
+	background-color: transparent;
+	background-image: url("assets/brand/delta-logo.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 155px auto;
 	z-index: 4;
 }
 
 .logo-mark {
-	color: var(--accent);
-	font-size: 33px;
-	line-height: 1;
-	transform: rotate(-6deg);
+	display: none;
 }
 
 .logo-placeholder {
-	color: #5e87b7;
-	font-size: 15px;
-	font-weight: 650;
-	letter-spacing: 0.08em;
+	display: none;
 }
 
 .slide-footer {
@@ -5611,7 +5609,7 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 
 .section-divider-slide .logo-area {
 	border-color: var(--section-divider-line);
-	background: transparent;
+	background-color: transparent;
 }
 
 .section-divider-slide .logo-mark {
