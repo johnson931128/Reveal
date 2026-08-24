@@ -249,6 +249,7 @@ body {
 
 .slide-footer::before {
 	content: "";
+	display: none;
 	position: absolute;
 	top: 0;
 	left: 68px;
@@ -308,7 +309,6 @@ body {
 }
 
 .page-rule {
-	display: none;
 	width: 117px;
 	height: 1px;
 	background: linear-gradient(90deg, transparent, var(--line));
