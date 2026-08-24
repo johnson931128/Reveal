@@ -1,0 +1,37 @@
+[PDO Assignment Summary]
+
+Station Address: 0x0001
+Assignment Object: 0x1C12
+Type: RxPDO Assignment
+Active Entries: 1
+
+Entry  Mapping Object
+-----  --------------
+01     0x1600
+
+Station Address: 0x0001
+Assignment Object: 0x1C13
+Type: TxPDO Assignment
+Active Entries: 1
+
+Entry  Mapping Object
+-----  --------------
+01     0x1A00
+
+[SyncManager Summary]
+
+Station Address: 0x0001
+SyncManager: SM2
+Register Base: 0x0810
+Physical Start: 0x1180
+Length: 2 bytes
+Enabled: True
+Frame: 218611
+
+Station Address: 0x0001
+SyncManager: SM3
+Register Base: 0x0818
+Physical Start: 0x1480
+Length: 10 bytes
+Enabled: True
+Frame: 218617

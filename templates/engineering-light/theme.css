@@ -4145,6 +4145,236 @@ html.print-pdf .syncmanager-analyzer-slide .syncmanager-analyzer-state[data-sync
 	opacity: 0.38;
 }
 
+.reveal .slides section.fmmu-analyzer-slide {
+	position: relative;
+	display: block;
+	width: 1600px;
+	height: 900px;
+	min-height: 900px;
+	padding: 0;
+	overflow: hidden;
+	background: var(--bg);
+	color: var(--text-primary);
+}
+
+.reveal .slides section.report-stack > section.fmmu-analyzer-slide {
+	position: absolute;
+}
+
+.fmmu-analyzer-header {
+	position: absolute;
+	top: 64px;
+	left: 92px;
+	width: 1416px;
+	z-index: 3;
+}
+
+.fmmu-analyzer-title {
+	margin: 0;
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 46px;
+	font-weight: 700;
+	line-height: 1.12;
+	letter-spacing: 0.012em;
+}
+
+.fmmu-analyzer-selectors {
+	position: absolute;
+	top: 150px;
+	bottom: 118px;
+	left: 92px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 310px;
+	z-index: 3;
+}
+
+.fmmu-analyzer-selector {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr);
+	column-gap: 13px;
+	align-items: center;
+	min-width: 0;
+	min-height: 0;
+	flex: 1;
+	padding: 14px 16px;
+	border: 1px solid rgba(103, 147, 192, 0.36);
+	border-left: 2px solid transparent;
+	background: rgba(255, 255, 255, 0.24);
+	box-sizing: border-box;
+	opacity: 0.38;
+	transition: opacity 210ms ease, background-color 210ms ease, border-color 210ms ease;
+	cursor: pointer;
+}
+
+.fmmu-analyzer-selector[aria-pressed="true"] {
+	border-left-color: var(--accent);
+	background: rgba(103, 147, 192, 0.1);
+	opacity: 1;
+}
+
+.fmmu-analyzer-selector:focus-visible {
+	outline: 2px solid rgba(77, 134, 218, 0.62);
+	outline-offset: -2px;
+}
+
+.fmmu-analyzer-selector-index {
+	align-self: start;
+	padding-top: 2px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.fmmu-analyzer-selector h2 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 23px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.fmmu-analyzer-selector div > span {
+	display: block;
+	margin-top: 7px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.fmmu-analyzer-display {
+	position: absolute;
+	top: 150px;
+	left: 430px;
+	right: 70px;
+	bottom: 118px;
+	box-sizing: border-box;
+	border: 1px solid rgba(103, 147, 192, 0.38);
+	background: rgba(255, 255, 255, 0.22);
+	overflow: hidden;
+	z-index: 2;
+}
+
+.fmmu-analyzer-state {
+	position: absolute;
+	inset: 0;
+	box-sizing: border-box;
+	padding: 26px 34px;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(8px);
+	transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+}
+
+.fmmu-analyzer-slide[data-fmmu-analyzer-state="1"] .fmmu-analyzer-state[data-fmmu-analyzer-panel="1"],
+.fmmu-analyzer-slide[data-fmmu-analyzer-state="2"] .fmmu-analyzer-state[data-fmmu-analyzer-panel="2"],
+.fmmu-analyzer-slide[data-fmmu-analyzer-state="3"] .fmmu-analyzer-state[data-fmmu-analyzer-panel="3"],
+.fmmu-analyzer-slide[data-fmmu-analyzer-state="4"] .fmmu-analyzer-state[data-fmmu-analyzer-panel="4"] {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+	transition-delay: 0s;
+}
+
+.fmmu-analyzer-image-state,
+.fmmu-analyzer-terminal-state {
+	padding: 6px;
+}
+
+.fmmu-analyzer-copy {
+	color: var(--text-primary);
+	font-size: 19px;
+	line-height: 1.48;
+}
+
+.fmmu-analyzer-copy p {
+	margin: 0 0 12px;
+}
+
+.fmmu-analyzer-relationship {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	margin: 15px 0 17px;
+	padding: 13px 0;
+	border-top: 1px solid rgba(103, 147, 192, 0.28);
+	border-bottom: 1px solid rgba(103, 147, 192, 0.28);
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 17px;
+}
+
+.fmmu-analyzer-relationship b {
+	color: var(--accent);
+	font-size: 21px;
+	font-weight: 500;
+}
+
+.fmmu-analyzer-table {
+	width: 100%;
+	border-collapse: collapse;
+	color: var(--text-primary);
+	font-size: 17px;
+	line-height: 1.24;
+}
+
+.fmmu-analyzer-table th,
+.fmmu-analyzer-table td {
+	padding: 9px 12px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.25);
+	text-align: left;
+	vertical-align: top;
+}
+
+.fmmu-analyzer-table thead th {
+	color: var(--accent);
+	font-size: 18px;
+	font-weight: 650;
+}
+
+.fmmu-analyzer-table tbody th {
+	width: 34%;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-weight: 600;
+}
+
+.fmmu-analyzer-conclusion {
+	margin: 16px 0 0;
+	color: var(--text-primary);
+	font-size: 18px;
+	line-height: 1.45;
+}
+
+.fmmu-analyzer-viewer,
+.fmmu-analyzer-terminal {
+	width: 100%;
+	height: 100%;
+}
+
+.fmmu-analyzer-viewer-hint {
+	position: absolute;
+	right: 12px;
+	bottom: 10px;
+	color: var(--text-secondary);
+	font-size: 15px;
+	line-height: 1.2;
+	opacity: 0.65;
+	pointer-events: none;
+}
+
+.fmmu-analyzer-terminal-body {
+	white-space: pre;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
 .reveal .slides section.syncmanager-slide {
 	position: relative;
 	display: block;

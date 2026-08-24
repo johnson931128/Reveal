@@ -1183,6 +1183,95 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 									</div>
 								</footer>
 							</section>
+							<section class="fmmu-analyzer-slide" data-transition="none" data-fmmu-analyzer-state="1">
+								<header class="fmmu-analyzer-header">
+									<h1 class="fmmu-analyzer-title">FMMU Analyzer 實作設計</h1>
+								</header>
+
+								<nav class="fmmu-analyzer-selectors" aria-label="FMMU analyzer views">
+									<article class="fmmu-analyzer-selector" data-fmmu-analyzer-selector="1" tabindex="0" role="button" aria-pressed="true">
+										<span class="fmmu-analyzer-selector-index">01</span>
+										<div><h2>FMMU</h2><span>Logical Mapping</span></div>
+									</article>
+									<article class="fmmu-analyzer-selector" data-fmmu-analyzer-selector="2" tabindex="0" role="button" aria-pressed="false">
+										<span class="fmmu-analyzer-selector-index">02</span>
+										<div><h2>設計流程</h2><span>Reconstruction Pipeline</span></div>
+									</article>
+									<article class="fmmu-analyzer-selector" data-fmmu-analyzer-selector="3" tabindex="0" role="button" aria-pressed="false">
+										<span class="fmmu-analyzer-selector-index">03</span>
+										<div><h2>程式碼關係</h2><span>Class Relationship</span></div>
+									</article>
+									<article class="fmmu-analyzer-selector" data-fmmu-analyzer-selector="4" tabindex="0" role="button" aria-pressed="false">
+										<span class="fmmu-analyzer-selector-index">04</span>
+										<div><h2>重建成果</h2><span>Analyzer Result</span></div>
+									</article>
+								</nav>
+
+								<main class="fmmu-analyzer-display" aria-live="polite">
+									<article class="fmmu-analyzer-state" data-fmmu-analyzer-panel="1">
+										<div class="fmmu-analyzer-copy">
+											<p><strong>FMMU（Fieldbus Memory Management Unit）</strong> 是 ESC 內的硬體單元，負責把 EtherCAT Logical Address 空間映射到 ESC 的 Physical / Local RAM 區域。Master 因此能以連續邏輯位址讀寫 Process Data，不必直接處理各 Slave 內部 RAM 的實體位址。</p>
+											<p><strong>PDO Assignment</strong> 決定使用哪些 PDO Mapping；<strong>SyncManager</strong> 管理這批 Process Data 實際使用的 Local RAM Buffer；<strong>FMMU</strong> 再把該 RAM 區域映射到 EtherCAT Logical Address。</p>
+											<div class="fmmu-analyzer-relationship"><span>PDO Mapping / Assignment</span><b>→</b><span>SyncManager</span><b>→</b><span>FMMU</span><b>→</b><span>Process Data</span></div>
+										</div>
+
+										<table class="fmmu-analyzer-table">
+											<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+											<tbody>
+												<tr><th>Logical Start Address</th><td>EtherCAT logical address space 的映射起點</td></tr>
+												<tr><th>Length</th><td>此 FMMU mapping 涵蓋的資料長度</td></tr>
+												<tr><th>Physical Start Address</th><td>對應 ESC Local RAM 的起始位址</td></tr>
+												<tr><th>Direction / Orientation</th><td>定義 logical read / write 與 local access 的方向</td></tr>
+												<tr><th>Enabled / Activate</th><td>啟用或停用此 FMMU mapping</td></tr>
+											</tbody>
+										</table>
+
+										<p class="fmmu-analyzer-conclusion"><strong>SyncManager</strong> 管理實體 Local RAM，<strong>FMMU</strong> 管理 Logical Address 到 Local RAM 的映射。兩者串接後，Master 才能透過 LRW、LRD、LWR 等 Process Data 命令操作 PDO 資料。</p>
+									</article>
+
+									<article class="fmmu-analyzer-state fmmu-analyzer-image-state" data-fmmu-analyzer-panel="2">
+										<div class="pan-zoom-viewer fmmu-analyzer-viewer" aria-label="FMMU reconstruction pipeline viewer">
+											<img src="assets/fmmu/fmmuflow.png" alt="FMMU reconstruction pipeline" draggable="false">
+											<span class="fmmu-analyzer-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
+										</div>
+									</article>
+
+									<article class="fmmu-analyzer-state fmmu-analyzer-image-state" data-fmmu-analyzer-panel="3">
+										<div class="pan-zoom-viewer fmmu-analyzer-viewer" aria-label="FMMU class relationship viewer">
+											<img src="assets/fmmu/fmmuclass.png" alt="FMMU class relationship" draggable="false">
+											<span class="fmmu-analyzer-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
+										</div>
+									</article>
+
+									<article class="fmmu-analyzer-state fmmu-analyzer-terminal-state" data-fmmu-analyzer-panel="4">
+										<div class="syncmanager-result-terminal fmmu-analyzer-terminal" tabindex="0" role="region" aria-label="FMMU Analyzer result terminal">
+											<pre class="syncmanager-result-terminal-body fmmu-analyzer-terminal-body" data-terminal-source="assets/fmmu/fmmu-result.txt">Waiting for FMMU Analyzer result...</pre>
+										</div>
+									</article>
+								</main>
+
+								<div class="logo-area" aria-label="Company logo placeholder">
+									<span class="logo-mark" aria-hidden="true">△</span>
+									<span class="logo-placeholder">DELTA LOGO</span>
+								</div>
+
+								<footer class="slide-footer">
+									<span class="footer-corner" aria-hidden="true"></span>
+									<div class="footer-meta">
+										<span class="footer-arrow" aria-hidden="true"></span>
+										<span>范舜傑</span>
+										<span class="meta-divider">|</span>
+										<span>MDSBU 通訊工程課</span>
+										<span class="meta-divider">|</span>
+										<time datetime="2026-08-25">08/25/2026</time>
+									</div>
+									<div class="page-number" aria-label="Page 13">
+										<span class="page-rule"></span>
+										<span>13</span>
+										<span class="page-rule"></span>
+									</div>
+								</footer>
+							</section>
 							<section class="diagram-slide" data-transition="none">
 						<div class="diagram-background-grid" aria-hidden="true"></div>
 						<div class="diagram-corner-rule" aria-hidden="true"></div>
@@ -1263,9 +1352,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 13">
+							<div class="page-number" aria-label="Page 14">
 								<span class="page-rule"></span>
-								<span>13</span>
+								<span>14</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1341,9 +1430,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 14">
+							<div class="page-number" aria-label="Page 15">
 								<span class="page-rule"></span>
-								<span>14</span>
+								<span>15</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1377,6 +1466,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const syncManagerSelector = 'section.syncmanager-slide';
 				const syncManagerAnalyzerSelector = 'section.syncmanager-analyzer-slide';
 				const syncManagerResultSelector = 'section.syncmanager-result-slide';
+				const fmmuAnalyzerSelector = 'section.fmmu-analyzer-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1419,8 +1509,12 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					slide && slide.matches(syncManagerResultSelector)
 				);
 
+				const isFmmuAnalyzerSlide = slide => (
+					slide && slide.matches(fmmuAnalyzerSelector)
+				);
+
 				const setupPanZoomViewer = slide => {
-					if ((!isSdoDesignSlide(slide) && !isSyncManagerAnalyzerSlide(slide)) || isPrintMode()) return;
+					if ((!isSdoDesignSlide(slide) && !isSyncManagerAnalyzerSlide(slide) && !isFmmuAnalyzerSlide(slide)) || isPrintMode()) return;
 					const viewers = Array.from(slide.querySelectorAll('.pan-zoom-viewer'));
 					if (!viewers.length) return;
 					slide.__panZoomViewers = slide.__panZoomViewers || [];
@@ -1584,12 +1678,14 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						const viewers = slide?.__panZoomViewers || [];
 						const targetPanel = isSdoDesignSlide(slide)
 							? slide.dataset.sdoDesignState
-							: slide.dataset.syncmanagerAnalyzerState;
+							: isSyncManagerAnalyzerSlide(slide)
+								? slide.dataset.syncmanagerAnalyzerState
+								: slide.dataset.fmmuAnalyzerState;
 						const active = viewers.find(({ viewer }) => {
-							const panel = viewer.closest('[data-sdo-design-panel], [data-syncmanager-analyzer-panel]');
+							const panel = viewer.closest('[data-sdo-design-panel], [data-syncmanager-analyzer-panel], [data-fmmu-analyzer-panel]');
 							const rect = viewer.getBoundingClientRect();
 							const style = getComputedStyle(viewer);
-							const panelState = panel?.dataset.sdoDesignPanel ?? panel?.dataset.syncmanagerAnalyzerPanel;
+							const panelState = panel?.dataset.sdoDesignPanel ?? panel?.dataset.syncmanagerAnalyzerPanel ?? panel?.dataset.fmmuAnalyzerPanel;
 							return panelState === targetPanel && rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
 						});
 						active?.state.reset();
@@ -1644,6 +1740,61 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 					const terminal = slide.querySelector('.syncmanager-result-terminal');
 					const output = slide.querySelector('.syncmanager-result-terminal-body');
+					if (!terminal || !output || terminal.dataset.keysBound === 'true') return;
+
+					terminal.addEventListener('wheel', event => {
+						event.stopPropagation();
+					}, { passive: true });
+					terminal.addEventListener('keydown', event => {
+						const scrollKeys = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End']);
+						if (!scrollKeys.has(event.key)) return;
+
+						event.preventDefault();
+						event.stopPropagation();
+						const pageStep = output.clientHeight * 0.86;
+						const lineStep = parseFloat(getComputedStyle(output).lineHeight) || 24;
+						switch (event.key) {
+							case 'ArrowUp': output.scrollBy({ top: -lineStep }); break;
+							case 'ArrowDown': output.scrollBy({ top: lineStep }); break;
+							case 'PageUp': output.scrollBy({ top: -pageStep }); break;
+							case 'PageDown': output.scrollBy({ top: pageStep }); break;
+							case 'Home': output.scrollTop = 0; break;
+							case 'End': output.scrollTop = output.scrollHeight; break;
+						}
+					});
+					terminal.dataset.keysBound = 'true';
+				};
+
+				const loadFmmuResultTerminal = async slide => {
+					if (!isFmmuAnalyzerSlide(slide)) return;
+
+					const terminal = slide.querySelector('.fmmu-analyzer-terminal');
+					const output = terminal?.querySelector('.fmmu-analyzer-terminal-body');
+					if (!terminal || !output || output.dataset.loaded === 'true') return;
+
+					try {
+						const response = await fetch(output.dataset.terminalSource);
+						if (!response.ok) throw new Error(`HTTP ${response.status}`);
+						output.textContent = await response.text();
+					} catch {
+						output.textContent = 'Waiting for FMMU Analyzer result...';
+					}
+					output.dataset.loaded = 'true';
+					output.scrollTop = 0;
+				};
+
+				const resetFmmuResultTerminal = slide => {
+					if (!isFmmuAnalyzerSlide(slide)) return;
+
+					const output = slide.querySelector('.fmmu-analyzer-terminal-body');
+					if (output) output.scrollTop = 0;
+				};
+
+				const bindFmmuResultTerminalKeys = slide => {
+					if (!isFmmuAnalyzerSlide(slide)) return;
+
+					const terminal = slide.querySelector('.fmmu-analyzer-terminal');
+					const output = slide.querySelector('.fmmu-analyzer-terminal-body');
 					if (!terminal || !output || terminal.dataset.keysBound === 'true') return;
 
 					terminal.addEventListener('wheel', event => {
@@ -1819,6 +1970,18 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (analyzerState > 0) resetPanZoomViewer(slide);
 				};
 
+				const setFmmuAnalyzerState = (slide, state) => {
+					if (!isFmmuAnalyzerSlide(slide)) return;
+
+					const fmmuState = isPrintMode() ? 1 : Math.max(1, Math.min(4, state));
+					slide.dataset.fmmuAnalyzerState = fmmuState;
+					slide.querySelectorAll('.fmmu-analyzer-selector').forEach(selector => {
+						selector.setAttribute('aria-pressed', String(Number(selector.dataset.fmmuAnalyzerSelector) === fmmuState));
+					});
+					if (fmmuState === 2 || fmmuState === 3) resetPanZoomViewer(slide);
+					if (fmmuState === 4) resetFmmuResultTerminal(slide);
+				};
+
 				const isProblemGoalFragment = fragment => (
 					fragment && fragment.classList.contains('problem-goal-state-fragment')
 				);
@@ -1875,6 +2038,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					document.querySelectorAll(syncManagerAnalyzerSelector).forEach(slide => {
 						setSyncManagerAnalyzerState(slide, 0);
 					});
+					document.querySelectorAll(fmmuAnalyzerSelector).forEach(slide => {
+						setFmmuAnalyzerState(slide, 1);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
@@ -1884,6 +2050,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (isSdoDesignSlide(currentSlide)) setSdoDesignState(currentSlide, 0);
 					if (isSyncManagerSlide(currentSlide)) setSyncManagerState(currentSlide, 0);
 					if (isSyncManagerAnalyzerSlide(currentSlide)) setSyncManagerAnalyzerState(currentSlide, 0);
+					if (isFmmuAnalyzerSlide(currentSlide)) setFmmuAnalyzerState(currentSlide, 1);
 				}
 
 				document.querySelectorAll(sdoAnalysisSelector).forEach(slide => {
@@ -1894,6 +2061,22 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				document.querySelectorAll(syncManagerResultSelector).forEach(slide => {
 					bindSyncManagerResultTerminalKeys(slide);
 					loadSyncManagerResultTerminal(slide);
+				});
+
+				document.querySelectorAll(fmmuAnalyzerSelector).forEach(slide => {
+					setupPanZoomViewer(slide);
+					bindFmmuResultTerminalKeys(slide);
+					loadFmmuResultTerminal(slide);
+					slide.querySelectorAll('.fmmu-analyzer-selector').forEach(selector => {
+						const selectState = () => setFmmuAnalyzerState(slide, Number(selector.dataset.fmmuAnalyzerSelector));
+						selector.addEventListener('click', selectState);
+						selector.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							event.stopPropagation();
+							selectState();
+						});
+					});
 				});
 
 				document.querySelectorAll(sdoDesignSelector).forEach(slide => {
@@ -2072,6 +2255,11 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						resetSyncManagerResultTerminal(event.currentSlide);
 						bindSyncManagerResultTerminalKeys(event.currentSlide);
 						loadSyncManagerResultTerminal(event.currentSlide);
+					}
+					if (isFmmuAnalyzerSlide(event.currentSlide)) {
+						setFmmuAnalyzerState(event.currentSlide, 1);
+						bindFmmuResultTerminalKeys(event.currentSlide);
+						loadFmmuResultTerminal(event.currentSlide);
 					}
 				});
 
