@@ -5346,8 +5346,14 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 	display: block;
 	width: 1600px;
 	height: 900px;
+	min-height: 900px;
+	padding: 0;
 	overflow: hidden;
 	text-align: left;
+}
+
+.reveal .slides section.report-stack > section.eeprom-read-slide {
+	position: absolute;
 }
 
 .eeprom-read-header {
