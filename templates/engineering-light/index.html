@@ -318,14 +318,23 @@
 									<div class="command-auto-visual">
 										<div class="command-auto-master">Master</div>
 										<code class="command-auto-command">APRD / APWR / APRW</code>
-										<div class="command-auto-route"><span class="command-auto-route-line"></span><span class="command-auto-route-highlight" aria-hidden="true"></span><span>Slave 1</span><span>Slave 2</span><span>Slave 3</span></div>
+										<div class="command-auto-slaves" aria-label="Auto Increment outgoing ADP topology mapping">
+											<div class="command-auto-slave"><strong>Slave 1</strong><code>Outgoing ADP: 0x0000</code><span>Signed: 0</span><small>Topology Position: 1</small></div>
+											<div class="command-auto-slave"><strong>Slave 2</strong><code>Outgoing ADP: 0xFFFF</code><span>Signed: -1</span><small>Topology Position: 2</small></div>
+											<div class="command-auto-slave"><strong>Slave 3</strong><code>Outgoing ADP: 0xFFFE</code><span>Signed: -2</span><small>Topology Position: 3</small></div>
+										</div>
 									</div>
 									<table class="command-flow-table command-auto-table">
 										<caption class="sr-only">Auto Increment addressing fields</caption>
 										<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
-										<tbody><tr><td><code>ADP</code></td><td>Auto Increment Address，用來依鏈路位置指定 Slave</td></tr><tr><td><code>ADO</code></td><td>ESC Register Offset，用來指定 Slave 內要操作的 ESC 位址</td></tr></tbody>
+										<tbody><tr><td><code>ADP</code></td><td>Auto Increment Address；Master 可使用 0、-1、-2... 的 outgoing ADP 依拓樸位置指定 Slave</td></tr><tr><td><code>ADO</code></td><td>ESC Register Offset，用來指定 Slave 內要操作的 ESC 位址</td></tr></tbody>
 									</table>
-									<p class="command-flow-explanation">Auto Increment Command 用於依實體鏈路位置逐站存取 Slave。封包經過各 Slave 時，Auto Increment Address 會依協定規則更新；當 Slave 判定目前 Address 命中自身時，才執行該 Datagram 操作。Analyzer 因此可以利用 outgoing ADP 重建 Slave 的 topology position。</p>
+									<table class="command-flow-table command-auto-mapping-table">
+										<caption class="sr-only">Outgoing Auto Increment Address mapping</caption>
+										<thead><tr><th>Outgoing ADP</th><th>Signed Value</th><th>Topology Position</th></tr></thead>
+										<tbody><tr><td><code>0x0000</code></td><td>0</td><td>Slave 1</td></tr><tr><td><code>0xFFFF</code></td><td>-1</td><td>Slave 2</td></tr><tr><td><code>0xFFFE</code></td><td>-2</td><td>Slave 3</td></tr></tbody>
+									</table>
+									<p class="command-flow-explanation">Auto Increment Command 用於依實體鏈路位置逐站存取 Slave。Master 可在 outgoing Datagram 中使用 0x0000、0xFFFF、0xFFFE 等 Auto Increment Address，分別表示 0、-1、-2，對應第 1、2、3 個拓樸位置。封包經過 Slave 時，Auto Increment Address 會依協定規則更新；Slave 在 Address 命中自身時執行該 Datagram 操作，因此 Analyzer 可以利用 outgoing ADP 重建 topology position。</p>
 								</article>
 
 								<article class="command-addressing-detail-state command-detail-configured" data-detail-state="4">
