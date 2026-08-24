@@ -924,21 +924,15 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="sdo-design-state" data-sdo-design-panel="2">
-								<div class="sdo-design-class-crop sdo-design-class-crop-mapping">
-									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO transaction and PDO mapping class relationship diagram">
-								</div>
-							</article>
-
-							<article class="sdo-design-state" data-sdo-design-panel="3">
-								<div class="sdo-design-class-crop sdo-design-class-crop-assignment">
-									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="PDO assignment class relationship diagram">
+								<div class="sdo-design-viewer" aria-label="SDO / PDO analyzer class relationship viewer">
+									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO / PDO analyzer class relationship diagram" draggable="false">
+									<span class="sdo-design-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
 								</div>
 							</article>
 						</main>
 
 						<span class="sdo-design-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
 						<span class="sdo-design-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
-						<span class="sdo-design-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1183,6 +1177,149 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					slide && slide.matches(sdoDesignSelector)
 				);
 
+				const setupSdoDesignViewer = slide => {
+					if (!isSdoDesignSlide(slide) || isPrintMode()) return;
+					const viewer = slide.querySelector('.sdo-design-viewer');
+					const image = viewer?.querySelector('img');
+					if (!viewer || !image || viewer.dataset.viewerBound === 'true') return;
+
+					const viewerState = {
+						dragging: false,
+						pointerId: null,
+						pointerX: 0,
+						pointerY: 0,
+						startX: 0,
+						startY: 0,
+						x: 0,
+						y: 0,
+						scale: 1,
+						fitScale: 1,
+						maxScale: 1.5
+					};
+					slide.__sdoDesignViewer = viewerState;
+					viewer.dataset.viewerBound = 'true';
+
+					const getMetrics = () => {
+						if (!image.naturalWidth || !image.naturalHeight) return null;
+						const rect = viewer.getBoundingClientRect();
+						const fitScale = Math.min(rect.width / image.naturalWidth, rect.height / image.naturalHeight);
+						return {
+							rect,
+							fitScale,
+							maxScale: Math.max(1.5, fitScale * 3),
+							imageWidth: image.naturalWidth * viewerState.scale,
+							imageHeight: image.naturalHeight * viewerState.scale
+						};
+					};
+
+					const clampPosition = () => {
+						const metrics = getMetrics();
+						if (!metrics) return;
+						const maxX = Math.max(0, (metrics.imageWidth - metrics.rect.width) / 2);
+						const maxY = Math.max(0, (metrics.imageHeight - metrics.rect.height) / 2);
+						viewerState.x = maxX ? Math.max(-maxX, Math.min(maxX, viewerState.x)) : 0;
+						viewerState.y = maxY ? Math.max(-maxY, Math.min(maxY, viewerState.y)) : 0;
+					};
+
+					const applyTransform = () => {
+						clampPosition();
+						image.style.width = `${image.naturalWidth}px`;
+						image.style.transform = `translate(-50%, -50%) translate(${viewerState.x}px, ${viewerState.y}px) scale(${viewerState.scale})`;
+					};
+
+					const resetViewer = () => {
+						const metrics = getMetrics();
+						if (!metrics) return;
+						viewerState.fitScale = metrics.fitScale;
+						viewerState.maxScale = metrics.maxScale;
+						viewerState.scale = Math.min(1, metrics.fitScale * 1.35);
+						viewerState.x = 0;
+						viewerState.y = 0;
+						applyTransform();
+					};
+					viewerState.reset = resetViewer;
+
+					const zoomAt = (nextScale, pointerX, pointerY) => {
+						const metrics = getMetrics();
+						if (!metrics) return;
+						const oldScale = viewerState.scale;
+						viewerState.scale = Math.max(metrics.fitScale, Math.min(metrics.maxScale, nextScale));
+						if (pointerX !== null && pointerY !== null && oldScale > 0) {
+							viewerState.x = pointerX - ((pointerX - viewerState.x) / oldScale) * viewerState.scale;
+							viewerState.y = pointerY - ((pointerY - viewerState.y) / oldScale) * viewerState.scale;
+						}
+						applyTransform();
+					};
+
+					const stopPointer = event => {
+						event.preventDefault();
+						event.stopPropagation();
+						if (viewerState.pointerId !== null && viewer.hasPointerCapture(viewerState.pointerId)) {
+							viewer.releasePointerCapture(viewerState.pointerId);
+						}
+						viewerState.dragging = false;
+						viewerState.pointerId = null;
+						viewer.classList.remove('is-dragging');
+					};
+
+					viewer.addEventListener('pointerdown', event => {
+						if (event.pointerType === 'mouse' && event.button !== 0) return;
+						event.preventDefault();
+						event.stopPropagation();
+						viewerState.dragging = true;
+						viewerState.pointerId = event.pointerId;
+						viewerState.pointerX = event.clientX;
+						viewerState.pointerY = event.clientY;
+						viewerState.startX = viewerState.x;
+						viewerState.startY = viewerState.y;
+						viewer.setPointerCapture(event.pointerId);
+						viewer.classList.add('is-dragging');
+					}, { passive: false });
+
+					viewer.addEventListener('pointermove', event => {
+						if (!viewerState.dragging || event.pointerId !== viewerState.pointerId) return;
+						event.preventDefault();
+						event.stopPropagation();
+						viewerState.x = viewerState.startX + event.clientX - viewerState.pointerX;
+						viewerState.y = viewerState.startY + event.clientY - viewerState.pointerY;
+						applyTransform();
+					}, { passive: false });
+
+					viewer.addEventListener('pointerup', stopPointer, { passive: false });
+					viewer.addEventListener('pointercancel', stopPointer, { passive: false });
+					viewer.addEventListener('wheel', event => {
+						event.preventDefault();
+						event.stopPropagation();
+						const rect = viewer.getBoundingClientRect();
+						const pointerX = event.clientX - rect.left - rect.width / 2;
+						const pointerY = event.clientY - rect.top - rect.height / 2;
+						zoomAt(viewerState.scale * (event.deltaY < 0 ? 1.1 : 0.9), pointerX, pointerY);
+					}, { passive: false });
+					viewer.addEventListener('dblclick', event => {
+						event.preventDefault();
+						event.stopPropagation();
+						resetViewer();
+					});
+
+					const resizeViewer = () => {
+						const metrics = getMetrics();
+						if (!metrics) return;
+						viewerState.fitScale = metrics.fitScale;
+						viewerState.maxScale = metrics.maxScale;
+						viewerState.scale = Math.max(metrics.fitScale, Math.min(metrics.maxScale, viewerState.scale));
+						applyTransform();
+					};
+					window.addEventListener('resize', resizeViewer, { passive: true });
+					if (window.Reveal?.on) window.Reveal.on('layout', resizeViewer);
+					image.addEventListener('load', resetViewer, { once: true });
+					if (image.complete) resetViewer();
+				};
+
+				const resetSdoDesignViewer = slide => {
+					if (isPrintMode()) return;
+					slide?.__sdoDesignViewer?.reset();
+				};
+
 				const loadSdoAnalysisTerminal = async slide => {
 					if (!isSdoAnalysisSlide(slide)) return;
 
@@ -1316,12 +1453,14 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const setSdoDesignState = (slide, state) => {
 					if (!isSdoDesignSlide(slide)) return;
 
-					const designState = isPrintMode() ? 0 : Math.max(0, Math.min(3, state));
+					const designState = isPrintMode() ? 0 : Math.max(0, Math.min(2, state));
 					slide.dataset.sdoDesignState = designState;
+					slide.dataset.sdoDesignLastState = designState;
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
 						const selectorState = Number(selector.dataset.sdoDesignSelector);
 						selector.setAttribute('aria-pressed', String(designState !== 0 && (selectorState === 1 ? designState === 1 : designState >= 2)));
 					});
+					if (designState === 2) resetSdoDesignViewer(slide);
 				};
 
 				const isProblemGoalFragment = fragment => (
@@ -1381,6 +1520,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				});
 
 				document.querySelectorAll(sdoDesignSelector).forEach(slide => {
+					setupSdoDesignViewer(slide);
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
 						const selectState = () => {
 							const state = Number(selector.dataset.sdoDesignSelector);
@@ -1468,8 +1608,20 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						loadSdoAnalysisTerminal(event.currentSlide);
 					}
 					if (isSdoDesignSlide(event.currentSlide)) {
-						if (!isPrintMode()) Reveal.navigateFragment(-1);
-						setSdoDesignState(event.currentSlide, 0);
+						if (isPrintMode()) {
+							setSdoDesignState(event.currentSlide, 0);
+							return;
+						}
+						const previousSlide = event.previousSlide;
+						const followsPrevious = previousSlide && Boolean(previousSlide.compareDocumentPosition(event.currentSlide) & Node.DOCUMENT_POSITION_FOLLOWING);
+						if (followsPrevious || !previousSlide) {
+							Reveal.navigateFragment(-1);
+							setSdoDesignState(event.currentSlide, 0);
+						} else {
+							const lastState = Number(event.currentSlide.dataset.sdoDesignLastState) || 0;
+							if (lastState > 0) Reveal.navigateFragment(lastState - 1);
+							setSdoDesignState(event.currentSlide, lastState);
+						}
 					}
 				});
 
