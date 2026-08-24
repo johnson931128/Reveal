@@ -701,36 +701,55 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								</article>
 
 								<article class="coe-knowledge-state" data-coe-knowledge-panel="2">
-									<h2>Object Dictionary / TxPDO Mapping</h2>
-									<div class="coe-knowledge-txpdo">
-										<div class="coe-knowledge-txpdo-captures" aria-label="Wireshark TxPDO Mapping captures">
-											<figure>
-												<img src="assets/coe/pdo-map-1a00-sub0.png" alt="Wireshark capture for 0x1A00:00">
-												<figcaption><code>0x1A00:00</code></figcaption>
-											</figure>
-											<figure>
-												<img src="assets/coe/pdo-map-1a00-sub1.png" alt="Wireshark capture for 0x1A00:01">
-												<figcaption><code>0x1A00:01</code></figcaption>
-											</figure>
-										</div>
-										<div class="coe-knowledge-txpdo-mapping">
-											<div class="coe-knowledge-txpdo-heading"><h3>TxPDO1 Mapping</h3><code>OD Index = 0x1A00</code></div>
-											<table>
-												<thead><tr><th>Entry</th><th>Object</th><th>Length</th></tr></thead>
-												<tbody>
-															<tr class="coe-knowledge-txpdo-valid"><td>00</td><td>Valid Mapping Entries</td><td>1</td></tr>
-															<tr><td>01</td><td><code>0x6041:00</code></td><td><code>16 bits</code></td></tr>
-												</tbody>
-											</table>
-											<div class="coe-knowledge-txpdo-notes">
-												<p>Entry 00 不代表實際 Process Data Object，而是表示目前有效的 Mapping Entry 數量。本例中 <code>0x1A00:00 = 1</code>，因此只有 Entry 01 有效。</p>
-												<p><code>0x1A00:01</code> 的 Data = <code>0x60410010</code>，可拆解為 Object Index <code>0x6041</code>、SubIndex <code>0x00</code>、Bit Length <code>0x10</code>，因此第 1 個 TxPDO Mapping Entry 為 <code>0x6041:00 / 16 bits</code>。</p>
-											</div>
-										</div>
+									<h2>TxPDO Mapping：SubIndex 00</h2>
+									<div class="coe-knowledge-txpdo-step">
+										<figure class="coe-knowledge-txpdo-capture">
+											<img src="assets/coe/pdo-map-1a00-sub0.png" alt="Wireshark capture for 0x1A00:00">
+											<figcaption><code>0x1A00:00</code></figcaption>
+										</figure>
+										<p>PDO Mapping Object 的 SubIndex 00 用來表示目前有效的 Mapping Entry 數量。這筆 SDO Download 將 0x1A00:00 寫成 0，因此目前沒有任何 TxPDO Mapping Entry 處於啟用狀態；這可作為重新設定 Mapping 前的初始化步驟。</p>
+										<p class="coe-knowledge-txpdo-emphasis"><code>0x1A00:00 = 0</code><span>→</span><code>Active Mapping Entries = 0</code></p>
 									</div>
 								</article>
 
 								<article class="coe-knowledge-state" data-coe-knowledge-panel="3">
+									<h2>TxPDO Mapping：SubIndex 01</h2>
+									<div class="coe-knowledge-txpdo-step">
+										<figure class="coe-knowledge-txpdo-capture">
+											<img src="assets/coe/pdo-map-1a00-sub1.png" alt="Wireshark capture for 0x1A00:01">
+											<figcaption><code>0x1A00:01</code></figcaption>
+										</figure>
+										<p>完成 Mapping 初始化後，Master 以 SDO Download 寫入 0x1A00:01。這筆封包的 Data = 0x60410010，表示 TxPDO Mapping 的第 1 個 Entry。</p>
+										<div class="coe-knowledge-txpdo-breakdown"><code>0x60410010</code><span>Object Index = 0x6041</span><span>SubIndex = 0x00</span><span>Bit Length = 0x10 = 16 bits</span></div>
+										<p class="coe-knowledge-txpdo-emphasis"><code>0x1A00:01</code><span>→</span><code>0x6041:00 / 16 bits</code></p>
+									</div>
+								</article>
+
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="4">
+									<h2>TxPDO Mapping Result</h2>
+									<div class="coe-knowledge-txpdo-result">
+										<div class="coe-knowledge-txpdo-heading"><h3>TxPDO1 Mapping</h3><code>OD Index = 0x1A00</code></div>
+										<table>
+											<thead><tr><th>Entry</th><th>Object</th><th>Length</th></tr></thead>
+											<tbody>
+												<tr class="coe-knowledge-txpdo-valid"><td>00</td><td>Valid Mapping Entries</td><td>5</td></tr>
+												<tr><td>01</td><td><code>0x6041:00</code></td><td><code>16 bits</code></td></tr>
+												<tr><td>02</td><td><code>0x6043:00</code></td><td><code>16 bits</code></td></tr>
+												<tr><td>03</td><td><code>0x3022:11</code></td><td><code>16 bits</code></td></tr>
+												<tr><td>04</td><td><code>0x3021:0C</code></td><td><code>16 bits</code></td></tr>
+												<tr><td>05</td><td><code>0x3021:02</code></td><td><code>16 bits</code></td></tr>
+											</tbody>
+										</table>
+										<div class="coe-knowledge-txpdo-result-notes">
+											<p>Entry 00 本身不是 Process Data Object，而是表示目前有效的 Mapping Entry 數量。</p>
+											<p>SubIndex 00 決定目前啟用多少個 Mapping Entry；因此當 0x1A00:00 最終設定為 5 時，Entry 01～05 都屬於有效的 TxPDO Mapping。</p>
+											<p>每個 Mapping Entry 都以 32-bit value 描述 Object Index、SubIndex 與 Bit Length。例如 0x1A00:01 = 0x60410010，因此可解析成 0x6041:00 / 16 bits。</p>
+											<p class="coe-knowledge-txpdo-total"><code>TxPDO1 Total Length = 80 bits = 10 Bytes</code></p>
+										</div>
+									</div>
+								</article>
+
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="5">
 									<h2>SDO Download / Upload</h2>
 									<div class="coe-knowledge-client-server">
 										<div><h3>Master</h3><p>SDO Client</p></div>
@@ -745,7 +764,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 									<p class="coe-knowledge-state-note">SDO 採 Client / Server Request-Response 模型。Download 表示 Client 將資料寫入 Server 的 Object Dictionary；Upload 則表示 Client 從 Server 的 Object Dictionary 讀取資料。</p>
 								</article>
 
-								<article class="coe-knowledge-state" data-coe-knowledge-panel="4">
+								<article class="coe-knowledge-state" data-coe-knowledge-panel="6">
 									<h2>SDO → PDO Configuration</h2>
 									<div class="coe-knowledge-pdo">
 										<div class="coe-knowledge-pdo-core"><code>0x1A00:01</code><span>=</span><code>0x60410010</code></div>
@@ -764,6 +783,8 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
 						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="4" aria-hidden="true"></span>
+						<span class="coe-knowledge-state-fragment fragment" data-fragment-index="5" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1245,10 +1266,11 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const setCoeKnowledgeState = (slide, state) => {
 					if (!isCoeKnowledgeSlide(slide)) return;
 
-					const knowledgeState = isPrintMode() ? 0 : Math.max(0, Math.min(4, state));
+					const knowledgeState = isPrintMode() ? 0 : Math.max(0, Math.min(6, state));
 					slide.dataset.coeKnowledgeState = knowledgeState;
+					const activeSelector = knowledgeState === 0 ? 0 : knowledgeState === 1 ? 1 : knowledgeState <= 4 ? 2 : knowledgeState === 5 ? 3 : 4;
 					slide.querySelectorAll('.coe-knowledge-selector').forEach(selector => {
-						selector.setAttribute('aria-pressed', String(knowledgeState !== 0 && Number(selector.dataset.coeKnowledgeSelector) === knowledgeState));
+						selector.setAttribute('aria-pressed', String(Number(selector.dataset.coeKnowledgeSelector) === activeSelector));
 					});
 				};
 
@@ -1336,7 +1358,8 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				document.querySelectorAll(coeKnowledgeSelector).forEach(slide => {
 					slide.querySelectorAll('.coe-knowledge-selector').forEach(selector => {
 						const selectState = () => {
-							const state = Number(selector.dataset.coeKnowledgeSelector);
+							const selectorState = Number(selector.dataset.coeKnowledgeSelector);
+							const state = selectorState === 1 ? 1 : selectorState === 2 ? 2 : selectorState === 3 ? 5 : 6;
 							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
 							setCoeKnowledgeState(slide, state);
 						};
