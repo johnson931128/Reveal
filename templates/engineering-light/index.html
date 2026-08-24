@@ -387,208 +387,58 @@
 						</footer>
 					</section>
 
-					<section class="eeprom-read-slide" data-transition="none" data-eeprom-state="0">
+					<section class="eeprom-read-slide" data-transition="none">
 						<header class="eeprom-read-header">
-							<h1 class="eeprom-read-title">ESC Register → SII EEPROM Read</h1>
+							<h1 class="eeprom-read-title">SII EEPROM 讀取流程</h1>
 						</header>
 
-						<main class="eeprom-read-layout" aria-label="ESC Register to SII EEPROM Read">
-							<div class="eeprom-master" aria-label="Master / EtherCAT">
-								<h2>Master / EtherCAT</h2>
-								<div class="eeprom-master-operation" data-eeprom-operation="write">
-									<code>APWR</code><span>Set EEPROM Address</span><small>Issue Read Command</small>
-								</div>
-								<div class="eeprom-master-operation" data-eeprom-operation="read">
-									<code>APRD</code><span>Read EEPROM Data</span>
-								</div>
-								<div class="eeprom-master-readback" aria-live="polite">
-									<strong>APRD</strong><span>ADO = 0x0508</span>
-								</div>
+						<main class="eeprom-read-layout" aria-label="SII EEPROM Read workflow and address mapping">
+							<div class="eeprom-read-steps" aria-labelledby="eeprom-steps-title">
+								<h2 id="eeprom-steps-title">SII EEPROM Read 操作步驟</h2>
+								<ol class="eeprom-step-list">
+									<li class="eeprom-step-item">
+										<span class="eeprom-step-number">01</span>
+										<div><h3>檢查 EEPROM 狀態</h3><p>讀取 ESC Register 0x0502~0x0503，確認 EEPROM Interface 不處於 Busy 狀態，並確認沒有 Error，才能繼續 EEPROM 存取。</p><code>ESC Register · 0x0502~0x0503 · EEPROM Control / Status Register</code></div>
+									</li>
+									<li class="eeprom-step-item">
+										<span class="eeprom-step-number">02</span>
+										<div><h3>指定 SII Word Address</h3><p>將欲讀取的 SII EEPROM Word Address 寫入 ESC EEPROM Address Register 0x0504~0x0507。<span class="eeprom-step-example">0x0008 → Vendor ID 起始 Word；0x000A → Product Code 起始 Word</span></p><code>ESC Register · 0x0504~0x0507 · EEPROM Address Register</code></div>
+									</li>
+									<li class="eeprom-step-item">
+										<span class="eeprom-step-number">03</span>
+										<div><h3>送出 EEPROM Read Command</h3><p>透過 EEPROM Control / Status Register 的 Command 欄位送出 Read Command，要求 ESC 開始讀取前一步指定的 SII EEPROM Word。</p><code>0x0502[10:8] · Read Command = 001</code></div>
+									</li>
+									<li class="eeprom-step-item">
+										<span class="eeprom-step-number">04</span>
+										<div><h3>等待 EEPROM Read 完成</h3><p>再次檢查 EEPROM Control / Status Register，等待 Busy 清除，並確認沒有 EEPROM Error。</p><code>0x0502 · Busy / Error Status</code></div>
+									</li>
+									<li class="eeprom-step-item">
+										<span class="eeprom-step-number">05</span>
+										<div><h3>讀取 EEPROM Data</h3><p>EEPROM Read 完成後，對 ESC EEPROM Data Register 讀取資料。Master 可使用 APRD，ADO = 0x0508，取得先前指定 SII Word 對應的 EEPROM Data。</p><code>ESC Register · 0x0508~0x050F · EEPROM Data Register</code></div>
+									</li>
+								</ol>
+								<p class="eeprom-capture-note">實際 Capture 中，Master 的 APWR 可由 ADO 0x0502 開始，一個 payload 同時涵蓋 EEPROM Control / Status 與 0x0504~0x0507 EEPROM Address；之後再以 APRD 讀取 ADO 0x0508 的 EEPROM Data。因此這 5 個步驟是操作邏輯，不代表每一步一定對應獨立的一個 EtherCAT Datagram。</p>
 							</div>
 
-							<div class="eeprom-interface" aria-label="ESC EEPROM Interface">
-								<header class="eeprom-interface-header">
-									<h2>ESC EEPROM Interface</h2>
-									<span>ESC Register Address</span>
-								</header>
-								<div class="eeprom-register-bank">
-									<article class="eeprom-register eeprom-register-command" data-eeprom-register="command">
-										<code>0x0502~0x0503</code>
-										<div><strong>EEPROM Control / Status</strong><span>Read Command / Busy / Error</span></div>
-									</article>
-									<article class="eeprom-register eeprom-register-address" data-eeprom-register="address">
-										<code>0x0504~0x0507</code>
-										<div><strong>EEPROM Address</strong><span>SII Word Address</span></div>
-									</article>
-									<article class="eeprom-register eeprom-register-data" data-eeprom-register="data">
-										<code>0x0508~0x050F</code>
-										<div><strong>EEPROM Data</strong><span>Read Result</span></div>
-									</article>
+							<div class="eeprom-address-reference" aria-labelledby="eeprom-address-title">
+								<h2 id="eeprom-address-title">ESC Register 與 SII EEPROM Word Address 對照表</h2>
+								<div class="eeprom-address-definitions">
+									<p><strong>ESC Register Address</strong><span>How Master accesses the EEPROM interface</span></p>
+									<p><strong>SII EEPROM Word Address</strong><span>Where Slave information is stored</span></p>
 								</div>
-								<div class="eeprom-address-note" aria-live="polite">
-									<span data-word-address="0008">Word Address = 0x0008</span>
-									<span data-word-address="000A">Word Address = 0x000A</span>
-								</div>
-								<div class="eeprom-read-status" aria-live="polite">
-									<span class="eeprom-status-command">READ COMMAND</span>
-									<span class="eeprom-status-busy">BUSY</span>
-									<span class="eeprom-status-ready">READY</span>
-								</div>
-							</div>
-
-							<div class="eeprom-sii" aria-label="SII EEPROM">
-								<header class="eeprom-sii-header">
-									<h2>SII EEPROM</h2>
-									<span>SII = Slave Information Interface</span>
-									<small>Slave identity / configuration data stored in EEPROM</small>
-								</header>
-								<div class="eeprom-sii-rows">
-									<article class="eeprom-sii-row" data-eeprom-sii-row="vendor">
-										<code>0x0008:0x0009</code><strong>Vendor ID</strong><small>SII EEPROM Word Address</small>
-									</article>
-									<article class="eeprom-sii-row" data-eeprom-sii-row="product">
-										<code>0x000A:0x000B</code><strong>Product Code</strong><small>SII EEPROM Word Address</small>
-									</article>
-								</div>
-								<div class="eeprom-space-compare" aria-label="Address space distinction">
-									<div><strong>ESC Register Address</strong><code>0x0502 / 0x0504 / 0x0508</code><small>How Master accesses the EEPROM interface</small></div>
-									<b aria-hidden="true">≠</b>
-									<div><strong>SII EEPROM Word Address</strong><code>0x0008 / 0x000A</code><small>Where the actual Slave information is stored</small></div>
-								</div>
-							</div>
-
-							<span class="eeprom-data-path eeprom-path-address" aria-hidden="true"></span>
-							<span class="eeprom-data-path eeprom-path-data" aria-hidden="true"></span>
-
-							<div class="eeprom-state-summary" aria-label="EEPROM read explanation">
-								<p data-summary-state="0">Master 透過 ESC 的 EEPROM Interface Register 指定 SII Word Address、送出 EEPROM Read Command，再由 EEPROM Data Register 取得 SII 內容。ESC Register Address 與 SII EEPROM Word Address 屬於不同的 Address Space。</p>
-								<p data-summary-state="1">Master 先將欲讀取的 SII EEPROM Word Address 寫入 ESC EEPROM Address Register。此例指定 0x0008，對應 Vendor ID 的起始 Word Address。</p>
-								<p data-summary-state="2">Master 透過 EEPROM Control / Status Register 送出 Read Command。ESC 執行 EEPROM 存取期間會反映 Busy / Status，完成後資料可由 EEPROM Data Register 取得。</p>
-								<p data-summary-state="3">EEPROM Read 完成後，對應 SII Word 的資料出現在 ESC EEPROM Data Register。Master 可透過 APRD 讀取 ADO 0x0508，取得先前指定的 SII EEPROM 內容。</p>
-								<p data-summary-state="4">0x0502、0x0504、0x0508 位於 ESC Register Address Space，用來操作 EEPROM Interface；0x0008、0x000A 則位於 SII EEPROM Word Address Space，用來定位 EEPROM 內實際儲存的 Slave Information。兩者不可混為同一種 Address。</p>
-								<p data-summary-state="5">相同的 EEPROM Read 流程可以切換不同的 SII Word Address。例如以 0x0008 為起始位置讀取 Vendor ID，以 0x000A 為起始位置讀取 Product Code。</p>
+								<table class="eeprom-address-table">
+									<thead><tr><th>Address Space</th><th>Address</th><th>Meaning</th></tr></thead>
+									<tbody>
+										<tr><td>ESC Register</td><td><code>0x0502~0x0503</code></td><td>EEPROM Control / Status</td></tr>
+										<tr><td>ESC Register</td><td><code>0x0504~0x0507</code></td><td>EEPROM Address</td></tr>
+										<tr><td>ESC Register</td><td><code>0x0508~0x050F</code></td><td>EEPROM Data</td></tr>
+										<tr class="eeprom-address-group-start"><td>SII EEPROM Word</td><td><code>0x0008~0x0009</code></td><td>Vendor ID</td></tr>
+										<tr><td>SII EEPROM Word</td><td><code>0x000A~0x000B</code></td><td>Product Code</td></tr>
+									</tbody>
+								</table>
+								<p class="eeprom-address-key"><code>0x0502 / 0x0504 / 0x0508</code> 是 ESC Register Address；<br><code>0x0008 / 0x000A</code> 是 SII EEPROM Word Address。</p>
 							</div>
 						</main>
-
-						<span class="fragment eeprom-step" data-eeprom-step="1" aria-hidden="true"></span>
-						<span class="fragment eeprom-step" data-eeprom-step="2" aria-hidden="true"></span>
-						<span class="fragment eeprom-step" data-eeprom-step="3" aria-hidden="true"></span>
-						<span class="fragment eeprom-step" data-eeprom-step="4" aria-hidden="true"></span>
-						<span class="fragment eeprom-step" data-eeprom-step="5" aria-hidden="true"></span>
-						<header class="register-access-header">
-							<span class="register-access-kicker">ANALYZER USED REGISTERS</span>
-							<h1 class="register-access-title">Startup Register Access</h1>
-						</header>
-
-						<main class="register-access-layout" aria-label="Startup Register Access layout">
-							<nav class="register-access-selectors" aria-label="Analyzer used register selectors">
-								<article class="register-access-selector">
-									<span class="register-selector-index">01</span>
-									<div>
-										<span class="register-selector-label">STATION ADDRESS</span>
-										<span class="register-selector-address">0x0010</span>
-										<h2>Configured Station Address</h2>
-									</div>
-								</article>
-								<article class="register-access-selector">
-									<span class="register-selector-index">02</span>
-									<div>
-										<span class="register-selector-label">AL STATE</span>
-										<span class="register-selector-address">0x0120 / 0x0130</span>
-										<h2>AL Control / AL Status</h2>
-									</div>
-								</article>
-								<article class="register-access-selector">
-									<span class="register-selector-index">03</span>
-									<div>
-										<span class="register-selector-label">SII EEPROM</span>
-										<span class="register-selector-address">0x0502 / 0x0508</span>
-										<h2>Vendor ID / Product Code</h2>
-									</div>
-								</article>
-							</nav>
-
-							<div class="register-access-workspace" aria-label="Register access workspace">
-								<div class="register-workspace-state register-workspace-overview" data-register-workspace-state="1">
-									<span class="register-workspace-kicker">OVERVIEW</span>
-									<div class="register-overview-list">
-										<div><span>0x0010</span><strong>Station Address</strong></div>
-										<div><span>0x0120 / 0x0130</span><strong>AL State</strong></div>
-										<div><span>0x0502 / 0x0508</span><strong>SII EEPROM</strong></div>
-									</div>
-								</div>
-
-								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="2">
-									<header class="register-workspace-header">
-										<span class="register-workspace-kicker">STATION ADDRESS</span>
-										<h2>Configured Station Address</h2>
-									</header>
-									<div class="register-station-flow" aria-label="Station address flow">
-										<article class="register-flow-node"><strong>APWR</strong><span>Master 寫入</span></article>
-										<span class="register-flow-connector" aria-hidden="true">↓</span>
-										<article class="register-flow-node"><strong>ADO 0x0010</strong><span>Configured Station Address Register</span></article>
-										<span class="register-flow-connector" aria-hidden="true">↓</span>
-										<article class="register-flow-node"><strong>Configured Station Address</strong><span>取得新的固定站址</span></article>
-										<span class="register-flow-connector" aria-hidden="true">↓</span>
-										<article class="register-flow-node"><strong>Bind to Topology Position</strong><span>Analyzer 將站址綁定到 Auto Increment 推導出的 topology position</span></article>
-									</div>
-								</div>
-
-								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="3">
-									<header class="register-workspace-header">
-										<span class="register-workspace-kicker">AL STATE</span>
-										<h2>Control / Status waveform</h2>
-									</header>
-									<div class="register-al-flow">
-										<article class="register-al-card">
-											<span class="register-workspace-address">0x0120</span>
-											<h3>AL Control</h3>
-											<div class="register-al-stream"><span>Master requested state</span><b>↓</b><strong>Control waveform</strong></div>
-										</article>
-										<span class="register-al-relation">Request / Report</span>
-										<article class="register-al-card">
-											<span class="register-workspace-address">0x0130</span>
-											<h3>AL Status</h3>
-											<div class="register-al-stream"><span>Slave current state</span><b>↓</b><strong>Status waveform</strong></div>
-										</article>
-									</div>
-								</div>
-
-								<div class="register-workspace-state register-workspace-detail" data-register-workspace-state="4">
-									<header class="register-workspace-header">
-										<span class="register-workspace-kicker">SII EEPROM</span>
-										<h2>ESC Register → SII EEPROM Word</h2>
-									</header>
-									<div class="register-sii-space">
-										<div class="register-sii-esc">
-											<header><span>ESC REGISTER</span><strong>ESC Register Address · 0x0502 / 0x0508</strong></header>
-											<div class="register-sii-operations">
-												<div class="register-sii-operation">
-													<article class="register-flow-node"><strong>APWR</strong></article>
-													<span class="register-flow-connector" aria-hidden="true">↓</span>
-													<article class="register-flow-node"><strong>ADO 0x0502</strong><span>EEPROM Control / Status</span></article>
-													<span class="register-flow-connector" aria-hidden="true">↓</span>
-													<article class="register-flow-node"><strong>EEPROM Read Command</strong><span>+ EEPROM Word Address</span></article>
-												</div>
-												<div class="register-sii-operation">
-													<article class="register-flow-node"><strong>APRD</strong></article>
-													<span class="register-flow-connector" aria-hidden="true">↓</span>
-													<article class="register-flow-node"><strong>ADO 0x0508</strong><span>EEPROM Data</span></article>
-												</div>
-											</div>
-										</div>
-										<div class="register-sii-word-space">
-											<header><span>SII EEPROM WORD</span><strong>SII EEPROM Word Address · 0x0008 / 0x000A</strong></header>
-											<div class="register-sii-word-cards">
-												<article><strong>0x0008</strong><span>Vendor ID</span></article>
-												<article><strong>0x000A</strong><span>Product Code</span></article>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</main>
-
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1102,7 +952,6 @@
 				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
-				const eepromReadSelector = 'section.eeprom-read-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1119,10 +968,6 @@
 
 				const isCommandAddressingSlide = slide => (
 					slide && slide.matches(commandAddressingSelector)
-				);
-
-				const isEepromReadSlide = slide => (
-					slide && slide.matches(eepromReadSelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -1160,13 +1005,6 @@
 					});
 				};
 
-				const setEepromReadState = (slide, state) => {
-					if (!isEepromReadSlide(slide)) return;
-
-					const eepromState = isPrintMode() ? 0 : Math.max(0, Math.min(5, Number(state) || 0));
-					slide.dataset.eepromState = eepromState;
-				};
-
 				const isTechnicalFlowFragment = fragment => (
 					fragment && fragment.classList.contains('technical-flow-state-fragment')
 				);
@@ -1178,18 +1016,6 @@
 				const isCommandAddressingFragment = fragment => (
 					fragment && fragment.classList.contains('command-addressing-state-fragment')
 				);
-
-				const isEepromStep = fragment => (
-					fragment && fragment.classList.contains('eeprom-step')
-				);
-
-				const getVisibleEepromState = slide => {
-					if (!isEepromReadSlide(slide)) return 0;
-
-					const visibleSteps = [...slide.querySelectorAll('.eeprom-step.visible')]
-						.map(step => Number(step.dataset.eepromStep) || 0);
-					return visibleSteps.length ? Math.max(...visibleSteps) : 0;
-				};
 
 				const resetInteractiveSlide = slide => {
 					if (!slide || isPrintMode()) return;
@@ -1207,15 +1033,11 @@
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
 						applyCommandAddressingState(slide, 1);
 					});
-					document.querySelectorAll(eepromReadSelector).forEach(slide => {
-						setEepromReadState(slide, 0);
-					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
-					if (isEepromReadSlide(currentSlide)) setEepromReadState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1243,10 +1065,6 @@
 						resetInteractiveSlide(event.currentSlide);
 						applyCommandAddressingState(event.currentSlide, 1);
 					}
-					if (isEepromReadSlide(event.currentSlide)) {
-						resetInteractiveSlide(event.currentSlide);
-						setEepromReadState(event.currentSlide, 0);
-					}
 				});
 
 				Reveal.on('fragmentshown', event => {
@@ -1261,9 +1079,6 @@
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 2);
 					}
-					if (isEepromStep(event.fragment)) {
-						setEepromReadState(slide, Number(event.fragment.dataset.eepromStep));
-					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1277,9 +1092,6 @@
 					}
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 1);
-					}
-					if (isEepromStep(event.fragment)) {
-						setEepromReadState(slide, getVisibleEepromState(slide));
 					}
 				});
 			});
