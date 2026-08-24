@@ -1,0 +1,187 @@
+[Stage 4] SDO Transaction Analysis
+Elapsed: 6.226 s
+Transaction Count: 105
+Configured Slave Address: 0x0001, Object: 0x1C12:00, Data: 0x00, Request Frame: 41394, Response Frame: 41403, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:00, Data: 0x00, Request Frame: 41408, Response Frame: 41417, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x00, Request Frame: 41422, Response Frame: 41455, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:01, Data: 0x60410010, Request Frame: 41460, Response Frame: 41614, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:02, Data: 0x60430010, Request Frame: 41639, Response Frame: 41786, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:03, Data: 0x30221110, Request Frame: 41791, Response Frame: 41958, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:04, Data: 0x30210c10, Request Frame: 41963, Response Frame: 42130, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:05, Data: 0x30210210, Request Frame: 42135, Response Frame: 42302, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x05, Request Frame: 42307, Response Frame: 42316, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A01:00, Data: 0x00, Request Frame: 42321, Response Frame: 42330, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A02:00, Data: 0x00, Request Frame: 42335, Response Frame: 42344, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A03:00, Data: 0x00, Request Frame: 42349, Response Frame: 42376, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x00, Request Frame: 42381, Response Frame: 42496, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:01, Data: 0x60420010, Request Frame: 42501, Response Frame: 42676, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x01, Request Frame: 42681, Response Frame: 42690, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:00, Data: 0x00, Request Frame: 42695, Response Frame: 42704, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:01, Data: 0x60400010, Request Frame: 42709, Response Frame: 42842, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:02, Data: 0x60600008, Request Frame: 42847, Response Frame: 43014, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:03, Data: 0x60720010, Request Frame: 43019, Response Frame: 43193, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:00, Data: 0x00, Request Frame: 111607, Response Frame: 111634, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:00, Data: 0x00, Request Frame: 111639, Response Frame: 111648, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x00, Request Frame: 111653, Response Frame: 111662, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:01, Data: 0x60410010, Request Frame: 111667, Response Frame: 111704, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:02, Data: 0x60430010, Request Frame: 111709, Response Frame: 111856, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:03, Data: 0x30221110, Request Frame: 111861, Response Frame: 112028, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:04, Data: 0x30210c10, Request Frame: 112033, Response Frame: 112200, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:05, Data: 0x30210210, Request Frame: 112205, Response Frame: 112384, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x05, Request Frame: 112389, Response Frame: 112398, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A01:00, Data: 0x00, Request Frame: 112403, Response Frame: 112412, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A02:00, Data: 0x00, Request Frame: 112417, Response Frame: 112426, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A03:00, Data: 0x00, Request Frame: 112431, Response Frame: 112460, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x00, Request Frame: 112465, Response Frame: 112474, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:01, Data: 0x60420010, Request Frame: 112479, Response Frame: 112584, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x01, Request Frame: 112589, Response Frame: 112598, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:00, Data: 0x00, Request Frame: 112603, Response Frame: 112612, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:01, Data: 0x60400010, Request Frame: 112617, Response Frame: 112744, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:02, Data: 0x60600008, Request Frame: 112749, Response Frame: 112916, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:03, Data: 0x60720010, Request Frame: 112921, Response Frame: 113088, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:04, Data: 0x607a0020, Request Frame: 113093, Response Frame: 113260, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:05, Data: 0x60800020, Request Frame: 113265, Response Frame: 113438, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:00, Data: 0x05, Request Frame: 113443, Response Frame: 113452, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:00, Data: 0x00, Request Frame: 113457, Response Frame: 113466, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:01, Data: 0x60400010, Request Frame: 113471, Response Frame: 113626, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:02, Data: 0x60600008, Request Frame: 113631, Response Frame: 113784, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:03, Data: 0x60710010, Request Frame: 113807, Response Frame: 113956, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:04, Data: 0x60720010, Request Frame: 113961, Response Frame: 114128, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:05, Data: 0x607a0020, Request Frame: 114133, Response Frame: 114306, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:06, Data: 0x60800020, Request Frame: 114311, Response Frame: 114490, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:00, Data: 0x06, Request Frame: 114495, Response Frame: 114504, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1603:00, Data: 0x00, Request Frame: 114509, Response Frame: 114518, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:01, Data: 0x1600, Request Frame: 114523, Response Frame: 114532, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:00, Data: 0x01, Request Frame: 114537, Response Frame: 114566, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:01, Data: 0x1a00, Request Frame: 114571, Response Frame: 114580, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:00, Data: 0x01, Request Frame: 114585, Response Frame: 114594, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6007:00, Data: 0x0003, Request Frame: 114599, Response Frame: 114668, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6060:00, Data: 0x02, Request Frame: 130265, Response Frame: 130280, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x0080, Request Frame: 130289, Response Frame: 130320, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x000e, Request Frame: 130329, Response Frame: 130352, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x007f, Request Frame: 130361, Response Frame: 130386, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x604F:00, Data: 0x00007530, Request Frame: 139592, Response Frame: 139625, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6050:00, Data: 0x00007530, Request Frame: 139634, Response Frame: 139649, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6042:00, Data: 0x03e8, Request Frame: 147820, Response Frame: 147835, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:00, Data: 0x00, Request Frame: 215193, Response Frame: 215202, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:00, Data: 0x00, Request Frame: 215207, Response Frame: 215216, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x00, Request Frame: 215239, Response Frame: 215262, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:01, Data: 0x60410010, Request Frame: 215267, Response Frame: 215432, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:02, Data: 0x60430010, Request Frame: 215437, Response Frame: 215610, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:03, Data: 0x30221110, Request Frame: 215615, Response Frame: 215794, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:04, Data: 0x30210c10, Request Frame: 215799, Response Frame: 215950, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:05, Data: 0x30210210, Request Frame: 215955, Response Frame: 216120, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A00:00, Data: 0x05, Request Frame: 216125, Response Frame: 216134, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A01:00, Data: 0x00, Request Frame: 216139, Response Frame: 216148, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A02:00, Data: 0x00, Request Frame: 216153, Response Frame: 216182, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1A03:00, Data: 0x00, Request Frame: 216187, Response Frame: 216196, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x00, Request Frame: 216201, Response Frame: 216310, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:01, Data: 0x60420010, Request Frame: 216315, Response Frame: 216492, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1600:00, Data: 0x01, Request Frame: 216497, Response Frame: 216506, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:00, Data: 0x00, Request Frame: 216511, Response Frame: 216520, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:01, Data: 0x60400010, Request Frame: 216525, Response Frame: 216660, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:02, Data: 0x60600008, Request Frame: 216683, Response Frame: 216832, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:03, Data: 0x60720010, Request Frame: 216837, Response Frame: 217004, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:04, Data: 0x607a0020, Request Frame: 217009, Response Frame: 217176, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:05, Data: 0x60800020, Request Frame: 217181, Response Frame: 217350, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1601:00, Data: 0x05, Request Frame: 217355, Response Frame: 217364, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:00, Data: 0x00, Request Frame: 217369, Response Frame: 217378, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:01, Data: 0x60400010, Request Frame: 217383, Response Frame: 217542, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:02, Data: 0x60600008, Request Frame: 217547, Response Frame: 217702, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:03, Data: 0x60710010, Request Frame: 217725, Response Frame: 217872, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:04, Data: 0x60720010, Request Frame: 217877, Response Frame: 218044, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:05, Data: 0x607a0020, Request Frame: 218049, Response Frame: 218216, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:06, Data: 0x60800020, Request Frame: 218221, Response Frame: 218400, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1602:00, Data: 0x06, Request Frame: 218405, Response Frame: 218414, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1603:00, Data: 0x00, Request Frame: 218419, Response Frame: 218428, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:01, Data: 0x1600, Request Frame: 218433, Response Frame: 218442, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C12:00, Data: 0x01, Request Frame: 218447, Response Frame: 218476, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:01, Data: 0x1a00, Request Frame: 218481, Response Frame: 218490, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x1C13:00, Data: 0x01, Request Frame: 218495, Response Frame: 218504, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6007:00, Data: 0x0003, Request Frame: 218509, Response Frame: 218586, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x0080, Request Frame: 228267, Response Frame: 228288, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x000e, Request Frame: 228297, Response Frame: 228312, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6040:00, Data: 0x007f, Request Frame: 228339, Response Frame: 228360, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6042:00, Data: 0x0000, Request Frame: 228369, Response Frame: 228400, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6042:00, Data: 0x03e8, Request Frame: 235941, Response Frame: 235960, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6042:00, Data: 0x03e8, Request Frame: 235967, Response Frame: 236006, Success: True, Abort Code: N/A
+Configured Slave Address: 0x0001, Object: 0x6042:00, Data: 0x0000, Request Frame: 266648, Response Frame: 266669, Success: True, Abort Code: N/A
+
+[PDO Mapping Summary]
+
+Station Address: 0x0001
+Mapping Object: 0x1A00
+Type: TxPDO
+Active Entries: 5
+
+Entry       Object       Bit Length
+-----  ----------------  ----------
+01     Statusword        16 bits
+02     0x6043:00         16 bits
+03     0x3022:11         16 bits
+04     0x3021:0C         16 bits
+05     0x3021:02         16 bits
+
+Total Length: 80 bits / 10 bytes
+
+Station Address: 0x0001
+Mapping Object: 0x1600
+Type: RxPDO
+Active Entries: 1
+
+Entry       Object       Bit Length
+-----  ----------------  ----------
+01     0x6042:00         16 bits
+
+Total Length: 16 bits / 2 bytes
+
+Station Address: 0x0001
+Mapping Object: 0x1601
+Type: RxPDO
+Active Entries: 5
+
+Entry       Object       Bit Length
+-----  ----------------  ----------
+01     Controlword       16 bits
+02     0x6060:00         8 bits
+03     0x6072:00         16 bits
+04     0x607A:00         32 bits
+05     0x6080:00         32 bits
+
+Total Length: 104 bits / 13 bytes
+
+Station Address: 0x0001
+Mapping Object: 0x1602
+Type: RxPDO
+Active Entries: 6
+
+Entry       Object       Bit Length
+-----  ----------------  ----------
+01     Controlword       16 bits
+02     0x6060:00         8 bits
+03     0x6071:00         16 bits
+04     0x6072:00         16 bits
+05     0x607A:00         32 bits
+06     0x6080:00         32 bits
+
+Total Length: 120 bits / 15 bytes
+
+[PDO Assignment Summary]
+
+Station Address: 0x0001
+Assignment Object: 0x1C12
+Type: RxPDO Assignment
+Active Entries: 1
+
+Entry  Mapping Object
+-----  --------------
+01     0x1600
+
+Station Address: 0x0001
+Assignment Object: 0x1C13
+Type: TxPDO Assignment
+Active Entries: 1
+
+Entry  Mapping Object
+-----  --------------
+01     0x1A00
