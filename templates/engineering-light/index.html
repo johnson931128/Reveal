@@ -509,7 +509,28 @@
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="2">
 									<h2>AP-Analyzer 重建流程</h2>
-									<div class="slave-discovery-placeholder">[Slave Discovery reconstruction steps]</div>
+									<div class="slave-discovery-reconstruction">
+										<div class="slave-discovery-reconstruction-step">
+											<div class="slave-discovery-reconstruction-heading"><span>01</span><h3>AP Datagram Pairing</h3></div>
+											<p>先從 Datagram Record 中篩選 APRD、APWR、APRW、ARMW 等 Auto Increment Command，再將 Master 發送與返回的 Datagram 配對成 AutoIncrementDatagramPair，作為後續 Slave 分析的基礎。</p>
+											<div class="slave-discovery-reconstruction-code"><code>IsAutoIncrementCommand()</code><span>·</span><code>BuildPairs()</code></div>
+										</div>
+										<div class="slave-discovery-reconstruction-step">
+											<div class="slave-discovery-reconstruction-heading"><span>02</span><h3>建立 Topology Position</h3></div>
+											<p>從成功命中的 AP pair 建立 Slave candidate，利用 outgoing ADP 計算拓樸位置。0x0000 對應 Position 1，0xFFFF 對應 Position 2，依此建立 Slave 在實體鏈路中的位置。</p>
+											<div class="slave-discovery-reconstruction-code"><code>BuildSlaveCandidates()</code><span>·</span><code>CalculateTopologyPosition()</code></div>
+										</div>
+										<div class="slave-discovery-reconstruction-step">
+											<div class="slave-discovery-reconstruction-heading"><span>03</span><h3>綁定 Configured Station Address</h3></div>
+											<p>Analyzer 尋找 APWR 對 ADO = 0x0010 的成功寫入，解析 Master 寫入的 Register Data，並將 Configured Station Address 綁定到對應拓樸位置的 Slave。</p>
+											<div class="slave-discovery-reconstruction-code"><code>BindConfiguredStationAddress()</code><span>·</span><code>ADO = 0x0010</code></div>
+										</div>
+										<div class="slave-discovery-reconstruction-step">
+											<div class="slave-discovery-reconstruction-heading"><span>04</span><h3>補入 EEPROM Identity</h3></div>
+											<p>Analyzer 根據 EEPROM Read 流程，將讀取到的 SII Vendor ID 與 Product Code 綁定到同一個 Slave，完成 Slave topology、address 與 identity 的重建。</p>
+											<div class="slave-discovery-reconstruction-code"><code>BindEepromIdentity()</code><span>·</span><code>Vendor ID</code><span>·</span><code>Product Code</code></div>
+										</div>
+									</div>
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="3">
 									<h2>程式碼實作</h2>
@@ -574,7 +595,23 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="4">
 									<h2>實際成果</h2>
-									<div class="slave-discovery-placeholder">[Terminal result area]</div>
+									<div class="slave-discovery-result">
+										<div class="slave-discovery-terminal">
+											<div class="slave-discovery-terminal-bar">Stage 3 / Slave Discovery</div>
+											<div class="slave-discovery-terminal-body">
+												<div>[Stage 3] Slave Discovery</div>
+												<div>Elapsed: 5.637 s</div>
+												<div>Slave count: 1</div>
+												<div class="slave-discovery-terminal-gap" aria-hidden="true"></div>
+												<div class="slave-discovery-terminal-value"><span>Position:</span><code>1</code></div>
+												<div class="slave-discovery-terminal-value"><span>Initial ADP:</span><code>0x0000</code></div>
+												<div class="slave-discovery-terminal-value"><span>Configured Address:</span><code>0x0001</code></div>
+												<div class="slave-discovery-terminal-value"><span>Vendor ID:</span><code>0x000001DD</code></div>
+												<div class="slave-discovery-terminal-value"><span>Product Code:</span><code>0x10400160</code></div>
+											</div>
+										</div>
+										<p class="slave-discovery-result-note">Stage 3 已可由 Capture 重建 Slave 的 Topology Position、Initial ADP、Configured Address，以及 Vendor ID / Product Code。</p>
+									</div>
 								</article>
 							</div>
 						</main>

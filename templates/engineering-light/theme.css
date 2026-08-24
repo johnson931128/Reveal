@@ -5413,6 +5413,134 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	opacity: 1 !important;
 }
 
+.slave-discovery-reconstruction {
+	margin-top: 14px;
+}
+
+.slave-discovery-reconstruction-step {
+	padding: 0 0 10px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.2);
+}
+
+.slave-discovery-reconstruction-step + .slave-discovery-reconstruction-step {
+	margin-top: 9px;
+}
+
+.slave-discovery-reconstruction-heading {
+	display: flex;
+	align-items: baseline;
+	column-gap: 14px;
+}
+
+.slave-discovery-reconstruction-heading > span {
+	min-width: 30px;
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 18px;
+	font-weight: 650;
+}
+
+.slave-discovery-reconstruction-heading h3 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 23px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.slave-discovery-reconstruction-step p {
+	margin: 4px 0 0 44px;
+	color: var(--text-secondary);
+	font-size: 19px;
+	font-weight: 400;
+	line-height: 1.28;
+}
+
+.slave-discovery-reconstruction-code {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin: 5px 0 0 44px;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+.slave-discovery-reconstruction-code code {
+	color: var(--accent);
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 650;
+}
+
+.slave-discovery-reconstruction-code > span {
+	color: rgba(103, 147, 192, 0.72);
+}
+
+.slave-discovery-result {
+	margin-top: 20px;
+}
+
+.slave-discovery-terminal {
+	width: 88%;
+	margin: 0 auto;
+	border: 1px solid rgba(103, 147, 192, 0.58);
+	background: #242c33;
+	box-sizing: border-box;
+	color: #edf3f8;
+}
+
+.slave-discovery-terminal-bar {
+	display: flex;
+	align-items: center;
+	height: 44px;
+	padding: 0 22px;
+	border-bottom: 1px solid rgba(151, 185, 216, 0.42);
+	background: #303b45;
+	box-sizing: border-box;
+	color: #b9d7ef;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 18px;
+	font-weight: 650;
+}
+
+.slave-discovery-terminal-body {
+	padding: 22px 28px 24px;
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 21px;
+	line-height: 1.46;
+}
+
+.slave-discovery-terminal-gap {
+	height: 16px;
+}
+
+.slave-discovery-terminal-value {
+	display: grid;
+	grid-template-columns: 260px minmax(0, 1fr);
+	column-gap: 12px;
+}
+
+.slave-discovery-terminal-value > span {
+	color: #edf3f8;
+	white-space: nowrap;
+}
+
+.slave-discovery-terminal-value code {
+	color: #79b9e8;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 650;
+}
+
+.slave-discovery-result-note {
+	width: 88%;
+	margin: 17px auto 0;
+	color: var(--text-secondary);
+	font-size: 19px;
+	line-height: 1.3;
+}
+
 .slave-discovery-summary {
 	margin-top: 14px;
 }
