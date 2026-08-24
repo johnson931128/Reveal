@@ -5389,9 +5389,8 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 	padding: 0;
 	overflow: hidden;
 	background:
-		linear-gradient(135deg, rgba(22, 135, 232, 0.1) 0 13%, transparent 13% 100%),
-		linear-gradient(118deg, rgba(218, 237, 247, 0.92) 0%, rgba(237, 247, 248, 0.97) 39%, rgba(250, 252, 252, 0.99) 72%),
-		linear-gradient(180deg, var(--section-divider-bg-soft), var(--section-divider-bg));
+		linear-gradient(110deg, rgba(22, 139, 210, 0.16) 0%, rgba(78, 137, 207, 0.1) 22%, rgba(78, 137, 207, 0.04) 46%, rgba(247, 249, 251, 0.95) 72%),
+		var(--bg);
 	color: var(--section-divider-title);
 }
 
@@ -5406,12 +5405,12 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 	width: 720px;
 	height: 540px;
 	background-image:
-		linear-gradient(rgba(78, 137, 207, 0.16) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(78, 137, 207, 0.13) 1px, transparent 1px);
+		linear-gradient(rgba(78, 137, 207, 0.26) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(78, 137, 207, 0.22) 1px, transparent 1px);
 	background-color: rgba(232, 242, 250, 0.1);
 	background-size: 40px 40px;
 	mask-image: linear-gradient(90deg, transparent, #000 22%, #000 88%, transparent);
-	opacity: 0.64;
+	opacity: 0.12;
 	pointer-events: none;
 }
 
@@ -5421,35 +5420,21 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 	right: 54px;
 	width: 360px;
 	height: 190px;
-	border-top: 2px solid rgba(78, 137, 207, 0.62);
-	border-right: 1px solid rgba(26, 166, 159, 0.24);
+	border: 0;
 	background:
-		linear-gradient(135deg, transparent 0 44%, rgba(78, 137, 207, 0.09) 44% 70%, transparent 70% 100%),
-		linear-gradient(135deg, transparent 0 64%, rgba(78, 137, 207, 0.16) 64% 100%);
+		linear-gradient(135deg, transparent 0 44%, rgba(78, 137, 207, 0.8) 44% 70%, transparent 70% 100%),
+		linear-gradient(135deg, transparent 0 64%, rgba(78, 137, 207, 0.65) 64% 100%);
+	opacity: 0.1;
 	clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
 	pointer-events: none;
 }
 
 .section-divider-corner::before {
-	content: "";
-	position: absolute;
-	top: 92px;
-	left: -104px;
-	width: 202px;
-	height: 1px;
-	background: linear-gradient(90deg, transparent, rgba(78, 137, 207, 0.28), rgba(78, 137, 207, 0.62));
+	display: none;
 }
 
 .section-divider-corner::after {
-	content: "";
-	position: absolute;
-	top: 88px;
-	left: -108px;
-	width: 9px;
-	height: 9px;
-	border: 1px solid var(--section-divider-accent);
-	border-radius: 50%;
-	background: var(--section-divider-accent);
+	display: none;
 }
 
 .section-divider-axis {
@@ -5465,8 +5450,8 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 .section-divider-axis-line {
 	position: absolute;
 	top: 34px;
-	left: -2px;
-	width: 3px;
+	left: -1px;
+	width: 2px;
 	height: 300px;
 	background: linear-gradient(180deg, var(--section-divider-accent), rgba(78, 137, 207, 0.54) 58%, transparent);
 }
@@ -5564,15 +5549,11 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 	position: relative;
 	grid-column: 2;
 	padding-top: 42px;
-	background: linear-gradient(90deg, rgba(78, 137, 207, 0.055), transparent 76%);
+	background: linear-gradient(90deg, rgba(78, 137, 207, 0.04), transparent 76%);
 }
 
 .section-divider-rule {
-	display: block;
-	width: 260px;
-	height: 3px;
-	margin: 0;
-	background: linear-gradient(90deg, var(--section-divider-accent), rgba(78, 137, 207, 0.58) 76%, transparent);
+	display: none;
 }
 
 .section-divider-summary {
@@ -5588,18 +5569,7 @@ html.print-pdf .syncmanager-slide .syncmanager-state[data-syncmanager-panel]:not
 }
 
 .section-divider-trace {
-	position: absolute;
-	right: 108px;
-	bottom: 172px;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	color: var(--section-divider-secondary);
-	font-family: Consolas, "Cascadia Mono", monospace;
-	font-size: 11px;
-	font-weight: 600;
-	letter-spacing: 0.13em;
-	z-index: 3;
+	display: none;
 }
 
 .section-divider-trace i {
@@ -8220,7 +8190,9 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 
 /* Shared frame for report content slides; cover and section dividers stay unframed. */
 .reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::before,
-.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::after {
+.reveal .slides .pdf-page > section:not(.cover-slide):not(.section-divider-slide)::before,
+.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::after,
+.reveal .slides .pdf-page > section:not(.cover-slide):not(.section-divider-slide)::after {
 	content: "";
 	position: absolute;
 	inset: 1px;
@@ -8229,15 +8201,17 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 	z-index: 8;
 }
 
-.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::before {
-	border: 1px solid rgba(78, 137, 207, 0.48);
+.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::before,
+.reveal .slides .pdf-page > section:not(.cover-slide):not(.section-divider-slide)::before {
+	border: 3px solid #168BD2;
 }
 
-.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::after {
+.reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::after,
+.reveal .slides .pdf-page > section:not(.cover-slide):not(.section-divider-slide)::after {
 	background-image:
-		linear-gradient(var(--accent), var(--accent)),
-		linear-gradient(var(--accent), var(--accent));
+		linear-gradient(90deg, transparent 0 70%, #65CED1 70% 90%, #A8E85A 90% 100%),
+		linear-gradient(180deg, #A8E85A 0 20%, transparent 20% 100%);
 	background-repeat: no-repeat;
-	background-position: left top, right 280px bottom;
-	background-size: 120px 2px, 120px 2px;
+	background-position: left top, right top;
+	background-size: 100% 3px, 3px 100%;
 }
