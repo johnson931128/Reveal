@@ -924,7 +924,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="sdo-design-state" data-sdo-design-panel="2">
-								<div class="sdo-design-viewer" aria-label="SDO / PDO analyzer class relationship viewer">
+								<div class="sdo-design-viewer pan-zoom-viewer" aria-label="SDO / PDO analyzer class relationship viewer">
 									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO / PDO analyzer class relationship diagram" draggable="false">
 									<span class="sdo-design-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
 								</div>
@@ -1082,9 +1082,75 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span>10</span>
 								<span class="page-rule"></span>
 							</div>
-						</footer>
-					</section>
-					<section class="diagram-slide" data-transition="none">
+								</footer>
+							</section>
+							<section class="syncmanager-analyzer-slide" data-transition="none" data-syncmanager-analyzer-state="0">
+								<header class="syncmanager-analyzer-header">
+									<h1 class="syncmanager-analyzer-title">SyncManager Analyzer 實作設計</h1>
+								</header>
+
+								<nav class="syncmanager-analyzer-selectors" aria-label="SyncManager analyzer design views">
+									<article class="syncmanager-analyzer-selector" data-syncmanager-analyzer-selector="1" tabindex="0" role="button" aria-pressed="false">
+										<span class="syncmanager-analyzer-selector-index">01</span>
+										<div><h2>設計流程</h2><span>Reconstruction Pipeline</span></div>
+									</article>
+									<article class="syncmanager-analyzer-selector" data-syncmanager-analyzer-selector="2" tabindex="0" role="button" aria-pressed="false">
+										<span class="syncmanager-analyzer-selector-index">02</span>
+										<div><h2>程式碼關係</h2><span>Class Relationship</span></div>
+									</article>
+								</nav>
+
+								<main class="syncmanager-analyzer-display" aria-live="polite">
+									<article class="syncmanager-analyzer-state" data-syncmanager-analyzer-panel="0">
+										<div class="syncmanager-analyzer-overview">
+											<div class="syncmanager-analyzer-overview-title">SyncManager Configuration Reconstruction</div>
+											<div class="syncmanager-analyzer-overview-chain" aria-label="SM register to local RAM layout">
+												<span>SM Register</span><b aria-hidden="true">→</b><span>SyncManager Configuration</span><b aria-hidden="true">→</b><span>Local RAM Layout</span>
+											</div>
+										</div>
+									</article>
+
+									<article class="syncmanager-analyzer-state" data-syncmanager-analyzer-panel="1">
+										<div class="pan-zoom-viewer syncmanager-analyzer-viewer" aria-label="SyncManager reconstruction pipeline viewer">
+											<img src="assets/sm/SMflow.png" alt="SyncManager reconstruction pipeline" draggable="false">
+											<span class="syncmanager-analyzer-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
+										</div>
+									</article>
+
+									<article class="syncmanager-analyzer-state" data-syncmanager-analyzer-panel="2">
+										<div class="pan-zoom-viewer syncmanager-analyzer-viewer" aria-label="SyncManager class relationship viewer">
+											<img src="assets/sm/SMclass.png" alt="SyncManager class relationship" draggable="false">
+											<span class="syncmanager-analyzer-viewer-hint">拖曳查看 · 滾輪縮放 · 雙擊重設</span>
+										</div>
+									</article>
+								</main>
+
+								<span class="syncmanager-analyzer-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+								<span class="syncmanager-analyzer-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+
+								<div class="logo-area" aria-label="Company logo placeholder">
+									<span class="logo-mark" aria-hidden="true">△</span>
+									<span class="logo-placeholder">DELTA LOGO</span>
+								</div>
+
+								<footer class="slide-footer">
+									<span class="footer-corner" aria-hidden="true"></span>
+									<div class="footer-meta">
+										<span class="footer-arrow" aria-hidden="true"></span>
+										<span>范舜傑</span>
+										<span class="meta-divider">|</span>
+										<span>MDSBU 通訊工程課</span>
+										<span class="meta-divider">|</span>
+										<time datetime="2026-08-25">08/25/2026</time>
+									</div>
+									<div class="page-number" aria-label="Page 11">
+										<span class="page-rule"></span>
+										<span>11</span>
+										<span class="page-rule"></span>
+									</div>
+								</footer>
+							</section>
+							<section class="diagram-slide" data-transition="none">
 						<div class="diagram-background-grid" aria-hidden="true"></div>
 						<div class="diagram-corner-rule" aria-hidden="true"></div>
 
@@ -1164,9 +1230,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 11">
+							<div class="page-number" aria-label="Page 12">
 								<span class="page-rule"></span>
-								<span>11</span>
+								<span>12</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1242,9 +1308,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 								<span class="meta-divider">|</span>
 								<time datetime="2026-08-25">08/25/2026</time>
 							</div>
-							<div class="page-number" aria-label="Page 12">
+							<div class="page-number" aria-label="Page 13">
 								<span class="page-rule"></span>
-								<span>12</span>
+								<span>13</span>
 								<span class="page-rule"></span>
 							</div>
 						</footer>
@@ -1276,6 +1342,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const sdoAnalysisSelector = 'section.sdo-analysis-slide';
 				const sdoDesignSelector = 'section.sdo-design-slide';
 				const syncManagerSelector = 'section.syncmanager-slide';
+				const syncManagerAnalyzerSelector = 'section.syncmanager-analyzer-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1310,9 +1377,13 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					slide && slide.matches(syncManagerSelector)
 				);
 
-				const setupSdoDesignViewer = slide => {
-					if (!isSdoDesignSlide(slide) || isPrintMode()) return;
-					const viewer = slide.querySelector('.sdo-design-viewer');
+				const isSyncManagerAnalyzerSlide = slide => (
+					slide && slide.matches(syncManagerAnalyzerSelector)
+				);
+
+				const setupPanZoomViewer = slide => {
+					if ((!isSdoDesignSlide(slide) && !isSyncManagerAnalyzerSlide(slide)) || isPrintMode()) return;
+					const viewer = slide.querySelector('.pan-zoom-viewer');
 					const image = viewer?.querySelector('img');
 					if (!viewer || !image || viewer.dataset.viewerBound === 'true') return;
 
@@ -1329,6 +1400,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						fitScale: 1,
 						maxScale: 1.5
 					};
+					slide.__panZoomViewer = viewerState;
 					slide.__sdoDesignViewer = viewerState;
 					viewer.dataset.viewerBound = 'true';
 
@@ -1365,7 +1437,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						if (!metrics) return;
 						viewerState.fitScale = metrics.fitScale;
 						viewerState.maxScale = metrics.maxScale;
-						viewerState.scale = Math.min(1, metrics.fitScale * 1.35);
+						viewerState.scale = Math.min(1, metrics.fitScale * 1.25);
 						viewerState.x = 0;
 						viewerState.y = 0;
 						applyTransform();
@@ -1448,9 +1520,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (image.complete) resetViewer();
 				};
 
-				const resetSdoDesignViewer = slide => {
+				const resetPanZoomViewer = slide => {
 					if (isPrintMode()) return;
-					slide?.__sdoDesignViewer?.reset();
+					slide?.__panZoomViewer?.reset();
 				};
 
 				const loadSdoAnalysisTerminal = async slide => {
@@ -1593,7 +1665,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						const selectorState = Number(selector.dataset.sdoDesignSelector);
 						selector.setAttribute('aria-pressed', String(designState !== 0 && (selectorState === 1 ? designState === 1 : designState >= 2)));
 					});
-					if (designState === 2) resetSdoDesignViewer(slide);
+					if (designState === 2) resetPanZoomViewer(slide);
 				};
 
 				const setSyncManagerState = (slide, state) => {
@@ -1607,6 +1679,18 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						const active = selectorState === 1 ? syncState === 1 : selectorState === 2 ? syncState === 2 || syncState === 3 : syncState === 4 || syncState === 5;
 						selector.setAttribute('aria-pressed', String(active));
 					});
+				};
+
+				const setSyncManagerAnalyzerState = (slide, state) => {
+					if (!isSyncManagerAnalyzerSlide(slide)) return;
+
+					const analyzerState = isPrintMode() ? 0 : Math.max(0, Math.min(2, state));
+					slide.dataset.syncmanagerAnalyzerState = analyzerState;
+					slide.dataset.syncmanagerAnalyzerLastState = analyzerState;
+					slide.querySelectorAll('.syncmanager-analyzer-selector').forEach(selector => {
+						selector.setAttribute('aria-pressed', String(analyzerState !== 0 && Number(selector.dataset.syncmanagerAnalyzerSelector) === analyzerState));
+					});
+					if (analyzerState > 0) resetPanZoomViewer(slide);
 				};
 
 				const isProblemGoalFragment = fragment => (
@@ -1631,6 +1715,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isSyncManagerFragment = fragment => (
 					fragment && fragment.classList.contains('syncmanager-state-fragment')
+				);
+
+				const isSyncManagerAnalyzerFragment = fragment => (
+					fragment && fragment.classList.contains('syncmanager-analyzer-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -1658,6 +1746,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					document.querySelectorAll(syncManagerSelector).forEach(slide => {
 						setSyncManagerState(slide, 0);
 					});
+					document.querySelectorAll(syncManagerAnalyzerSelector).forEach(slide => {
+						setSyncManagerAnalyzerState(slide, 0);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
@@ -1666,6 +1757,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (isCoeKnowledgeSlide(currentSlide)) setCoeKnowledgeState(currentSlide, 0);
 					if (isSdoDesignSlide(currentSlide)) setSdoDesignState(currentSlide, 0);
 					if (isSyncManagerSlide(currentSlide)) setSyncManagerState(currentSlide, 0);
+					if (isSyncManagerAnalyzerSlide(currentSlide)) setSyncManagerAnalyzerState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(sdoAnalysisSelector).forEach(slide => {
@@ -1674,12 +1766,30 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				});
 
 				document.querySelectorAll(sdoDesignSelector).forEach(slide => {
-					setupSdoDesignViewer(slide);
+					setupPanZoomViewer(slide);
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
 						const selectState = () => {
 							const state = Number(selector.dataset.sdoDesignSelector);
 							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
 							setSdoDesignState(slide, state);
+						};
+						selector.addEventListener('click', selectState);
+						selector.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							event.stopPropagation();
+							selectState();
+						});
+					});
+				});
+
+				document.querySelectorAll(syncManagerAnalyzerSelector).forEach(slide => {
+					setupPanZoomViewer(slide);
+					slide.querySelectorAll('.syncmanager-analyzer-selector').forEach(selector => {
+						const selectState = () => {
+							const state = Number(selector.dataset.syncmanagerAnalyzerSelector);
+							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
+							setSyncManagerAnalyzerState(slide, state);
 						};
 						selector.addEventListener('click', selectState);
 						selector.addEventListener('keydown', event => {
@@ -1811,6 +1921,22 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							setSyncManagerState(event.currentSlide, lastState);
 						}
 					}
+					if (isSyncManagerAnalyzerSlide(event.currentSlide)) {
+						if (isPrintMode()) {
+							setSyncManagerAnalyzerState(event.currentSlide, 0);
+							return;
+						}
+						const previousSlide = event.previousSlide;
+						const followsPrevious = previousSlide && Boolean(previousSlide.compareDocumentPosition(event.currentSlide) & Node.DOCUMENT_POSITION_FOLLOWING);
+						if (followsPrevious || !previousSlide) {
+							Reveal.navigateFragment(-1);
+							setSyncManagerAnalyzerState(event.currentSlide, 0);
+						} else {
+							const lastState = Number(event.currentSlide.dataset.syncmanagerAnalyzerLastState) || 0;
+							if (lastState > 0) Reveal.navigateFragment(lastState - 1);
+							setSyncManagerAnalyzerState(event.currentSlide, lastState);
+						}
+					}
 				});
 
 				Reveal.on('fragmentshown', event => {
@@ -1835,6 +1961,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (isSyncManagerFragment(event.fragment)) {
 						setSyncManagerState(slide, fragmentIndex + 1);
 					}
+					if (isSyncManagerAnalyzerFragment(event.fragment)) {
+						setSyncManagerAnalyzerState(slide, fragmentIndex + 1);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1857,6 +1986,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					}
 					if (isSyncManagerFragment(event.fragment)) {
 						setSyncManagerState(slide, fragmentIndex);
+					}
+					if (isSyncManagerAnalyzerFragment(event.fragment)) {
+						setSyncManagerAnalyzerState(slide, fragmentIndex);
 					}
 				});
 			});
