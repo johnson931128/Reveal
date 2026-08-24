@@ -8223,7 +8223,7 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 .reveal .slides section.report-stack > section:not(.cover-slide):not(.section-divider-slide)::after {
 	content: "";
 	position: absolute;
-	inset: 12px;
+	inset: 1px;
 	box-sizing: border-box;
 	pointer-events: none;
 	z-index: 8;
