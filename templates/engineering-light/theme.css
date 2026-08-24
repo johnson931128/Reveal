@@ -4999,16 +4999,6 @@ body {
 	gap: 20px;
 }
 
-.command-broadcast-slaves::before {
-	position: absolute;
-	top: 50%;
-	left: 8%;
-	right: 8%;
-	height: 1px;
-	background: rgba(103, 147, 192, 0.58);
-	content: "";
-}
-
 .command-broadcast-slaves span {
 	position: relative;
 	z-index: 1;
