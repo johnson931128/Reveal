@@ -827,60 +827,19 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</div>
 						</footer>
 					</section>
-					<section class="technical-flow-slide" data-transition="none">
-						<header class="technical-flow-header">
-							<h1 class="technical-flow-title">SDO Transaction Reconstruction Flow</h1>
-							<span class="technical-flow-title-rule" aria-hidden="true"></span>
+					<section class="sdo-analysis-slide" data-transition="none">
+						<header class="sdo-analysis-header">
+							<h1 class="sdo-analysis-title">SDO Transaction / PDO Mapping 重建成果</h1>
 						</header>
 
-						<main class="technical-flow" aria-label="SDO transaction reconstruction flow">
-							<span class="technical-flow-level technical-flow-level-input">PACKET LEVEL</span>
-							<span class="technical-flow-level technical-flow-level-output">TRANSACTION LEVEL</span>
-							<span class="technical-flow-axis" aria-hidden="true"></span>
-							<span class="technical-flow-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
-							<span class="technical-flow-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
-							<span class="technical-flow-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
-							<span class="technical-flow-state-fragment fragment" data-fragment-index="3" aria-hidden="true"></span>
-							<span class="technical-flow-state-fragment fragment" data-fragment-index="4" aria-hidden="true"></span>
-
-							<ol class="technical-flow-stages">
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">01</span>
-									<span class="technical-flow-label">DATAGRAM</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">EtherCAT Datagram</strong>
-								</li>
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">02</span>
-									<span class="technical-flow-label">MAILBOX</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">Mailbox Detection</strong>
-								</li>
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">03</span>
-									<span class="technical-flow-label">CoE</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">CoE Classification</strong>
-								</li>
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">04</span>
-									<span class="technical-flow-label">SDO</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">SDO Command Extraction</strong>
-								</li>
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">05</span>
-									<span class="technical-flow-label">MATCH</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">Request / Response Matching</strong>
-								</li>
-								<li class="technical-flow-stage">
-									<span class="technical-flow-step">06</span>
-									<span class="technical-flow-label">OUTPUT</span>
-									<span class="technical-flow-node" aria-hidden="true"></span>
-									<strong class="technical-flow-name">SDO Transaction</strong>
-								</li>
-							</ol>
+						<main class="sdo-analysis-layout" aria-label="SDO Transaction / PDO Mapping 重建成果">
+							<div class="sdo-analysis-terminal" tabindex="0" role="region" aria-label="Stage 4 SDO analysis terminal">
+								<div class="sdo-analysis-terminal-bar">
+									<span>EtherCATAnalyzer.TestConsole.exe analyze</span>
+									<span>Stage 4 / 105 Transactions</span>
+								</div>
+								<pre class="sdo-analysis-terminal-body" data-terminal-source="assets/sdo/stage4-output.txt"></pre>
+							</div>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
@@ -1166,19 +1125,15 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				backgroundTransition: 'none',
 				pdfSeparateFragments: false
 			}).then(() => {
-				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
 				const slaveDiscoverySelector = 'section.discovery-flow-slide';
 				const coeKnowledgeSelector = 'section.coe-knowledge-slide';
+				const sdoAnalysisSelector = 'section.sdo-analysis-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
 					document.documentElement.classList.contains('print-pdf')
-				);
-
-				const isTechnicalFlowSlide = slide => (
-					slide && slide.matches(technicalFlowSelector)
 				);
 
 				const isProblemGoalSlide = slide => (
@@ -1196,6 +1151,62 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const isCoeKnowledgeSlide = slide => (
 					slide && slide.matches(coeKnowledgeSelector)
 				);
+
+				const isSdoAnalysisSlide = slide => (
+					slide && slide.matches(sdoAnalysisSelector)
+				);
+
+				const loadSdoAnalysisTerminal = async slide => {
+					if (!isSdoAnalysisSlide(slide)) return;
+
+					const terminal = slide.querySelector('.sdo-analysis-terminal');
+					const output = terminal?.querySelector('.sdo-analysis-terminal-body');
+					if (!terminal || !output || output.dataset.loaded === 'true') return;
+
+					try {
+						const response = await fetch(output.dataset.terminalSource);
+						if (!response.ok) throw new Error(`HTTP ${response.status}`);
+						output.textContent = await response.text();
+						output.dataset.loaded = 'true';
+						output.scrollTop = 0;
+					} catch (error) {
+						console.error('Unable to load SDO analysis terminal output', error);
+					}
+				};
+
+				const resetSdoAnalysisTerminal = slide => {
+					if (!isSdoAnalysisSlide(slide)) return;
+
+					const output = slide.querySelector('.sdo-analysis-terminal-body');
+					if (output) output.scrollTop = 0;
+				};
+
+				const bindSdoAnalysisTerminalKeys = slide => {
+					if (!isSdoAnalysisSlide(slide)) return;
+
+					const terminal = slide.querySelector('.sdo-analysis-terminal');
+					const output = slide.querySelector('.sdo-analysis-terminal-body');
+					if (!terminal || !output || terminal.dataset.keysBound === 'true') return;
+
+					terminal.addEventListener('keydown', event => {
+						const scrollKeys = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End']);
+						if (!scrollKeys.has(event.key)) return;
+
+						event.preventDefault();
+						event.stopPropagation();
+						const pageStep = output.clientHeight * 0.86;
+						const lineStep = parseFloat(getComputedStyle(output).lineHeight) || 24;
+						switch (event.key) {
+							case 'ArrowUp': output.scrollBy({ top: -lineStep }); break;
+							case 'ArrowDown': output.scrollBy({ top: lineStep }); break;
+							case 'PageUp': output.scrollBy({ top: -pageStep }); break;
+							case 'PageDown': output.scrollBy({ top: pageStep }); break;
+							case 'Home': output.scrollTop = 0; break;
+							case 'End': output.scrollTop = output.scrollHeight; break;
+						}
+					});
+					terminal.dataset.keysBound = 'true';
+				};
 
 				let slaveDiscoveryMermaidReady = false;
 				const renderSlaveDiscoveryMermaid = async slide => {
@@ -1237,24 +1248,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					}
 				};
 
-				const applyTechnicalFlowState = (slide, state) => {
-					if (!slide || !slide.matches(technicalFlowSelector)) return;
-
-					const flowState = isPrintMode() ? 6 : Math.max(1, Math.min(6, state));
-					slide.dataset.technicalFlowState = flowState;
-
-					slide.querySelectorAll('.technical-flow-stage').forEach((stage, index) => {
-						const stageState = index + 1 < flowState
-							? 'completed'
-							: index + 1 === flowState
-								? 'active'
-								: 'future';
-						stage.dataset.flowState = stageState;
-					});
-
-					 slide.querySelector('.technical-flow-axis').dataset.flowState = flowState;
-				};
-
 				const applyProblemGoalState = (slide, state) => {
 					if (!isProblemGoalSlide(slide)) return;
 
@@ -1293,10 +1286,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					});
 				};
 
-				const isTechnicalFlowFragment = fragment => (
-					fragment && fragment.classList.contains('technical-flow-state-fragment')
-				);
-
 				const isProblemGoalFragment = fragment => (
 					fragment && fragment.classList.contains('problem-goal-state-fragment')
 				);
@@ -1320,9 +1309,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				};
 
 				if (isPrintMode()) {
-					document.querySelectorAll(technicalFlowSelector).forEach(slide => {
-						applyTechnicalFlowState(slide, 6);
-					});
 					document.querySelectorAll(problemGoalSelector).forEach(slide => {
 						applyProblemGoalState(slide, 3);
 					});
@@ -1337,12 +1323,16 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
-					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 3);
 					if (isSlaveDiscoverySlide(currentSlide)) setSlaveDiscoveryState(currentSlide, 0);
 					if (isCoeKnowledgeSlide(currentSlide)) setCoeKnowledgeState(currentSlide, 0);
 				}
+
+				document.querySelectorAll(sdoAnalysisSelector).forEach(slide => {
+					bindSdoAnalysisTerminalKeys(slide);
+					loadSdoAnalysisTerminal(slide);
+				});
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
 					slide.querySelectorAll('.command-addressing-item').forEach(item => {
@@ -1393,10 +1383,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				});
 
 				Reveal.on('slidechanged', event => {
-					if (isTechnicalFlowSlide(event.currentSlide)) {
-						resetInteractiveSlide(event.currentSlide);
-						applyTechnicalFlowState(event.currentSlide, 1);
-					}
 					if (isProblemGoalSlide(event.currentSlide)) {
 						resetInteractiveSlide(event.currentSlide);
 						applyProblemGoalState(event.currentSlide, 1);
@@ -1413,14 +1399,16 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						if (!isPrintMode()) Reveal.navigateFragment(-1);
 						setCoeKnowledgeState(event.currentSlide, 0);
 					}
+					if (isSdoAnalysisSlide(event.currentSlide)) {
+						resetSdoAnalysisTerminal(event.currentSlide);
+						bindSdoAnalysisTerminalKeys(event.currentSlide);
+						loadSdoAnalysisTerminal(event.currentSlide);
+					}
 				});
 
 				Reveal.on('fragmentshown', event => {
 					const slide = Reveal.getCurrentSlide();
 					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
-					if (isTechnicalFlowFragment(event.fragment)) {
-						applyTechnicalFlowState(slide, fragmentIndex + 2);
-					}
 					if (isProblemGoalFragment(event.fragment)) {
 						applyProblemGoalState(slide, fragmentIndex + 2);
 					}
@@ -1439,9 +1427,6 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				Reveal.on('fragmenthidden', event => {
 					const slide = Reveal.getCurrentSlide();
 					const fragmentIndex = Number(event.fragment.dataset.fragmentIndex);
-					if (isTechnicalFlowFragment(event.fragment)) {
-						applyTechnicalFlowState(slide, fragmentIndex + 1);
-					}
 					if (isProblemGoalFragment(event.fragment)) {
 						applyProblemGoalState(slide, fragmentIndex + 1);
 					}
