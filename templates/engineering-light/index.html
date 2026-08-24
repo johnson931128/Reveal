@@ -924,129 +924,8 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="sdo-design-state" data-sdo-design-panel="2">
-								<div class="sdo-design-mermaid mermaid" aria-label="SDO / PDO analyzer class relationship diagram">
-classDiagram
-    direction LR
-
-    class EtherCatDatagramRecord {
-        +long FrameNumber
-        +int DatagramSequence
-        +ushort? Adp
-        +ushort WorkingCounter
-        +CoeSdoInfo CoeSdo
-    }
-
-    class CoeSdoInfo {
-        +byte? MailboxType
-        +byte? MailboxCounter
-        +byte? CoeType
-        +byte? SdoRequestSpecifier
-        +byte? SdoResponseSpecifier
-        +bool CompleteAccess
-        +ushort? Index
-        +byte? SubIndex
-        +string SdoData
-        +uint? AbortCode
-    }
-
-    class SdoTransactionAnalyzer {
-        +Analyze(records) List~SdoTransaction~
-        -IsInitiateDownloadRequest(record) bool
-        -IsInitiateDownloadResponse(record) bool
-        -IsMatchingRequest(request, response) bool
-    }
-
-    class SdoTransaction {
-        +ushort StationAddress
-        +ushort Index
-        +byte SubIndex
-        +bool CompleteAccess
-        +string Data
-        +long RequestFrameNumber
-        +long ResponseFrameNumber
-        +bool Success
-        +uint? AbortCode
-    }
-
-    class ObjectDictionaryClassifier {
-        +Classify(index) OdObjectKind
-    }
-
-    class OdObjectKind {
-        &lt;&lt;enumeration&gt;&gt;
-        RxPdoMapping
-        TxPdoMapping
-        RxPdoAssignment
-        TxPdoAssignment
-        Unknown
-    }
-
-    class PdoMappingAnalyzer {
-        +Analyze(transactions) List~PdoMappingConfiguration~
-        -GetOrCreateMapping()
-        -ReplaceEntry()
-    }
-
-    class PdoMappingDescriptorParser {
-        +TryParse(entryNumber, data, entry) bool
-    }
-
-    class PdoMappingConfiguration {
-        +ushort StationAddress
-        +ushort MappingObjectIndex
-        +OdObjectKind Kind
-        +byte ActiveEntryCount
-        +List~PdoMappingEntry~ Entries
-    }
-
-    class PdoMappingEntry {
-        +byte EntryNumber
-        +string ObjectName
-        +ushort ObjectIndex
-        +byte ObjectSubIndex
-        +byte BitLength
-    }
-
-    class PdoAssignmentAnalyzer {
-        +Analyze(transactions) List~PdoAssignmentConfiguration~
-        -GetOrCreateAssignment()
-        -ReplaceEntry()
-        -ApplyCompleteAccessAssignment()
-    }
-
-    class PdoAssignmentConfiguration {
-        +ushort StationAddress
-        +ushort AssignmentObjectIndex
-        +OdObjectKind Kind
-        +byte ActiveEntryCount
-        +List~PdoAssignmentEntry~ Entries
-    }
-
-    class PdoAssignmentEntry {
-        +byte EntryNumber
-        +ushort MappingObjectIndex
-    }
-
-    EtherCatDatagramRecord *-- CoeSdoInfo : CoE / SDO fields
-
-    SdoTransactionAnalyzer ..&gt; EtherCatDatagramRecord : reads request / response
-    SdoTransactionAnalyzer --&gt; SdoTransaction : reconstructs
-
-    PdoMappingAnalyzer ..&gt; SdoTransaction : reads SDO writes
-    PdoMappingAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
-    ObjectDictionaryClassifier --&gt; OdObjectKind
-
-    PdoMappingAnalyzer ..&gt; PdoMappingDescriptorParser : parse 32-bit descriptor
-    PdoMappingAnalyzer --&gt; PdoMappingConfiguration : creates
-    PdoMappingConfiguration *-- "0..*" PdoMappingEntry : Entries
-    PdoMappingDescriptorParser --&gt; PdoMappingEntry : creates
-
-    PdoAssignmentAnalyzer ..&gt; SdoTransaction : reads SDO writes
-    PdoAssignmentAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
-    PdoAssignmentAnalyzer --&gt; PdoAssignmentConfiguration : creates
-    PdoAssignmentConfiguration *-- "0..*" PdoAssignmentEntry : Entries
-
-    PdoAssignmentEntry ..&gt; PdoMappingConfiguration : MappingObjectIndex
+								<div class="sdo-design-image">
+									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO / PDO analyzer class relationship diagram">
 								</div>
 							</article>
 						</main>
@@ -1389,54 +1268,6 @@ classDiagram
 					}
 				};
 
-				let sdoDesignMermaidReady = false;
-				const renderSdoDesignMermaid = async slide => {
-					if (!isSdoDesignSlide(slide) || !window.mermaid || isPrintMode()) return;
-					const diagram = slide.querySelector('.sdo-design-mermaid');
-					if (!diagram || diagram.dataset.mermaidRendered === 'true' || diagram.dataset.mermaidRendering === 'true') return;
-
-					diagram.dataset.mermaidRendering = 'true';
-					try {
-						if (!sdoDesignMermaidReady) {
-							window.mermaid.initialize({
-								startOnLoad: false,
-								securityLevel: 'loose',
-								theme: 'base',
-								themeVariables: {
-									fontFamily: 'Consolas, Cascadia Mono, Microsoft JhengHei, sans-serif',
-									fontSize: '14px',
-									primaryColor: '#f5f9fd',
-									primaryTextColor: '#163b5c',
-									primaryBorderColor: '#6f95b8',
-									lineColor: '#5e83a8',
-									secondaryColor: '#f7fafc',
-									tertiaryColor: '#ffffff',
-									edgeLabelBackground: '#f7fafc'
-								},
-								class: {
-									padding: 6,
-									nodeSpacing: 4,
-									rankSpacing: 60
-								}
-							});
-							sdoDesignMermaidReady = true;
-						}
-						await window.mermaid.run({ nodes: [diagram] });
-						const svg = diagram.querySelector('svg');
-						if (svg) {
-							svg.setAttribute('width', '100%');
-							svg.setAttribute('height', '100%');
-							svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-							svg.style.maxWidth = 'none';
-							svg.style.maxHeight = 'none';
-						}
-						diagram.dataset.mermaidRendered = 'true';
-					} catch (error) {
-						delete diagram.dataset.mermaidRendering;
-						console.error('Unable to render SDO / PDO design Mermaid diagram', error);
-					}
-				};
-
 				const applyProblemGoalState = (slide, state) => {
 					if (!isProblemGoalSlide(slide)) return;
 
@@ -1483,7 +1314,6 @@ classDiagram
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
 						selector.setAttribute('aria-pressed', String(designState !== 0 && Number(selector.dataset.sdoDesignSelector) === designState));
 					});
-					if (designState === 2) renderSdoDesignMermaid(slide);
 				};
 
 				const isProblemGoalFragment = fragment => (
