@@ -3505,10 +3505,10 @@ body {
 
 .sdo-design-display {
 	position: absolute;
-	top: 164px;
-	left: 444px;
-	width: 1064px;
-	height: 600px;
+	top: 150px;
+	left: 430px;
+	right: 70px;
+	bottom: 118px;
 	border: 1px solid rgba(103, 147, 192, 0.38);
 	background: rgba(255, 255, 255, 0.22);
 	box-sizing: border-box;
@@ -3534,7 +3534,7 @@ body {
 }
 
 .sdo-design-state[data-sdo-design-panel="2"] {
-	padding: 10px;
+	padding: 6px;
 }
 
 .sdo-design-slide[data-sdo-design-state="1"] .sdo-design-state[data-sdo-design-panel="0"],
@@ -3950,10 +3950,10 @@ html.print-pdf .sdo-design-slide .sdo-design-state[data-sdo-design-panel]:not([d
 
 .syncmanager-analyzer-display {
 	position: absolute;
-	top: 164px;
-	left: 444px;
-	width: 1064px;
-	height: 600px;
+	top: 150px;
+	left: 430px;
+	right: 70px;
+	bottom: 118px;
 	box-sizing: border-box;
 	border: 1px solid rgba(103, 147, 192, 0.38);
 	background: rgba(255, 255, 255, 0.22);
@@ -3965,7 +3965,7 @@ html.print-pdf .sdo-design-slide .sdo-design-state[data-sdo-design-panel]:not([d
 	position: absolute;
 	inset: 0;
 	box-sizing: border-box;
-	padding: 10px;
+	padding: 6px;
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(8px);
