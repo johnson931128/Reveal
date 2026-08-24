@@ -864,59 +864,197 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</div>
 						</footer>
 					</section>
-					<section class="spec-slide" data-transition="none">
-						<div class="spec-background-grid" aria-hidden="true"></div>
-						<div class="spec-corner-rule" aria-hidden="true"></div>
-
-						<header class="spec-header">
-							<h1 class="spec-title">EtherCAT Spec 重點整理</h1>
+					<section class="sdo-design-slide" data-transition="none" data-sdo-design-state="0">
+						<header class="sdo-design-header">
+							<h1 class="sdo-design-title">SDO / PDO Analyzer 實作設計</h1>
 						</header>
 
-						<main class="spec-notes-layout" aria-label="EtherCAT specification technical notes">
-							<article class="spec-note">
-								<div class="spec-note-meta">
-									<span class="spec-note-index">01</span>
-									<span class="spec-note-label">KEY CONCEPT</span>
-								</div>
-								<div class="spec-note-body">
-									<h2>Core concept or mechanism</h2>
-									<p>Summarize the core mechanism, state transition, or protocol rule that defines the behavior described in the specification. Note what the device or analyzer should observe when this rule is applied.</p>
+						<nav class="sdo-design-selectors" aria-label="SDO / PDO analyzer design views">
+							<article class="sdo-design-selector" data-sdo-design-selector="1" tabindex="0" role="button" aria-pressed="false">
+								<span class="sdo-design-selector-index">01</span>
+								<div><h2>設計流程</h2><span>Reconstruction Pipeline</span></div>
+							</article>
+							<article class="sdo-design-selector" data-sdo-design-selector="2" tabindex="0" role="button" aria-pressed="false">
+								<span class="sdo-design-selector-index">02</span>
+								<div><h2>程式碼關係</h2><span>Class Relationship</span></div>
+							</article>
+						</nav>
+
+						<main class="sdo-design-display" aria-live="polite">
+							<article class="sdo-design-state" data-sdo-design-panel="0">
+								<div class="sdo-design-overview">
+									<span>SDO Transaction</span>
+									<span>PDO Mapping</span>
+									<span>PDO Assignment</span>
 								</div>
 							</article>
 
-							<article class="spec-note">
-								<div class="spec-note-meta">
-									<span class="spec-note-index">02</span>
-									<span class="spec-note-label">IMPORTANT FIELDS</span>
-								</div>
-								<div class="spec-note-body">
-									<h2>Registers / objects / parameters</h2>
-									<p>Record register addresses, object indices, data types, access rules, and parameter constraints. Highlight which fields are read-only, writable, or dependent on operating state.</p>
+							<article class="sdo-design-state" data-sdo-design-panel="1">
+								<div class="sdo-design-flow" aria-label="SDO and PDO reconstruction pipeline">
+									<div class="sdo-design-flow-core">
+										<div class="sdo-design-flow-node">EtherCAT Datagram</div>
+										<div class="sdo-design-flow-connector"><span>CoE / SDO fields</span></div>
+										<div class="sdo-design-flow-node">CoeSdoInfo</div>
+										<div class="sdo-design-flow-connector"></div>
+										<div class="sdo-design-flow-node">SdoTransactionAnalyzer</div>
+										<div class="sdo-design-flow-connector"><span>Request + Response 配對</span></div>
+										<div class="sdo-design-flow-node">SdoTransaction</div>
+									</div>
+									<div class="sdo-design-flow-branches">
+										<div class="sdo-design-flow-branch">
+											<div class="sdo-design-flow-branch-connector" aria-hidden="true"></div>
+											<div class="sdo-design-flow-node">ObjectDictionaryClassifier</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">0x1600~0x17FF / 0x1A00~0x1BFF</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">PdoMappingAnalyzer</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">RxPDO / TxPDO Mapping Table</div>
+										</div>
+										<div class="sdo-design-flow-branch">
+											<div class="sdo-design-flow-branch-connector" aria-hidden="true"></div>
+											<div class="sdo-design-flow-node">ObjectDictionaryClassifier</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">0x1C12 / 0x1C13</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">PdoAssignmentAnalyzer</div>
+											<div class="sdo-design-flow-connector"></div>
+											<div class="sdo-design-flow-node">Active PDO Assignment</div>
+										</div>
+									</div>
 								</div>
 							</article>
 
-							<article class="spec-note">
-								<div class="spec-note-meta">
-									<span class="spec-note-index">03</span>
-									<span class="spec-note-label">DATA FLOW</span>
-								</div>
-								<div class="spec-note-body">
-									<h2>How data moves through the system</h2>
-									<p>Trace how the request, datagram, mapped memory, and application data move through the system. Mark the boundaries where timing, ownership, or synchronization affects the result.</p>
-								</div>
-							</article>
+							<article class="sdo-design-state" data-sdo-design-panel="2">
+								<div class="sdo-design-mermaid mermaid">
+classDiagram
+    direction LR
 
-							<article class="spec-note spec-note-emphasis">
-								<div class="spec-note-meta">
-									<span class="spec-note-index">04</span>
-									<span class="spec-note-label">ENGINEERING NOTE</span>
-								</div>
-								<div class="spec-note-body">
-									<h2>Implementation or analyzer relevance</h2>
-									<p>Connect the specification detail to source code, packet analysis, validation steps, or observable system behavior. Record the implementation risk or evidence that should be checked.</p>
+    class EtherCatDatagramRecord {
+        +long FrameNumber
+        +int DatagramSequence
+        +ushort? Adp
+        +ushort WorkingCounter
+        +CoeSdoInfo CoeSdo
+    }
+
+    class CoeSdoInfo {
+        +byte? MailboxType
+        +byte? MailboxCounter
+        +byte? CoeType
+        +byte? SdoRequestSpecifier
+        +byte? SdoResponseSpecifier
+        +bool CompleteAccess
+        +ushort? Index
+        +byte? SubIndex
+        +string SdoData
+        +uint? AbortCode
+    }
+
+    class SdoTransactionAnalyzer {
+        +Analyze(records) List~SdoTransaction~
+        -IsInitiateDownloadRequest(record) bool
+        -IsInitiateDownloadResponse(record) bool
+        -IsMatchingRequest(request, response) bool
+    }
+
+    class SdoTransaction {
+        +ushort StationAddress
+        +ushort Index
+        +byte SubIndex
+        +bool CompleteAccess
+        +string Data
+        +long RequestFrameNumber
+        +long ResponseFrameNumber
+        +bool Success
+        +uint? AbortCode
+    }
+
+    class ObjectDictionaryClassifier {
+        +Classify(index) OdObjectKind
+    }
+
+    class OdObjectKind {
+        &lt;&lt;enumeration&gt;&gt;
+        RxPdoMapping
+        TxPdoMapping
+        RxPdoAssignment
+        TxPdoAssignment
+        Unknown
+    }
+
+    class PdoMappingAnalyzer {
+        +Analyze(transactions) List~PdoMappingConfiguration~
+        -GetOrCreateMapping()
+        -ReplaceEntry()
+    }
+
+    class PdoMappingDescriptorParser {
+        +TryParse(entryNumber, data, entry) bool
+    }
+
+    class PdoMappingConfiguration {
+        +ushort StationAddress
+        +ushort MappingObjectIndex
+        +OdObjectKind Kind
+        +byte ActiveEntryCount
+        +List~PdoMappingEntry~ Entries
+    }
+
+    class PdoMappingEntry {
+        +byte EntryNumber
+        +string ObjectName
+        +ushort ObjectIndex
+        +byte ObjectSubIndex
+        +byte BitLength
+    }
+
+    class PdoAssignmentAnalyzer {
+        +Analyze(transactions) List~PdoAssignmentConfiguration~
+        -GetOrCreateAssignment()
+        -ReplaceEntry()
+        -ApplyCompleteAccessAssignment()
+    }
+
+    class PdoAssignmentConfiguration {
+        +ushort StationAddress
+        +ushort AssignmentObjectIndex
+        +OdObjectKind Kind
+        +byte ActiveEntryCount
+        +List~PdoAssignmentEntry~ Entries
+    }
+
+    class PdoAssignmentEntry {
+        +byte EntryNumber
+        +ushort MappingObjectIndex
+    }
+
+    EtherCatDatagramRecord *-- CoeSdoInfo : CoE / SDO fields
+
+    SdoTransactionAnalyzer ..&gt; EtherCatDatagramRecord : reads request / response
+    SdoTransactionAnalyzer --&gt; SdoTransaction : reconstructs
+
+    PdoMappingAnalyzer ..&gt; SdoTransaction : reads SDO writes
+    PdoMappingAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
+    ObjectDictionaryClassifier --&gt; OdObjectKind
+
+    PdoMappingAnalyzer ..&gt; PdoMappingDescriptorParser : parse 32-bit descriptor
+    PdoMappingAnalyzer --&gt; PdoMappingConfiguration : creates
+    PdoMappingConfiguration *-- "0..*" PdoMappingEntry : Entries
+    PdoMappingDescriptorParser --&gt; PdoMappingEntry : creates
+
+    PdoAssignmentAnalyzer ..&gt; SdoTransaction : reads SDO writes
+    PdoAssignmentAnalyzer ..&gt; ObjectDictionaryClassifier : classify Index
+    PdoAssignmentAnalyzer --&gt; PdoAssignmentConfiguration : creates
+    PdoAssignmentConfiguration *-- "0..*" PdoAssignmentEntry : Entries
+
+    PdoAssignmentEntry ..&gt; PdoMappingConfiguration : MappingObjectIndex
 								</div>
 							</article>
 						</main>
+
+						<span class="sdo-design-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
+						<span class="sdo-design-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1130,6 +1268,7 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const slaveDiscoverySelector = 'section.discovery-flow-slide';
 				const coeKnowledgeSelector = 'section.coe-knowledge-slide';
 				const sdoAnalysisSelector = 'section.sdo-analysis-slide';
+				const sdoDesignSelector = 'section.sdo-design-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1154,6 +1293,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isSdoAnalysisSlide = slide => (
 					slide && slide.matches(sdoAnalysisSelector)
+				);
+
+				const isSdoDesignSlide = slide => (
+					slide && slide.matches(sdoDesignSelector)
 				);
 
 				const loadSdoAnalysisTerminal = async slide => {
@@ -1248,6 +1391,52 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					}
 				};
 
+				let sdoDesignMermaidReady = false;
+				const renderSdoDesignMermaid = async slide => {
+					if (!isSdoDesignSlide(slide) || !window.mermaid || isPrintMode()) return;
+
+					const diagram = slide.querySelector('.sdo-design-mermaid');
+					if (!diagram || diagram.dataset.mermaidRendered === 'true' || diagram.dataset.mermaidRendering === 'true') return;
+
+					diagram.dataset.mermaidRendering = 'true';
+					try {
+						if (!sdoDesignMermaidReady) {
+							window.mermaid.initialize({
+								startOnLoad: false,
+								securityLevel: 'loose',
+								theme: 'base',
+								themeVariables: {
+									fontFamily: 'Consolas, Cascadia Mono, Microsoft JhengHei, sans-serif',
+									fontSize: '15px',
+									primaryColor: '#eef4fa',
+									primaryTextColor: '#163b5c',
+									primaryBorderColor: '#6f95b8',
+									lineColor: '#5e83a8',
+									secondaryColor: '#f7fafc',
+									tertiaryColor: '#ffffff',
+													edgeLabelBackground: '#f7fafc'
+												},
+												class: {
+													padding: 2,
+													nodeSpacing: 4,
+													rankSpacing: 6
+												}
+							});
+							sdoDesignMermaidReady = true;
+						}
+						await window.mermaid.run({ nodes: [diagram] });
+						const svg = diagram.querySelector('svg');
+						if (svg) {
+							svg.style.maxWidth = '100%';
+							svg.style.maxHeight = '100%';
+						}
+						diagram.dataset.mermaidRendered = 'true';
+					} catch (error) {
+						delete diagram.dataset.mermaidRendering;
+						console.error('Unable to render SDO / PDO design Mermaid diagram', error);
+					}
+				};
+
 				const applyProblemGoalState = (slide, state) => {
 					if (!isProblemGoalSlide(slide)) return;
 
@@ -1286,6 +1475,17 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					});
 				};
 
+				const setSdoDesignState = (slide, state) => {
+					if (!isSdoDesignSlide(slide)) return;
+
+					const designState = isPrintMode() ? 0 : Math.max(0, Math.min(2, state));
+					slide.dataset.sdoDesignState = designState;
+					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
+						selector.setAttribute('aria-pressed', String(designState !== 0 && Number(selector.dataset.sdoDesignSelector) === designState));
+					});
+					if (designState === 2) renderSdoDesignMermaid(slide);
+				};
+
 				const isProblemGoalFragment = fragment => (
 					fragment && fragment.classList.contains('problem-goal-state-fragment')
 				);
@@ -1300,6 +1500,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 				const isCoeKnowledgeFragment = fragment => (
 					fragment && fragment.classList.contains('coe-knowledge-state-fragment')
+				);
+
+				const isSdoDesignFragment = fragment => (
+					fragment && fragment.classList.contains('sdo-design-state-fragment')
 				);
 
 				const resetInteractiveSlide = slide => {
@@ -1321,17 +1525,38 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					document.querySelectorAll(coeKnowledgeSelector).forEach(slide => {
 						setCoeKnowledgeState(slide, 0);
 					});
+					document.querySelectorAll(sdoDesignSelector).forEach(slide => {
+						setSdoDesignState(slide, 0);
+					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 3);
 					if (isSlaveDiscoverySlide(currentSlide)) setSlaveDiscoveryState(currentSlide, 0);
 					if (isCoeKnowledgeSlide(currentSlide)) setCoeKnowledgeState(currentSlide, 0);
+					if (isSdoDesignSlide(currentSlide)) setSdoDesignState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(sdoAnalysisSelector).forEach(slide => {
 					bindSdoAnalysisTerminalKeys(slide);
 					loadSdoAnalysisTerminal(slide);
+				});
+
+				document.querySelectorAll(sdoDesignSelector).forEach(slide => {
+					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
+						const selectState = () => {
+							const state = Number(selector.dataset.sdoDesignSelector);
+							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
+							setSdoDesignState(slide, state);
+						};
+						selector.addEventListener('click', selectState);
+						selector.addEventListener('keydown', event => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							event.preventDefault();
+							event.stopPropagation();
+							selectState();
+						});
+					});
 				});
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1404,6 +1629,10 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 						bindSdoAnalysisTerminalKeys(event.currentSlide);
 						loadSdoAnalysisTerminal(event.currentSlide);
 					}
+					if (isSdoDesignSlide(event.currentSlide)) {
+						if (!isPrintMode()) Reveal.navigateFragment(-1);
+						setSdoDesignState(event.currentSlide, 0);
+					}
 				});
 
 				Reveal.on('fragmentshown', event => {
@@ -1422,6 +1651,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					if (isCoeKnowledgeFragment(event.fragment)) {
 						setCoeKnowledgeState(slide, fragmentIndex + 1);
 					}
+					if (isSdoDesignFragment(event.fragment)) {
+						setSdoDesignState(slide, fragmentIndex + 1);
+					}
 				});
 
 				Reveal.on('fragmenthidden', event => {
@@ -1438,6 +1670,9 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 					}
 					if (isCoeKnowledgeFragment(event.fragment)) {
 						setCoeKnowledgeState(slide, fragmentIndex);
+					}
+					if (isSdoDesignFragment(event.fragment)) {
+						setSdoDesignState(slide, fragmentIndex);
 					}
 				});
 			});
