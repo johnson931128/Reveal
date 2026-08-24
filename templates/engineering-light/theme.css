@@ -507,7 +507,7 @@ body {
 
 .roadmap-item {
 	position: relative;
-	height: 100%;
+	height: calc(100% - 46px);
 	text-align: left;
 }
 
@@ -6157,8 +6157,7 @@ html.print-pdf .discovery-flow-slide .slave-discovery-state[data-slave-discovery
 }
 
 .coe-knowledge-layer-list code,
-.coe-knowledge-state code,
-.coe-knowledge-pdo code {
+.coe-knowledge-state code {
 	color: var(--accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-size: 18px;
@@ -6236,124 +6235,162 @@ html.print-pdf .discovery-flow-slide .slave-discovery-state[data-slave-discovery
 	margin-top: 14px;
 }
 
-.coe-knowledge-pdo {
-	margin-top: 15px;
+.coe-knowledge-pdo-config {
+	display: grid;
+	grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
+	column-gap: 36px;
+	height: calc(100% - 46px);
+	margin-top: 6px;
 }
 
-.coe-knowledge-pdo-core,
-.coe-knowledge-pdo-result {
+.coe-knowledge-pdo-entry,
+.coe-knowledge-pdo-tables {
+	min-width: 0;
+}
+
+.coe-knowledge-pdo-entry {
+	padding-right: 8px;
+}
+
+.coe-knowledge-pdo-entry h3,
+.coe-knowledge-pdo-table-heading h3 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 24px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.coe-knowledge-pdo-equation {
 	display: flex;
 	align-items: baseline;
-	justify-content: center;
-	gap: 18px;
-	font-family: Consolas, "Cascadia Mono", monospace;
-}
-
-.coe-knowledge-pdo-core code {
-	font-size: 29px;
-}
-
-.coe-knowledge-pdo-core span,
-.coe-knowledge-pdo-result span {
-	color: var(--text-secondary);
-	font-size: 24px;
-}
-
-.coe-knowledge-pdo-fields {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 24px;
-	margin-top: 15px;
-	padding: 10px 0;
-	border-top: 1px solid rgba(103, 147, 192, 0.24);
-	border-bottom: 1px solid rgba(103, 147, 192, 0.24);
-	text-align: center;
-}
-
-.coe-knowledge-pdo-fields div {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
-.coe-knowledge-pdo-fields code {
-	font-size: 22px;
-}
-
-.coe-knowledge-pdo-fields span {
-	color: var(--text-secondary);
-	font-size: 18px;
-}
-
-.coe-knowledge-pdo-result {
-	margin-top: 14px;
-}
-
-.coe-knowledge-pdo-result code {
-	font-size: 23px;
-}
-
-.coe-knowledge-pdo-warning {
-	margin: 9px 0 0;
-	color: var(--text-secondary);
-	font-size: 19px;
-	text-align: center;
-}
-
-.coe-knowledge-pdo-definitions {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 28px;
-	margin-top: 13px;
-	padding-top: 11px;
-	border-top: 1px solid rgba(103, 147, 192, 0.22);
-}
-
-.coe-knowledge-pdo-definitions div {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
-.coe-knowledge-pdo-definitions strong {
+	gap: 12px;
+	margin: 18px 0 0;
 	color: var(--text-primary);
-	font-size: 21px;
+}
+
+.coe-knowledge-pdo-equation code,
+.coe-knowledge-pdo-breakdown code,
+.coe-knowledge-pdo-entry-result code,
+.coe-knowledge-pdo-address-note code,
+.coe-knowledge-pdo-relations code,
+.coe-knowledge-pdo-table-block td code {
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 19px;
 	font-weight: 650;
 }
 
-.coe-knowledge-pdo-definitions span {
+.coe-knowledge-pdo-equation span,
+.coe-knowledge-pdo-entry-result span {
 	color: var(--text-secondary);
-	font-size: 18px;
+	font-size: 21px;
 }
 
-.coe-knowledge-pdo-ranges {
+.coe-knowledge-pdo-breakdown {
+	margin-top: 20px;
+}
+
+.coe-knowledge-pdo-breakdown div {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 16px;
-	margin-top: 13px;
-	padding-top: 11px;
-	border-top: 1px solid rgba(103, 147, 192, 0.22);
-}
-
-.coe-knowledge-pdo-ranges div {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
-.coe-knowledge-pdo-ranges code {
-	font-size: 18px;
-	white-space: nowrap;
-}
-
-.coe-knowledge-pdo-ranges span {
+	grid-template-columns: 150px minmax(0, 1fr);
+	align-items: baseline;
+	gap: 12px;
+	margin-top: 10px;
 	color: var(--text-secondary);
-	font-size: 17px;
+	font-size: 19px;
+	line-height: 1.25;
 }
 
-.coe-knowledge-pdo-ranges + .coe-knowledge-state-note {
-	margin-top: 11px;
+.coe-knowledge-pdo-breakdown div:first-child {
+	margin-top: 0;
+}
+
+.coe-knowledge-pdo-entry-result {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	margin: 22px 0 0;
+	color: var(--text-primary);
+}
+
+.coe-knowledge-pdo-entry-note,
+.coe-knowledge-pdo-address-note,
+.coe-knowledge-pdo-summary {
+	margin: 20px 0 0;
+	color: var(--text-secondary);
+	font-size: 19px;
+	line-height: 1.32;
+}
+
+.coe-knowledge-pdo-address-note {
+	margin-top: 18px;
+	color: var(--accent);
+}
+
+.coe-knowledge-pdo-table-block + .coe-knowledge-pdo-table-block {
+	margin-top: 18px;
+}
+
+.coe-knowledge-pdo-table-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.coe-knowledge-pdo-table-heading span {
+	color: var(--text-secondary);
 	font-size: 18px;
+}
+
+.coe-knowledge-pdo-table-block table {
+	width: 100%;
+	margin-top: 6px;
+	border-collapse: collapse;
+	color: var(--text-primary);
+	font-size: 18px;
+}
+
+.coe-knowledge-pdo-table-block th,
+.coe-knowledge-pdo-table-block td {
+	padding: 3px 10px;
+	border: 1px solid rgba(103, 147, 192, 0.28);
+	text-align: left;
+}
+
+.coe-knowledge-pdo-table-block th {
+	background: rgba(227, 237, 248, 0.56);
+	color: var(--text-primary);
+	font-size: 18px;
+	font-weight: 650;
+}
+
+.coe-knowledge-pdo-table-block td {
+	background: rgba(255, 255, 255, 0.18);
+	color: var(--text-secondary);
+	line-height: 1.2;
+}
+
+.coe-knowledge-pdo-table-block th:first-child,
+.coe-knowledge-pdo-table-block td:first-child {
+	width: 30%;
+}
+
+.coe-knowledge-pdo-table-block th:nth-child(2),
+.coe-knowledge-pdo-table-block td:nth-child(2) {
+	width: 27%;
+}
+
+.coe-knowledge-pdo-summary {
+	margin-top: 12px;
+}
+
+.coe-knowledge-pdo-relations {
+	margin: 10px 0 0;
+	color: var(--accent);
+	font-size: 18px;
+	line-height: 1.2;
 }
 
 .coe-knowledge-slide[data-coe-knowledge-state="0"] .coe-knowledge-state[data-coe-knowledge-panel="0"],
@@ -6392,6 +6429,10 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state {
 html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-panel="0"] {
 	opacity: 1;
 	visibility: visible;
+}
+
+html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-panel]:not([data-coe-knowledge-panel="0"]) {
+	display: none;
 }
 
 /* Keep the Page 07 shell fixed when the slide is rendered outside the nested stack. */

@@ -757,14 +757,42 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 								<article class="coe-knowledge-state" data-coe-knowledge-panel="6">
 									<h2>SDO → PDO Configuration</h2>
-									<div class="coe-knowledge-pdo">
-										<div class="coe-knowledge-pdo-core"><code>0x1A00:01</code><span>=</span><code>0x60410010</code></div>
-										<div class="coe-knowledge-pdo-fields"><div><code>0x6041</code><span>Object Index</span></div><div><code>0x00</code><span>SubIndex</span></div><div><code>0x10</code><span>16 bits</span></div></div>
-										<div class="coe-knowledge-pdo-result"><code>0x1A00:01</code><span>→</span><code>0x6041:00 / 16 bit</code></div>
-										<p class="coe-knowledge-pdo-warning"><code>0x1A00</code> 是 Object Dictionary Index，不是 EtherCAT ADO</p>
-										<div class="coe-knowledge-pdo-definitions"><div><strong>PDO Mapping</strong><span>決定 PDO 裡放哪些 Object</span></div><div><strong>PDO Assignment</strong><span>決定目前使用哪些 PDO Mapping</span></div></div>
-										<div class="coe-knowledge-pdo-ranges"><div><code>0x1600~0x17FF</code><span>RxPDO Mapping</span></div><div><code>0x1A00~0x1BFF</code><span>TxPDO Mapping</span></div><div><code>0x1C12</code><span>RxPDO Assignment</span></div><div><code>0x1C13</code><span>TxPDO Assignment</span></div></div>
-										<p class="coe-knowledge-state-note">SDO 可以透過 Object Dictionary 修改 PDO Mapping / Assignment；完成組態後，週期性的 Process Data 傳輸不會再為每個 PDO value 攜帶 Index / SubIndex。</p>
+									<div class="coe-knowledge-pdo-config">
+										<div class="coe-knowledge-pdo-entry">
+											<h3>Mapping Entry</h3>
+											<p class="coe-knowledge-pdo-equation"><code>0x1A00:01</code><span>=</span><code>0x60410010</code></p>
+											<div class="coe-knowledge-pdo-breakdown">
+												<div><span>Object Index</span><code>0x6041</code></div>
+												<div><span>SubIndex</span><code>0x00</code></div>
+												<div><span>Bit Length</span><code>0x10 = 16 bits</code></div>
+											</div>
+											<p class="coe-knowledge-pdo-entry-result"><code>0x1A00:01</code><span>→</span><code>0x6041:00 / 16 bits</code></p>
+											<p class="coe-knowledge-pdo-entry-note">PDO Mapping Entry 使用 32-bit value 描述實際映射的 Object Index、SubIndex 與資料長度。</p>
+											<p class="coe-knowledge-pdo-address-note"><code>0x1A00</code> 是 Object Dictionary Index，不是 EtherCAT ADO。</p>
+										</div>
+										<div class="coe-knowledge-pdo-tables">
+										<div class="coe-knowledge-pdo-table-block">
+												<div class="coe-knowledge-pdo-table-heading"><h3>PDO Mapping</h3><span>決定 PDO 裡放哪些 Object</span></div>
+												<table>
+													<thead><tr><th>OD Index</th><th>Type</th><th>Meaning</th></tr></thead>
+													<tbody>
+														<tr><td><code>0x1600~0x17FF</code></td><td>RxPDO Mapping</td><td>Master → Slave Process Data Mapping</td></tr>
+														<tr><td><code>0x1A00~0x1BFF</code></td><td>TxPDO Mapping</td><td>Slave → Master Process Data Mapping</td></tr>
+													</tbody>
+												</table>
+										</div>
+										<div class="coe-knowledge-pdo-table-block">
+												<div class="coe-knowledge-pdo-table-heading"><h3>PDO Assignment</h3><span>決定目前使用哪些 PDO Mapping</span></div>
+												<table>
+													<thead><tr><th>OD Index</th><th>Type</th><th>Current Mapping</th></tr></thead>
+													<tbody>
+														<tr><td><code>0x1C12</code></td><td>RxPDO Assignment</td><td><code>0x1600</code></td></tr>
+														<tr><td><code>0x1C13</code></td><td>TxPDO Assignment</td><td><code>0x1A00</code></td></tr>
+													</tbody>
+												</table>
+										</div>
+										<p class="coe-knowledge-pdo-summary">PDO Mapping 決定一個 PDO 裡有哪些 Object；PDO Assignment 則決定目前實際啟用哪些 PDO Mapping。SDO 透過 Object Dictionary 完成這些組態設定。</p>
+										<p class="coe-knowledge-pdo-relations"><code>RxPDO Assignment 0x1C12 → 0x1600</code><br><code>TxPDO Assignment 0x1C13 → 0x1A00</code></p>
 									</div>
 								</article>
 							</div>
