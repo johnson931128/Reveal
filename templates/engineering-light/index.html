@@ -418,8 +418,28 @@
 										<tr><td>SII EEPROM Word</td><td><code>0x000A~0x000B</code></td><td>Product Code</td></tr>
 									</tbody>
 								</table>
+
+								<div class="eeprom-capture" aria-labelledby="eeprom-capture-title">
+									<h2 id="eeprom-capture-title">實際 Capture</h2>
+									<div class="eeprom-capture-command">
+										<div class="eeprom-command-row">
+											<strong>APWR</strong><code>ADO = 0x0502</code><span>Length = 6 Bytes</span>
+										</div>
+										<div class="eeprom-capture-payload">
+											<div><code>0x0502~0x0503</code><span>EEPROM Control / Status</span><strong>2 Bytes</strong></div>
+											<div><code>0x0504~0x0507</code><span>EEPROM Address</span><strong>4 Bytes</strong></div>
+										</div>
+										<p class="eeprom-byte-total">2 Bytes + 4 Bytes = 6 Bytes</p>
+										<p class="eeprom-capture-note">Master 可用一個 APWR，從 ADO 0x0502 一次寫入 6 Bytes，同時涵蓋 Control / Status 與 EEPROM Address。</p>
+									</div>
+									<div class="eeprom-capture-command eeprom-capture-read">
+										<div class="eeprom-command-row">
+											<strong>APRD</strong><code>ADO = 0x0508</code><span>EEPROM Data</span>
+										</div>
+										<p class="eeprom-capture-note">EEPROM Read 完成後，由 0x0508 讀回先前指定 SII Word 對應的資料。</p>
+									</div>
+								</div>
 							</div>
-							<p class="eeprom-address-key"><code>0x0502 / 0x0504 / 0x0508</code> 是 Master 操作的 ESC Register；<code>0x0008 / 0x000A</code> 是實際要讀取的 SII EEPROM Word。</p>
 						</main>
 
 						<div class="logo-area" aria-label="Company logo placeholder">

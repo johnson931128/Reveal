@@ -5330,7 +5330,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	margin-top: 8px;
 }
 
-/* Page 05: concise SII EEPROM read workflow and address table. */
+/* Page 05: SII EEPROM read workflow with capture example. */
 .reveal .slides section.eeprom-read-slide {
 	position: relative;
 	display: block;
@@ -5364,15 +5364,13 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 
 .eeprom-read-layout {
 	position: absolute;
-	top: 158px;
+	top: 145px;
 	left: 92px;
 	display: grid;
-	grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
-	grid-template-rows: minmax(0, 1fr) auto;
-	column-gap: 48px;
-	row-gap: 24px;
+	grid-template-columns: minmax(0, 56fr) minmax(0, 44fr);
+	column-gap: 44px;
 	width: 1416px;
-	height: 582px;
+	height: 610px;
 	z-index: 3;
 }
 
@@ -5383,7 +5381,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 }
 
 .eeprom-read-steps {
-	padding-right: 26px;
+	padding-right: 28px;
 }
 
 .eeprom-step-list {
@@ -5444,7 +5442,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 
 .eeprom-step-item code,
 .eeprom-address-table code,
-.eeprom-address-key code {
+.eeprom-capture code {
 	color: var(--accent);
 	font-family: Consolas, "Cascadia Mono", monospace;
 	font-weight: 650;
@@ -5471,7 +5469,7 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 .eeprom-address-table th,
 .eeprom-address-table td {
 	box-sizing: border-box;
-	padding: 17px 14px;
+	padding: 9px 12px;
 	border-bottom: 1px solid rgba(103, 147, 192, 0.28);
 	text-align: left;
 	vertical-align: middle;
@@ -5514,18 +5512,102 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	border-top: 2px solid rgba(77, 134, 218, 0.68);
 }
 
-.eeprom-address-key {
-	grid-column: 1 / -1;
-	margin: 0;
-	padding-top: 18px;
-	border-top: 1px solid rgba(103, 147, 192, 0.34);
+.eeprom-capture {
+	margin-top: 17px;
 	color: var(--text-primary);
-	font-size: 19px;
-	font-weight: 600;
-	line-height: 1.4;
+}
+
+.eeprom-capture h2 {
+	margin: 0;
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.46);
+	color: var(--text-primary);
+	font-size: 22px;
+	font-weight: 650;
+	line-height: 1.25;
+}
+
+.eeprom-capture-command {
+	margin-top: 9px;
+}
+
+.eeprom-command-row {
+	display: grid;
+	grid-template-columns: 88px minmax(0, 1fr) minmax(0, 1fr);
+	align-items: baseline;
+	column-gap: 12px;
+	padding: 8px 12px;
+	background: rgba(227, 237, 248, 0.48);
+}
+
+.eeprom-command-row strong {
+	color: var(--accent);
+	font-size: 21px;
+	font-weight: 700;
+}
+
+.eeprom-command-row code,
+.eeprom-command-row span {
+	font-size: 17px;
+	font-weight: 650;
+}
+
+.eeprom-command-row span {
+	color: var(--text-primary);
+}
+
+.eeprom-capture-payload {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin-top: 8px;
+}
+
+.eeprom-capture-payload > div {
+	display: grid;
+	row-gap: 2px;
+	padding: 4px 12px;
+}
+
+.eeprom-capture-payload > div + div {
+	border-left: 1px solid rgba(103, 147, 192, 0.34);
+}
+
+.eeprom-capture-payload code {
+	font-size: 17px;
+}
+
+.eeprom-capture-payload span,
+.eeprom-capture-payload strong {
+	font-size: 17px;
+	line-height: 1.25;
+}
+
+.eeprom-capture-payload span {
+	color: var(--text-secondary);
+}
+
+.eeprom-capture-payload strong {
+	color: var(--text-primary);
+	font-weight: 650;
+}
+
+.eeprom-byte-total {
+	margin: 6px 0 0;
+	color: var(--accent);
+	font-size: 18px;
+	font-weight: 700;
 	text-align: center;
 }
 
-.eeprom-address-key code {
+.eeprom-capture-note {
+	margin: 5px 0 0;
+	color: var(--text-secondary);
 	font-size: 18px;
+	line-height: 1.3;
+}
+
+.eeprom-capture-read {
+	margin-top: 11px;
+	padding-top: 10px;
+	border-top: 1px solid rgba(103, 147, 192, 0.32);
 }
