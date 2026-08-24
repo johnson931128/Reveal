@@ -924,14 +924,21 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 							</article>
 
 							<article class="sdo-design-state" data-sdo-design-panel="2">
-								<div class="sdo-design-image">
-									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO / PDO analyzer class relationship diagram">
+								<div class="sdo-design-class-crop sdo-design-class-crop-mapping">
+									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="SDO transaction and PDO mapping class relationship diagram">
+								</div>
+							</article>
+
+							<article class="sdo-design-state" data-sdo-design-panel="3">
+								<div class="sdo-design-class-crop sdo-design-class-crop-assignment">
+									<img src="assets/sdo/sdo-pdo-class-relationship.png" alt="PDO assignment class relationship diagram">
 								</div>
 							</article>
 						</main>
 
 						<span class="sdo-design-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
 						<span class="sdo-design-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
+						<span class="sdo-design-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1309,10 +1316,11 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 				const setSdoDesignState = (slide, state) => {
 					if (!isSdoDesignSlide(slide)) return;
 
-					const designState = isPrintMode() ? 0 : Math.max(0, Math.min(2, state));
+					const designState = isPrintMode() ? 0 : Math.max(0, Math.min(3, state));
 					slide.dataset.sdoDesignState = designState;
 					slide.querySelectorAll('.sdo-design-selector').forEach(selector => {
-						selector.setAttribute('aria-pressed', String(designState !== 0 && Number(selector.dataset.sdoDesignSelector) === designState));
+						const selectorState = Number(selector.dataset.sdoDesignSelector);
+						selector.setAttribute('aria-pressed', String(designState !== 0 && (selectorState === 1 ? designState === 1 : designState >= 2)));
 					});
 				};
 
