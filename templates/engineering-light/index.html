@@ -387,7 +387,94 @@
 						</footer>
 					</section>
 
-					<section class="register-access-slide" data-transition="none">
+					<section class="eeprom-read-slide" data-transition="none" data-eeprom-state="0">
+						<header class="eeprom-read-header">
+							<h1 class="eeprom-read-title">ESC Register → SII EEPROM Read</h1>
+						</header>
+
+						<main class="eeprom-read-layout" aria-label="ESC Register to SII EEPROM Read">
+							<div class="eeprom-master" aria-label="Master / EtherCAT">
+								<h2>Master / EtherCAT</h2>
+								<div class="eeprom-master-operation" data-eeprom-operation="write">
+									<code>APWR</code><span>Set EEPROM Address</span><small>Issue Read Command</small>
+								</div>
+								<div class="eeprom-master-operation" data-eeprom-operation="read">
+									<code>APRD</code><span>Read EEPROM Data</span>
+								</div>
+								<div class="eeprom-master-readback" aria-live="polite">
+									<strong>APRD</strong><span>ADO = 0x0508</span>
+								</div>
+							</div>
+
+							<div class="eeprom-interface" aria-label="ESC EEPROM Interface">
+								<header class="eeprom-interface-header">
+									<h2>ESC EEPROM Interface</h2>
+									<span>ESC Register Address</span>
+								</header>
+								<div class="eeprom-register-bank">
+									<article class="eeprom-register eeprom-register-command" data-eeprom-register="command">
+										<code>0x0502~0x0503</code>
+										<div><strong>EEPROM Control / Status</strong><span>Read Command / Busy / Error</span></div>
+									</article>
+									<article class="eeprom-register eeprom-register-address" data-eeprom-register="address">
+										<code>0x0504~0x0507</code>
+										<div><strong>EEPROM Address</strong><span>SII Word Address</span></div>
+									</article>
+									<article class="eeprom-register eeprom-register-data" data-eeprom-register="data">
+										<code>0x0508~0x050F</code>
+										<div><strong>EEPROM Data</strong><span>Read Result</span></div>
+									</article>
+								</div>
+								<div class="eeprom-address-note" aria-live="polite">
+									<span data-word-address="0008">Word Address = 0x0008</span>
+									<span data-word-address="000A">Word Address = 0x000A</span>
+								</div>
+								<div class="eeprom-read-status" aria-live="polite">
+									<span class="eeprom-status-command">READ COMMAND</span>
+									<span class="eeprom-status-busy">BUSY</span>
+									<span class="eeprom-status-ready">READY</span>
+								</div>
+							</div>
+
+							<div class="eeprom-sii" aria-label="SII EEPROM">
+								<header class="eeprom-sii-header">
+									<h2>SII EEPROM</h2>
+									<span>SII = Slave Information Interface</span>
+									<small>Slave identity / configuration data stored in EEPROM</small>
+								</header>
+								<div class="eeprom-sii-rows">
+									<article class="eeprom-sii-row" data-eeprom-sii-row="vendor">
+										<code>0x0008:0x0009</code><strong>Vendor ID</strong><small>SII EEPROM Word Address</small>
+									</article>
+									<article class="eeprom-sii-row" data-eeprom-sii-row="product">
+										<code>0x000A:0x000B</code><strong>Product Code</strong><small>SII EEPROM Word Address</small>
+									</article>
+								</div>
+								<div class="eeprom-space-compare" aria-label="Address space distinction">
+									<div><strong>ESC Register Address</strong><code>0x0502 / 0x0504 / 0x0508</code><small>How Master accesses the EEPROM interface</small></div>
+									<b aria-hidden="true">≠</b>
+									<div><strong>SII EEPROM Word Address</strong><code>0x0008 / 0x000A</code><small>Where the actual Slave information is stored</small></div>
+								</div>
+							</div>
+
+							<span class="eeprom-data-path eeprom-path-address" aria-hidden="true"></span>
+							<span class="eeprom-data-path eeprom-path-data" aria-hidden="true"></span>
+
+							<div class="eeprom-state-summary" aria-label="EEPROM read explanation">
+								<p data-summary-state="0">Master 透過 ESC 的 EEPROM Interface Register 指定 SII Word Address、送出 EEPROM Read Command，再由 EEPROM Data Register 取得 SII 內容。ESC Register Address 與 SII EEPROM Word Address 屬於不同的 Address Space。</p>
+								<p data-summary-state="1">Master 先將欲讀取的 SII EEPROM Word Address 寫入 ESC EEPROM Address Register。此例指定 0x0008，對應 Vendor ID 的起始 Word Address。</p>
+								<p data-summary-state="2">Master 透過 EEPROM Control / Status Register 送出 Read Command。ESC 執行 EEPROM 存取期間會反映 Busy / Status，完成後資料可由 EEPROM Data Register 取得。</p>
+								<p data-summary-state="3">EEPROM Read 完成後，對應 SII Word 的資料出現在 ESC EEPROM Data Register。Master 可透過 APRD 讀取 ADO 0x0508，取得先前指定的 SII EEPROM 內容。</p>
+								<p data-summary-state="4">0x0502、0x0504、0x0508 位於 ESC Register Address Space，用來操作 EEPROM Interface；0x0008、0x000A 則位於 SII EEPROM Word Address Space，用來定位 EEPROM 內實際儲存的 Slave Information。兩者不可混為同一種 Address。</p>
+								<p data-summary-state="5">相同的 EEPROM Read 流程可以切換不同的 SII Word Address。例如以 0x0008 為起始位置讀取 Vendor ID，以 0x000A 為起始位置讀取 Product Code。</p>
+							</div>
+						</main>
+
+						<span class="fragment eeprom-step" data-eeprom-step="1" aria-hidden="true"></span>
+						<span class="fragment eeprom-step" data-eeprom-step="2" aria-hidden="true"></span>
+						<span class="fragment eeprom-step" data-eeprom-step="3" aria-hidden="true"></span>
+						<span class="fragment eeprom-step" data-eeprom-step="4" aria-hidden="true"></span>
+						<span class="fragment eeprom-step" data-eeprom-step="5" aria-hidden="true"></span>
 						<header class="register-access-header">
 							<span class="register-access-kicker">ANALYZER USED REGISTERS</span>
 							<h1 class="register-access-title">Startup Register Access</h1>
@@ -502,9 +589,6 @@
 							</div>
 						</main>
 
-						<span class="register-access-state-fragment fragment" data-fragment-index="0" aria-hidden="true"></span>
-						<span class="register-access-state-fragment fragment" data-fragment-index="1" aria-hidden="true"></span>
-						<span class="register-access-state-fragment fragment" data-fragment-index="2" aria-hidden="true"></span>
 
 						<div class="logo-area" aria-label="Company logo placeholder">
 							<span class="logo-mark" aria-hidden="true">△</span>
@@ -1018,7 +1102,7 @@
 				const technicalFlowSelector = 'section.technical-flow-slide';
 				const problemGoalSelector = 'section.problem-goal-slide';
 				const commandAddressingSelector = 'section.command-addressing-slide';
-				const registerAccessSelector = 'section.register-access-slide';
+				const eepromReadSelector = 'section.eeprom-read-slide';
 
 				const isPrintMode = () => (
 					Reveal.getConfig().view === 'print' ||
@@ -1037,8 +1121,8 @@
 					slide && slide.matches(commandAddressingSelector)
 				);
 
-				const isRegisterAccessSlide = slide => (
-					slide && slide.matches(registerAccessSelector)
+				const isEepromReadSlide = slide => (
+					slide && slide.matches(eepromReadSelector)
 				);
 
 				const applyTechnicalFlowState = (slide, state) => {
@@ -1076,11 +1160,11 @@
 					});
 				};
 
-				const applyRegisterAccessState = (slide, state) => {
-					if (!isRegisterAccessSlide(slide)) return;
+				const setEepromReadState = (slide, state) => {
+					if (!isEepromReadSlide(slide)) return;
 
-					const registerAccessState = isPrintMode() ? 4 : Math.max(1, Math.min(4, state));
-					slide.dataset.registerAccessState = registerAccessState;
+					const eepromState = isPrintMode() ? 0 : Math.max(0, Math.min(5, Number(state) || 0));
+					slide.dataset.eepromState = eepromState;
 				};
 
 				const isTechnicalFlowFragment = fragment => (
@@ -1095,9 +1179,17 @@
 					fragment && fragment.classList.contains('command-addressing-state-fragment')
 				);
 
-				const isRegisterAccessFragment = fragment => (
-					fragment && fragment.classList.contains('register-access-state-fragment')
+				const isEepromStep = fragment => (
+					fragment && fragment.classList.contains('eeprom-step')
 				);
+
+				const getVisibleEepromState = slide => {
+					if (!isEepromReadSlide(slide)) return 0;
+
+					const visibleSteps = [...slide.querySelectorAll('.eeprom-step.visible')]
+						.map(step => Number(step.dataset.eepromStep) || 0);
+					return visibleSteps.length ? Math.max(...visibleSteps) : 0;
+				};
 
 				const resetInteractiveSlide = slide => {
 					if (!slide || isPrintMode()) return;
@@ -1115,15 +1207,15 @@
 					document.querySelectorAll(commandAddressingSelector).forEach(slide => {
 						applyCommandAddressingState(slide, 1);
 					});
-					document.querySelectorAll(registerAccessSelector).forEach(slide => {
-						applyRegisterAccessState(slide, 4);
+					document.querySelectorAll(eepromReadSelector).forEach(slide => {
+						setEepromReadState(slide, 0);
 					});
 				} else {
 					const currentSlide = Reveal.getCurrentSlide();
 					if (isTechnicalFlowSlide(currentSlide)) applyTechnicalFlowState(currentSlide, 1);
 					if (isProblemGoalSlide(currentSlide)) applyProblemGoalState(currentSlide, 1);
 					if (isCommandAddressingSlide(currentSlide)) applyCommandAddressingState(currentSlide, 1);
-					if (isRegisterAccessSlide(currentSlide)) applyRegisterAccessState(currentSlide, 1);
+					if (isEepromReadSlide(currentSlide)) setEepromReadState(currentSlide, 0);
 				}
 
 				document.querySelectorAll(commandAddressingSelector).forEach(slide => {
@@ -1151,9 +1243,9 @@
 						resetInteractiveSlide(event.currentSlide);
 						applyCommandAddressingState(event.currentSlide, 1);
 					}
-					if (isRegisterAccessSlide(event.currentSlide)) {
+					if (isEepromReadSlide(event.currentSlide)) {
 						resetInteractiveSlide(event.currentSlide);
-						applyRegisterAccessState(event.currentSlide, 1);
+						setEepromReadState(event.currentSlide, 0);
 					}
 				});
 
@@ -1169,8 +1261,8 @@
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 2);
 					}
-					if (isRegisterAccessFragment(event.fragment)) {
-						applyRegisterAccessState(slide, fragmentIndex + 2);
+					if (isEepromStep(event.fragment)) {
+						setEepromReadState(slide, Number(event.fragment.dataset.eepromStep));
 					}
 				});
 
@@ -1186,8 +1278,8 @@
 					if (isCommandAddressingFragment(event.fragment)) {
 						applyCommandAddressingState(slide, fragmentIndex + 1);
 					}
-					if (isRegisterAccessFragment(event.fragment)) {
-						applyRegisterAccessState(slide, fragmentIndex + 1);
+					if (isEepromStep(event.fragment)) {
+						setEepromReadState(slide, getVisibleEepromState(slide));
 					}
 				});
 			});

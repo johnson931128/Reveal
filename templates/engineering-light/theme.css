@@ -5339,3 +5339,529 @@ html.print-pdf .command-detail-auto .command-auto-slave {
 	animation: none !important;
 	opacity: 1 !important;
 }
+
+/* Page 05: reusable ESC Register → SII EEPROM read state layout. */
+.reveal .slides section.eeprom-read-slide {
+	position: relative;
+	display: block;
+	width: 1600px;
+	height: 900px;
+	overflow: hidden;
+	text-align: left;
+}
+
+.eeprom-read-slide > .register-access-header,
+.eeprom-read-slide > .register-access-layout,
+.eeprom-read-slide > .register-access-state-fragment {
+	display: none !important;
+}
+
+.eeprom-read-header {
+	position: absolute;
+	top: 60px;
+	left: 92px;
+	z-index: 4;
+}
+
+.eeprom-read-title {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 48px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.08;
+}
+
+.eeprom-read-layout {
+	--eeprom-gap: 22px;
+	position: absolute;
+	top: 164px;
+	left: 92px;
+	display: grid;
+	grid-template-columns: 340px minmax(0, 1fr) 340px;
+	grid-template-rows: 386px 150px;
+	column-gap: var(--eeprom-gap);
+	row-gap: 20px;
+	width: 1416px;
+	height: 556px;
+	z-index: 3;
+}
+
+.eeprom-master,
+.eeprom-interface,
+.eeprom-sii {
+	position: relative;
+	min-width: 0;
+	padding: 22px 24px;
+	border: 1px solid rgba(103, 147, 192, 0.42);
+	background: rgba(255, 255, 255, 0.24);
+	transition: border-color 220ms ease, background 220ms ease, opacity 220ms ease, color 220ms ease;
+}
+
+.eeprom-master h2,
+.eeprom-interface h2,
+.eeprom-sii h2 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 23px;
+	font-weight: 600;
+	line-height: 1.15;
+}
+
+.eeprom-master h2::after,
+.eeprom-interface h2::after,
+.eeprom-sii h2::after {
+	content: "";
+	display: block;
+	width: 42px;
+	height: 2px;
+	margin-top: 11px;
+	background: var(--accent);
+}
+
+.eeprom-master-operation {
+	display: grid;
+	grid-template-columns: 76px minmax(0, 1fr);
+	align-items: baseline;
+	column-gap: 14px;
+	padding: 24px 0 17px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.22);
+	transition: border-color 220ms ease, color 220ms ease, background 220ms ease;
+}
+
+.eeprom-master-operation code,
+.eeprom-register code,
+.eeprom-sii-row code,
+.eeprom-space-compare code,
+.eeprom-address-note,
+.eeprom-master-readback,
+.eeprom-read-status {
+	font-family: Consolas, "Cascadia Mono", monospace;
+}
+
+.eeprom-master-operation code {
+	color: var(--accent);
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.eeprom-master-operation span {
+	color: var(--text-primary);
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.eeprom-master-operation small {
+	grid-column: 2;
+	margin-top: 5px;
+	color: var(--text-secondary);
+	font-size: 14px;
+}
+
+.eeprom-master-readback {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-top: 27px;
+	padding-top: 13px;
+	border-top: 1px solid rgba(103, 147, 192, 0.2);
+	color: var(--accent);
+	font-size: 15px;
+	opacity: 0;
+	transform: translateY(4px);
+	transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.eeprom-master-readback span {
+	color: var(--text-secondary);
+	font-size: 13px;
+}
+
+.eeprom-interface {
+	padding: 0;
+	background: rgba(245, 249, 252, 0.44);
+}
+
+.eeprom-interface-header,
+.eeprom-sii-header {
+	padding: 22px 24px 16px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.3);
+}
+
+.eeprom-interface-header span,
+.eeprom-sii-header span,
+.eeprom-sii-header small {
+	display: block;
+	margin-top: 7px;
+	color: var(--text-secondary);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 12px;
+	letter-spacing: 0.08em;
+	line-height: 1.2;
+	text-transform: uppercase;
+}
+
+.eeprom-register-bank {
+	padding: 14px 24px 0;
+}
+
+.eeprom-register {
+	display: grid;
+	grid-template-columns: 166px minmax(0, 1fr);
+	column-gap: 16px;
+	align-items: baseline;
+	padding: 17px 0 16px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.2);
+	opacity: 0.56;
+	transition: border-color 220ms ease, background 220ms ease, opacity 220ms ease, color 220ms ease, transform 220ms ease;
+}
+
+.eeprom-register code {
+	color: var(--accent);
+	font-size: 15px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.eeprom-register strong {
+	display: block;
+	color: var(--text-primary);
+	font-size: 17px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.eeprom-register span {
+	display: block;
+	margin-top: 4px;
+	color: var(--text-secondary);
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+.eeprom-address-note {
+	min-height: 24px;
+	margin: 14px 24px 0;
+	color: var(--accent);
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.eeprom-address-note span {
+	display: none;
+}
+
+.eeprom-read-status {
+	position: absolute;
+	right: 24px;
+	bottom: 20px;
+	display: flex;
+	gap: 12px;
+	align-items: baseline;
+	color: var(--accent);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+
+.eeprom-status-command,
+.eeprom-status-busy,
+.eeprom-status-ready {
+	display: none;
+}
+
+.eeprom-status-busy {
+	color: #a56c22;
+}
+
+.eeprom-status-ready {
+	color: #3e7f67;
+}
+
+.eeprom-sii {
+	padding: 0;
+	background: rgba(255, 255, 255, 0.24);
+}
+
+.eeprom-sii-header small {
+	font-family: inherit;
+	font-size: 13px;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.eeprom-sii-rows {
+	padding: 8px 24px 0;
+}
+
+.eeprom-sii-row {
+	padding: 11px 0 10px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.2);
+	opacity: 0.56;
+	transition: border-color 220ms ease, background 220ms ease, opacity 220ms ease, transform 220ms ease;
+}
+
+.eeprom-sii-row code {
+	display: block;
+	color: var(--accent);
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.eeprom-sii-row strong {
+	display: block;
+	margin-top: 4px;
+	color: var(--text-primary);
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.eeprom-sii-row small {
+	display: block;
+	margin-top: 3px;
+	color: var(--text-secondary);
+	font-size: 12px;
+}
+
+.eeprom-space-compare {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr);
+	gap: 6px;
+	align-items: center;
+	margin: 10px 24px 0;
+	padding-top: 12px;
+	border-top: 1px solid rgba(103, 147, 192, 0.24);
+	opacity: 0.62;
+	transition: opacity 220ms ease, border-color 220ms ease;
+}
+
+.eeprom-space-compare div {
+	min-width: 0;
+}
+
+.eeprom-space-compare strong,
+.eeprom-space-compare code,
+.eeprom-space-compare small {
+	display: block;
+}
+
+.eeprom-space-compare strong {
+	color: var(--text-primary);
+	font-size: 10px;
+	line-height: 1.15;
+}
+
+.eeprom-space-compare code {
+	margin-top: 3px;
+	color: var(--accent);
+	font-size: 10px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.eeprom-space-compare small {
+	margin-top: 2px;
+	color: var(--text-secondary);
+	font-size: 9px;
+	line-height: 1.2;
+}
+
+.eeprom-space-compare > b {
+	color: var(--text-secondary);
+	font-size: 19px;
+	font-weight: 500;
+	text-align: center;
+}
+
+.eeprom-data-path {
+	position: absolute;
+	left: calc(100% - 340px - var(--eeprom-gap));
+	width: var(--eeprom-gap);
+	height: 1px;
+	border-top: 1px solid var(--accent);
+	opacity: 0;
+	transform: scaleX(0.2);
+	transform-origin: left center;
+	transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.eeprom-path-address { top: 140px; }
+.eeprom-path-data { top: 266px; }
+
+.eeprom-state-summary {
+	grid-column: 1 / -1;
+	position: relative;
+	min-height: 0;
+	padding: 17px 22px 0;
+	border-top: 1px solid rgba(103, 147, 192, 0.34);
+}
+
+.eeprom-state-summary p {
+	position: absolute;
+	top: 17px;
+	left: 22px;
+	right: 22px;
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: 17px;
+	line-height: 1.38;
+	opacity: 0;
+	transform: translateY(4px);
+	transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.eeprom-step {
+	position: absolute !important;
+	width: 0 !important;
+	height: 0 !important;
+	overflow: hidden !important;
+	pointer-events: none !important;
+}
+
+.eeprom-read-slide[data-eeprom-state="0"] .eeprom-state-summary p[data-summary-state="0"],
+.eeprom-read-slide[data-eeprom-state="1"] .eeprom-state-summary p[data-summary-state="1"],
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-state-summary p[data-summary-state="2"],
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-state-summary p[data-summary-state="3"],
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-state-summary p[data-summary-state="4"],
+.eeprom-read-slide[data-eeprom-state="5"] .eeprom-state-summary p[data-summary-state="5"] {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.eeprom-read-slide[data-eeprom-state="1"] .eeprom-register-address,
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-register-command,
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-register-data,
+.eeprom-read-slide[data-eeprom-state="5"] .eeprom-register-address {
+	opacity: 1;
+	border-color: var(--accent);
+	background: rgba(103, 147, 192, 0.12);
+	transform: translateX(2px);
+}
+
+.eeprom-read-slide[data-eeprom-state="1"] .eeprom-address-note [data-word-address="0008"],
+.eeprom-read-slide[data-eeprom-state="5"] .eeprom-address-note [data-word-address="000A"] {
+	display: inline;
+}
+
+.eeprom-read-slide[data-eeprom-state="1"] .eeprom-sii-row[data-eeprom-sii-row="vendor"],
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-sii-row[data-eeprom-sii-row="vendor"],
+.eeprom-read-slide[data-eeprom-state="5"] .eeprom-sii-row[data-eeprom-sii-row="product"] {
+	opacity: 1;
+	border-color: var(--accent);
+	background: rgba(103, 147, 192, 0.12);
+	transform: translateX(-2px);
+}
+
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-master-operation[data-eeprom-operation="read"],
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-master-readback {
+	border-color: var(--accent);
+	background: rgba(103, 147, 192, 0.08);
+	opacity: 1;
+}
+
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-master-readback {
+	transform: translateY(0);
+}
+
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-status-command,
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-status-busy,
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-status-ready {
+	display: inline;
+}
+
+@keyframes eeprom-status-cycle {
+	0%, 15% { opacity: 0; }
+	25%, 55% { opacity: 1; }
+	65%, 100% { opacity: 0; }
+}
+
+@keyframes eeprom-ready-in {
+	0%, 55% { opacity: 0; }
+	65%, 100% { opacity: 1; }
+}
+
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-status-busy {
+	animation: eeprom-status-cycle 1000ms ease both;
+}
+
+.eeprom-read-slide[data-eeprom-state="2"] .eeprom-status-ready {
+	animation: eeprom-ready-in 1000ms ease both;
+}
+
+.eeprom-read-slide[data-eeprom-state="1"] .eeprom-path-address,
+.eeprom-read-slide[data-eeprom-state="3"] .eeprom-path-data {
+	opacity: 1;
+	transform: scaleX(1);
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-master,
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-register,
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-sii-row {
+	opacity: 0.34;
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare {
+	opacity: 1;
+	border-color: var(--accent);
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare code,
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare strong {
+	color: var(--accent);
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare strong {
+	font-size: 12px;
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare code {
+	font-size: 11px;
+}
+
+.eeprom-read-slide[data-eeprom-state="4"] .eeprom-space-compare small {
+	font-size: 10px;
+}
+
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-master,
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-interface,
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-sii,
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-register,
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-sii-row,
+html.print-pdf .eeprom-read-slide[data-eeprom-state] .eeprom-space-compare {
+	opacity: 1 !important;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-address-note [data-word-address],
+html.print-pdf .eeprom-read-slide .eeprom-state-summary p,
+html.print-pdf .eeprom-read-slide .eeprom-master-readback {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-address-note [data-word-address] {
+	display: inline;
+	margin-right: 12px;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-state-summary p {
+	display: none;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-state-summary::after {
+	content: "EEPROM Read: APWR specifies the SII Word Address, the ESC EEPROM Interface completes the read, and APRD retrieves the result from ADO 0x0508. ESC Register Address and SII EEPROM Word Address are separate Address Spaces.";
+	display: block;
+	color: var(--text-secondary);
+	font-size: 16px;
+	line-height: 1.35;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-data-path,
+html.print-pdf .eeprom-read-slide .eeprom-read-status,
+html.print-pdf .eeprom-read-slide .eeprom-master-readback {
+	opacity: 1 !important;
+	animation: none !important;
+}
+
+html.print-pdf .eeprom-read-slide .eeprom-read-status {
+	display: none;
+}
