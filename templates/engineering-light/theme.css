@@ -3578,15 +3578,14 @@ body {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	padding: 24px 36px 18px;
+	padding: 4px 36px;
 }
 
 .sdo-design-flow-mainline {
-	display: grid;
-	grid-template-columns: minmax(0, 1.2fr) minmax(38px, .22fr) minmax(0, 1.05fr) minmax(38px, .22fr) minmax(0, 1.35fr) minmax(38px, .22fr) minmax(0, 1.05fr) minmax(38px, .22fr) minmax(0, 1.35fr);
+	display: flex;
+	flex-direction: column;
 	align-items: center;
-	width: 100%;
-	max-width: 1340px;
+	width: 320px;
 }
 
 .sdo-design-flow-node {
@@ -3594,8 +3593,9 @@ body {
 	align-items: center;
 	justify-content: center;
 	min-width: 0;
-	min-height: 44px;
-	padding: 8px 12px;
+	width: 100%;
+	min-height: 32px;
+	padding: 5px 12px;
 	border: 1px solid rgba(77, 134, 218, 0.62);
 	background: rgba(245, 249, 253, 0.92);
 	box-sizing: border-box;
@@ -3609,45 +3609,49 @@ body {
 
 .sdo-design-flow-connector {
 	position: relative;
-	width: 100%;
-	height: 1px;
+	width: 1px;
+	height: 12px;
 	background: rgba(103, 147, 192, 0.72);
 }
 
 .sdo-design-flow-connector::after {
 	content: "";
 	position: absolute;
-	right: -1px;
-	top: 50%;
+	left: 50%;
+	bottom: -1px;
 	width: 7px;
 	height: 7px;
 	border-right: 1px solid rgba(103, 147, 192, 0.84);
-	border-top: 1px solid rgba(103, 147, 192, 0.84);
-	transform: translateY(-50%) rotate(45deg);
+	border-bottom: 1px solid rgba(103, 147, 192, 0.84);
+	transform: translateX(-50%) rotate(45deg);
 }
 
 .sdo-design-flow-connector span {
 	position: absolute;
-	left: 50%;
-	top: -25px;
+	left: 22px;
+	top: 50%;
 	width: max-content;
 	max-width: 230px;
 	color: var(--text-secondary);
-	font-size: 15px;
+	font-size: 14px;
 	line-height: 1.2;
-	transform: translateX(-50%);
+	transform: translateY(-50%);
 	white-space: nowrap;
+}
+
+.sdo-design-flow-mainline .sdo-design-flow-connector:has(span) {
+	height: 41px;
 }
 
 .sdo-design-flow-branches {
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	column-gap: 92px;
+	column-gap: 160px;
 	width: 100%;
-	max-width: 1220px;
-	margin-top: 66px;
-	padding: 0 72px;
+	max-width: 1080px;
+	margin-top: 26px;
+	padding: 0;
 	box-sizing: border-box;
 }
 
@@ -3655,8 +3659,8 @@ body {
 	content: "";
 	position: absolute;
 	top: 0;
-	left: 25%;
-	right: 25%;
+	left: 230px;
+	right: 230px;
 	height: 1px;
 	background: rgba(103, 147, 192, 0.72);
 }
@@ -3665,9 +3669,9 @@ body {
 	content: "";
 	position: absolute;
 	left: 50%;
-	top: -66px;
+	top: -26px;
 	width: 1px;
-	height: 66px;
+	height: 26px;
 	background: rgba(103, 147, 192, 0.72);
 }
 
@@ -3681,7 +3685,7 @@ body {
 .sdo-design-flow-branch-connector {
 	position: relative;
 	width: 1px;
-	height: 28px;
+	height: 18px;
 	background: rgba(103, 147, 192, 0.72);
 }
 
@@ -3698,13 +3702,13 @@ body {
 }
 
 .sdo-design-flow-branch .sdo-design-flow-node {
-	width: 100%;
+	width: 460px;
 	font-size: 17px;
 }
 
 .sdo-design-flow-branch > .sdo-design-flow-connector {
 	width: 1px;
-	height: 22px;
+	height: 12px;
 }
 
 .sdo-design-flow-branch > .sdo-design-flow-connector::after {
@@ -3718,25 +3722,43 @@ body {
 	transform: translateX(-50%) rotate(45deg);
 }
 
-.sdo-design-static-diagram {
+.sdo-design-mermaid {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	padding: 12px;
-	border: 1px solid rgba(103, 147, 192, 0.28);
-	background: rgba(247, 250, 252, 0.78);
 	box-sizing: border-box;
 	overflow: hidden;
 }
 
-.sdo-design-static-diagram img {
+.sdo-design-mermaid svg {
 	display: block;
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
-	object-position: center;
+	max-width: none;
+	max-height: none;
+}
+
+.sdo-design-mermaid .classTitleText,
+.sdo-design-mermaid .classTitle,
+.sdo-design-mermaid .label-group foreignObject,
+.sdo-design-mermaid .label-group foreignObject span {
+	font-size: 18px !important;
+	font-weight: 700 !important;
+}
+
+.sdo-design-mermaid .members-group text,
+.sdo-design-mermaid .methods-group text,
+.sdo-design-mermaid .members-group foreignObject,
+.sdo-design-mermaid .methods-group foreignObject {
+	font-size: 14px !important;
+}
+
+.sdo-design-mermaid .edgeLabel,
+.sdo-design-mermaid .edgeLabel span,
+.sdo-design-mermaid .edgeLabel p {
+	font-size: 13px !important;
 }
 
 .sdo-design-slide[data-sdo-design-state="1"] .sdo-design-selector[data-sdo-design-selector="1"],
