@@ -513,7 +513,64 @@
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="3">
 									<h2>程式碼實作</h2>
-									<div class="slave-discovery-placeholder">[Mermaid class diagram area]</div>
+									<div class="slave-discovery-mermaid-frame">
+										<div class="mermaid slave-discovery-mermaid" aria-label="AP and Slave Discovery class diagram">
+classDiagram
+direction LR
+class EtherCatDatagramRecord {
+    +long FrameNumber
+    +DateTime TimeUtc
+    +string SourceMac
+    +int DatagramSequence
+    +byte CommandCode
+    +ushort? Adp
+    +ushort? Ado
+    +ushort DataLength
+    +ushort WorkingCounter
+    +string RegisterDataHex
+}
+
+class AutoIncrementDatagramPair {
+    ~EtherCatDatagramRecord Outgoing
+    ~EtherCatDatagramRecord Returning
+}
+
+class SlaveDiscoveryAnalyzer {
+    +Analyze(records) SlaveDiscoveryResult
+    -IsAutoIncrementCommand(record) bool
+    -BuildPairs(records) List~AutoIncrementDatagramPair~
+    -CalculateTopologyPosition(initialAdp) int
+    -BuildSlaveCandidates(pairs) List~DiscoveredSlave~
+    -BindConfiguredStationAddress(slaves, pairs)
+    -BindEepromIdentity(slaves, pairs)
+}
+
+class DiscoveredSlave {
+    +int TopologyPosition
+    +ushort InitialAutoIncrementAddress
+    +ushort? ConfiguredStationAddress
+    +ushort? ConfiguredStationAlias
+    +uint? VendorId
+    +uint? ProductCode
+    +long FirstObservedFrame
+    +long LastObservedFrame
+}
+
+class SlaveDiscoveryResult {
+    +List~DiscoveredSlave~ Slaves
+}
+
+SlaveDiscoveryAnalyzer ..> EtherCatDatagramRecord : filters AP commands
+SlaveDiscoveryAnalyzer ..> AutoIncrementDatagramPair : BuildPairs()
+AutoIncrementDatagramPair --> EtherCatDatagramRecord : Outgoing
+AutoIncrementDatagramPair --> EtherCatDatagramRecord : Returning
+
+SlaveDiscoveryAnalyzer ..> DiscoveredSlave : BuildSlaveCandidates()
+SlaveDiscoveryAnalyzer --> SlaveDiscoveryResult : returns
+
+SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
+										</div>
+									</div>
 								</article>
 								<article class="slave-discovery-state" data-slave-discovery-panel="4">
 									<h2>實際成果</h2>
@@ -955,7 +1012,10 @@
 		</div>
 
 		<script src="../../dist/reveal.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 		<script>
+			if (window.mermaid) window.mermaid.initialize({ startOnLoad: false });
+
 			Reveal.initialize({
 				width: 1600,
 				height: 900,
@@ -992,6 +1052,46 @@
 				const isSlaveDiscoverySlide = slide => (
 					slide && slide.matches(slaveDiscoverySelector)
 				);
+
+				let slaveDiscoveryMermaidReady = false;
+				const renderSlaveDiscoveryMermaid = async slide => {
+					if (!isSlaveDiscoverySlide(slide) || !window.mermaid || isPrintMode()) return;
+					const diagram = slide.querySelector('.slave-discovery-mermaid');
+					if (!diagram || diagram.dataset.mermaidRendered === 'true' || diagram.dataset.mermaidRendering === 'true') return;
+
+					diagram.dataset.mermaidRendering = 'true';
+					try {
+						if (!slaveDiscoveryMermaidReady) {
+							window.mermaid.initialize({
+								startOnLoad: false,
+								securityLevel: 'loose',
+								theme: 'base',
+								themeVariables: {
+									fontFamily: 'Consolas, Cascadia Mono, Microsoft JhengHei, sans-serif',
+									fontSize: '16px',
+									primaryColor: '#eef4fa',
+									primaryTextColor: '#163b5c',
+									primaryBorderColor: '#6f95b8',
+									lineColor: '#5e83a8',
+									secondaryColor: '#f7fafc',
+									tertiaryColor: '#ffffff',
+									edgeLabelBackground: '#f7fafc'
+								},
+								class: {
+									padding: 8,
+									nodeSpacing: 20,
+									rankSpacing: 20
+								}
+							});
+							slaveDiscoveryMermaidReady = true;
+						}
+						await window.mermaid.run({ nodes: [diagram] });
+						diagram.dataset.mermaidRendered = 'true';
+					} catch (error) {
+						delete diagram.dataset.mermaidRendering;
+						console.error('Unable to render Slave Discovery Mermaid diagram', error);
+					}
+				};
 
 				const applyTechnicalFlowState = (slide, state) => {
 					if (!slide || !slide.matches(technicalFlowSelector)) return;
@@ -1099,6 +1199,7 @@
 							const state = Number(selector.dataset.slaveDiscoverySelector);
 							if (!isPrintMode()) Reveal.navigateFragment(state - 1);
 							setSlaveDiscoveryState(slide, state);
+							if (state === 3) renderSlaveDiscoveryMermaid(slide);
 						};
 						selector.addEventListener('click', selectState);
 						selector.addEventListener('keydown', event => {
@@ -1143,6 +1244,7 @@
 					}
 					if (isSlaveDiscoveryFragment(event.fragment)) {
 						setSlaveDiscoveryState(slide, fragmentIndex + 1);
+						if (fragmentIndex + 1 === 3) renderSlaveDiscoveryMermaid(slide);
 					}
 				});
 

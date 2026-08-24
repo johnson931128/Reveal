@@ -5350,6 +5350,69 @@ html.print-pdf .command-addressing-slide .command-detail-overview * {
 	text-align: center;
 }
 
+.slave-discovery-mermaid-frame {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 460px;
+	margin-top: 20px;
+	border: 1px solid rgba(103, 147, 192, 0.34);
+	background: rgba(247, 250, 252, 0.72);
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.slave-discovery-mermaid {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	color: #163b5c;
+}
+
+.slave-discovery-mermaid svg {
+	display: block;
+	width: 100% !important;
+	height: 100% !important;
+	max-width: none !important;
+	max-height: none !important;
+}
+
+.slave-discovery-mermaid .node rect,
+.slave-discovery-mermaid .node polygon,
+.slave-discovery-mermaid .node circle {
+	fill: #eef4fa !important;
+	stroke: #6f95b8 !important;
+	stroke-width: 1px !important;
+}
+
+.slave-discovery-mermaid .nodeLabel,
+.slave-discovery-mermaid .label,
+.slave-discovery-mermaid .classTitle,
+.slave-discovery-mermaid .edgeLabel {
+	color: #163b5c !important;
+	font-family: Consolas, "Cascadia Mono", "Microsoft JhengHei", sans-serif !important;
+	font-size: 16px !important;
+}
+
+.slave-discovery-mermaid .edgePath .path,
+.slave-discovery-mermaid .relation {
+	stroke: #5e83a8 !important;
+	stroke-width: 1.2px !important;
+}
+
+.slave-discovery-mermaid .arrowheadPath {
+	fill: #5e83a8 !important;
+	stroke: #5e83a8 !important;
+}
+
+.slave-discovery-mermaid .edgeLabel rect {
+	fill: #f7fafc !important;
+	opacity: 1 !important;
+}
+
 .slave-discovery-summary {
 	margin-top: 14px;
 }
