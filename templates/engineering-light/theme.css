@@ -6471,3 +6471,44 @@ html.print-pdf .coe-knowledge-slide .coe-knowledge-state[data-coe-knowledge-pane
 	opacity: 1;
 	visibility: visible;
 }
+
+.coe-knowledge-text {
+	margin-top: 15px;
+}
+
+.coe-knowledge-text-block {
+	padding: 0 0 11px;
+	border-bottom: 1px solid rgba(103, 147, 192, 0.18);
+}
+
+.coe-knowledge-text-block + .coe-knowledge-text-block {
+	margin-top: 11px;
+}
+
+.coe-knowledge-text-block:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.coe-knowledge-text-block h3 {
+	margin: 0;
+	color: var(--text-primary);
+	font-size: 24px;
+	font-weight: 650;
+	line-height: 1.15;
+}
+
+.coe-knowledge-text-block p {
+	margin: 4px 0 0;
+	color: var(--text-secondary);
+	font-size: 19px;
+	font-weight: 400;
+	line-height: 1.45;
+}
+
+.coe-knowledge-text-block code {
+	color: var(--accent);
+	font-family: Consolas, "Cascadia Mono", monospace;
+	font-size: 18px;
+	font-weight: 650;
+}

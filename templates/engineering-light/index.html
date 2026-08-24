@@ -680,14 +680,24 @@ SlaveDiscoveryResult *-- "0..*" DiscoveredSlave : Slaves
 
 								<article class="coe-knowledge-state" data-coe-knowledge-panel="1">
 									<h2>Mailbox / CoE / SDO</h2>
-									<div class="coe-knowledge-layer-list">
-										<div><h3>EtherCAT Datagram</h3><p><code>FPWR / FPRD</code> 等 EtherCAT Command</p></div>
-										<div><h3>ESC Mailbox Buffer</h3><p>承載 EtherCAT Mailbox Protocol</p></div>
-										<div><h3>EtherCAT Mailbox</h3><p><code>Type = 3</code> → CoE</p></div>
-										<div><h3>CoE</h3><p><code>CANopen over EtherCAT</code></p></div>
-										<div><h3>SDO</h3><p>Request / Response 方式存取 Object Dictionary</p></div>
+									<div class="coe-knowledge-text">
+										<div class="coe-knowledge-text-block">
+											<h3>Mailbox</h3>
+											<p>EtherCAT Mailbox 是 EtherCAT 中用來傳遞非週期性資料的通訊機制。Master 與 Slave 透過 ESC 中配置的 Mailbox Buffer 交換 Mailbox Message，常用於參數設定、診斷與通訊協定服務，而不是週期性的 Process Data 傳輸。</p>
+										</div>
+										<div class="coe-knowledge-text-block">
+											<h3>CoE</h3>
+											<p>CoE（CANopen over EtherCAT）是 EtherCAT Mailbox Protocol 之一，讓 EtherCAT 裝置可以使用 CANopen 的 Object Dictionary 與相關服務。Mailbox Header 中的 <code>Type = 3</code> 表示該 Mailbox Message 承載的是 CoE Protocol。</p>
+										</div>
+										<div class="coe-knowledge-text-block">
+											<h3>SDO</h3>
+											<p>SDO（Service Data Object）是 CoE 中用來存取 Object Dictionary 的服務，採用 <code>Request / Response</code> 的方式運作。Master 通常作為 SDO Client，Slave 作為 SDO Server；Master 可以透過 SDO 讀取或寫入指定的 Object Dictionary Index / SubIndex。</p>
+										</div>
+										<div class="coe-knowledge-text-block coe-knowledge-operation">
+											<h3>運作方式</h3>
+											<p>Master 先透過 EtherCAT Datagram 存取 Slave 的 Mailbox Buffer，Mailbox Message 再指出其承載的是 CoE，而 CoE 內的 SDO Request / Response 最後對 Object Dictionary 進行讀寫。因此 EtherCAT Command、Mailbox、CoE 與 SDO 是不同協定層級，不應混為同一種 Address 或 Command。</p>
+										</div>
 									</div>
-									<p class="coe-knowledge-state-note">CoE 不是 EtherCAT Command，而是 EtherCAT Mailbox Protocol 之一。SDO 則是 CoE 中用來存取 Object Dictionary 的服務，因此同一個 EtherCAT Datagram 內可以同時看到 EtherCAT Command、Mailbox、CoE 與 SDO 等不同層級的資訊。</p>
 								</article>
 
 								<article class="coe-knowledge-state" data-coe-knowledge-panel="2">
