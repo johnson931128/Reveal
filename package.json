@@ -79,7 +79,8 @@
 		"react:build": "npm run --prefix react build",
 		"react:demo": "npm run --prefix react demo",
 		"react:test": "npm run --prefix react test",
-		"export:pdf": "node scripts/export-pdf.mjs"
+		"export:pdf": "node scripts/export-pdf.mjs",
+		"export:standalone": "node scripts/export-standalone-html.mjs"
 	},
 	"author": {
 		"name": "Hakim El Hattab",
