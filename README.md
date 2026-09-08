@@ -27,6 +27,26 @@ Want to create reveal.js presentation in a graphical editor? Try <https://slides
 
 ---
 
+### Engineering light Mermaid 文字裁切處理紀錄
+
+日期：2026-09-08
+範圍：`templates/engineering-light-general/`
+
+問題現象：第 7 頁 Mermaid class diagram 的 class name、method 或 field 可能超出 SVG `foreignObject` 的文字範圍而被裁切。整張投影片本身沒有 overflow；問題發生在 Mermaid 計算節點尺寸時使用的字型度量，與 Reveal/theme.css 最終套用的字級及行高不一致。
+
+處理方式：
+
+- Mermaid render 前等待 `document.fonts.ready`，避免使用 fallback font 計算節點尺寸。
+- Mermaid `themeVariables.fontSize` 固定為 `16px`。
+- 在 `.mermaid-stage` 內隔離 `text`、`.label`、`.nodeLabel`、`.edgeLabel` 與 `foreignObject` 文字樣式，固定使用相同字型、`16px` 字級及 `1.2` 行高。
+- 保留既有 Mermaid 內容、節點自動尺寸與縮放功能，沒有手動加寬個別 node。
+
+驗證結果：第 7 頁的 class name、method、field 與 edge label 均可完整顯示，node 沒有異常放大；完成全部 9 頁的 1600x900 screenshot audit，未發現 slide overflow、clipping 或非目前頁面疊加。
+
+驗證截圖位於 `templates/engineering-light-general/screenshots/slide-01.png` 至 `slide-09.png`。
+
+---
+
 <div align="center">
   MIT licensed | Copyright © 2011-2026 Hakim El Hattab, https://hakim.se
 </div>
