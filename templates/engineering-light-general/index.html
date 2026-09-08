@@ -132,8 +132,17 @@
 					</section>
 
 					<section class="template-slide diagram-slide" data-transition="none">
-						<header class="slide-title"><p>MERMAID / DIAGRAM</p><h1>Class Relationship</h1></header>
 						<main class="diagram-layout">
+							<header class="diagram-intro">
+								<strong aria-hidden="true">07</strong>
+								<p>ARCHITECTURE</p>
+								<h1>Class<br>Relationship</h1>
+								<dl>
+									<div><dt>TYPE</dt><dd>CLASS DIAGRAM</dd></div>
+									<div><dt>VIEW</dt><dd>INTERACTIVE</dd></div>
+									<div><dt>ENGINE</dt><dd>MERMAID</dd></div>
+								</dl>
+							</header>
 							<figure class="diagram-viewer" tabindex="0" aria-label="可拖曳與縮放的 Mermaid 類別關係圖">
 								<div class="diagram-corners" aria-hidden="true"></div>
 								<div class="mermaid-stage">
@@ -208,6 +217,25 @@ classDiagram
 		<script src="../../dist/plugin/highlight.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 		<script>
+			if (window.mermaid) {
+				mermaid.initialize({
+					startOnLoad: false,
+					htmlLabels: false,
+					theme: 'base',
+					securityLevel: 'strict',
+					themeVariables: {
+						primaryColor: '#edf4fb',
+						primaryTextColor: '#17324f',
+						primaryBorderColor: '#4e89cf',
+						lineColor: '#6d8eaf',
+						secondaryColor: '#f7f9fb',
+						tertiaryColor: '#ffffff',
+						fontSize: '16px',
+						fontFamily: 'Segoe UI, Microsoft JhengHei, sans-serif'
+					}
+				});
+			}
+
 			const deck = new Reveal({
 				width: 1600,
 				height: 900,
@@ -317,21 +345,6 @@ classDiagram
 			const initializeMermaid = async () => {
 				if (!window.mermaid) return;
 				if (document.fonts?.ready) await document.fonts.ready;
-				mermaid.initialize({
-					startOnLoad: false,
-					theme: 'base',
-					securityLevel: 'strict',
-					themeVariables: {
-						primaryColor: '#edf4fb',
-						primaryTextColor: '#17324f',
-						primaryBorderColor: '#4e89cf',
-						lineColor: '#6d8eaf',
-						secondaryColor: '#f7f9fb',
-						tertiaryColor: '#ffffff',
-						fontSize: '16px',
-						fontFamily: 'Segoe UI, Microsoft JhengHei, sans-serif'
-					}
-				});
 				await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
 				document.querySelectorAll('.diagram-viewer').forEach(initializePanZoom);
 			};
