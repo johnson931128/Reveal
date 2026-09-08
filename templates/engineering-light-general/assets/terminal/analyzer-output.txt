@@ -1,0 +1,9 @@
+> dotnet run -- capture.csv
+
+Loading input...
+Parser initialized.
+Records: 1,248
+Errors: 0
+
+Analysis completed successfully.
+> _
