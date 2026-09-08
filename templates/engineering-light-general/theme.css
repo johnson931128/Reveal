@@ -33,7 +33,6 @@ body {
 
 .reveal .slides section.template-slide {
 	position: relative;
-	display: block;
 	width: 1600px;
 	height: 900px;
 	min-height: 900px;
