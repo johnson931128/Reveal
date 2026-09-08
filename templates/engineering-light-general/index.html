@@ -316,6 +316,7 @@ classDiagram
 
 			const initializeMermaid = async () => {
 				if (!window.mermaid) return;
+				if (document.fonts?.ready) await document.fonts.ready;
 				mermaid.initialize({
 					startOnLoad: false,
 					theme: 'base',
@@ -327,6 +328,7 @@ classDiagram
 						lineColor: '#6d8eaf',
 						secondaryColor: '#f7f9fb',
 						tertiaryColor: '#ffffff',
+						fontSize: '16px',
 						fontFamily: 'Segoe UI, Microsoft JhengHei, sans-serif'
 					}
 				});
